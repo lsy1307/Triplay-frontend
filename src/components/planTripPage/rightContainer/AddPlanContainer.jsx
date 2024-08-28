@@ -6,14 +6,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faPlay, faBars, faEllipsis } from "@fortawesome/free-solid-svg-icons"; 
 
 import AddPlanMapContainer from "./AddPlanMapContainer";
-
-
+import EditPlanMapContainer from "./EditPlanMapContainer";
 
 const AddPlanContainer = (props) => {
     const [PlanDropDownBoxes, setPlanDropDownBoxes] = useState([]);
     const [isAddPlanMapOn, setIsAddPlanMapOn] = useState(false);
+    const [isEditPlanMapOn, setIsEditPlanMapOn] = useState(false);
+    const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
+    const [selectedPlan, setSelectedPlan] = useState({});
 
-    // 일정 추가 버튼 클릭 핸들러: 새로운 일정 박스를 추가
     const clickAddPlanBtnHandler = () => {
         const newPlanDropDownBox = {
             day: PlanDropDownBoxes.length + 1,
@@ -21,28 +22,23 @@ const AddPlanContainer = (props) => {
         setPlanDropDownBoxes([...PlanDropDownBoxes, newPlanDropDownBox]);
     };
 
-    // 드롭다운 박스 토글 핸들러: 드롭다운을 열거나 닫기
     const toggleDropdown = (data) => {
         props.setSelectedPlanDay(prevDay => prevDay === data.day ? 0 : data.day);
     };
 
-    // 위치 검색 버튼 클릭 핸들러: 위치 검색 맵을 열기
     const clickSearchLocationBtnHandler = (e) => {
         e.stopPropagation();
         setIsAddPlanMapOn(true);
     };
 
-    // 리스트를 재정렬하는 함수: 드래그 앤 드롭이 완료되었을 때 리스트의 순서를 업데이트
     const reorder = (saveList, startIndex, endIndex) => {
-        const result = Array.from(saveList); // 원본 리스트를 복사
-        console.log(startIndex, endIndex);
+        const result = Array.from(saveList);
 
-        const [movedItem] = result.splice(startIndex, 1); // 드래그된 항목을 제거
-        result.splice(endIndex, 0, movedItem); // 새로운 위치에 드래그된 항목을 삽입
+        const [movedItem] = result.splice(startIndex, 1);
+        result.splice(endIndex, 0, movedItem);
 
-        // 인덱스 업데이트 (optional: 필요한 경우 각 요소의 idx를 업데이트)
         result.forEach((item, index) => {
-            item.idx = index; // 인덱스를 기준으로 idx 값을 재설정
+            item.idx = index;
         });
 
         return result;
@@ -52,7 +48,6 @@ const AddPlanContainer = (props) => {
         return locationList.findIndex(location => location.idx === dayItem.idx);
     };
 
-    // 드래그 앤 드롭이 끝났을 때 호출되는 함수: 리스트의 순서를 재정렬
     const onDragEnd = (result) => {
         if (!result.destination) {
             return;
@@ -60,7 +55,6 @@ const AddPlanContainer = (props) => {
 
         const dayItems = props.locationList.filter((location) => location.planDay === props.selectedPlanDay);
 
-        // source와 destination에 해당하는 item을 locationList에서 찾아 index를 얻음
         const sourceIndex = findIndexInLocationList(props.locationList, dayItems[result.source.index]);
         const destinationIndex = findIndexInLocationList(props.locationList, dayItems[result.destination.index]);
 
@@ -68,11 +62,32 @@ const AddPlanContainer = (props) => {
         
         props.setIsReArrange(true);
         props.changeLocationList(reorderedItems);
+        setOpenDropdownIndex(-1);
     };
 
-    const onClickTripleDotHandler = () => {
-
+    const onClickTripleDotHandler = (index) => {
+        setOpenDropdownIndex(prevIndex => prevIndex === index ? null : index);
     }
+
+    const handleEditClick = (location) => {
+        setSelectedPlan(location);
+        setIsEditPlanMapOn(true);
+        setOpenDropdownIndex(-1);
+    };
+
+    const handleDeleteClick = (location) => {
+        const foundIndex = props.locationList.findIndex(foundLocation => 
+            foundLocation.planDay === location.planDay && foundLocation.idx === location.idx
+        );
+        const updatedLocationList = [
+            ...props.locationList.slice(0, foundIndex),
+            ...props.locationList.slice(foundIndex + 1)
+        ];
+
+        props.changeLocationList(updatedLocationList);
+        props.setIsReArrange(true);
+        setOpenDropdownIndex(-1);
+    };
 
     return (
         <Container>
@@ -115,7 +130,13 @@ const AddPlanContainer = (props) => {
                                                                 >
                                                                     <PlanBoxContentsWrapper>
                                                                         <PlanBoxUpperContentsContainer>
-                                                                            <TripleDot icon={faEllipsis} onClick={onClickTripleDotHandler}></TripleDot>
+                                                                            <TripleDot icon={faEllipsis} onClick={() => onClickTripleDotHandler(index2)} />
+                                                                            {openDropdownIndex === index2 && (
+                                                                                <DropdownMenu>
+                                                                                    <DropdownItem onClick={() => handleEditClick(location)}>수정하기</DropdownItem>
+                                                                                    <DropdownItem onClick={() => handleDeleteClick(location)}>삭제하기</DropdownItem>
+                                                                                </DropdownMenu>
+                                                                            )}
                                                                         </PlanBoxUpperContentsContainer>
                                                                         <PlanBoxDownContentsContainer>
                                                                             <TripleBarWrapper>
@@ -134,9 +155,12 @@ const AddPlanContainer = (props) => {
                                                                             </ImageWrapper>  
                                                                         </PlanBoxDownContentsContainer>                                                                                                 
                                                                     </PlanBoxContentsWrapper>
+                                                                    
                                                                 </PlanBox>
                                                             )}
+                                                            
                                                         </Draggable>
+                                                        
                                                     ))}
                                                 {provided.placeholder}
                                             </PlanBoxesWrapper>
@@ -144,16 +168,28 @@ const AddPlanContainer = (props) => {
                                     </Droppable>
                                 </DragDropContext>
                             </PlanDropDownBox>
-                            {isAddPlanMapOn && (
-                                <AddPlanMapContainer
-                                    planDay={props.selectedPlanDay}
-                                    getLocationDataFromLocationName={props.getLocationDataFromLocationName}
-                                    getPlaceDataFromLocationName={props.getPlaceDataFromLocationName}
-                                    setIsAddPlanMapOn={setIsAddPlanMapOn}
-                                    locationList={props.locationList}
-                                    addToLocationList={props.addToLocationList}
-                                />
+                            {
+                                isAddPlanMapOn && (
+                                    <AddPlanMapContainer
+                                        planDay={props.selectedPlanDay}
+                                        getLocationDataFromLocationName={props.getLocationDataFromLocationName}
+                                        getPlaceDataFromLocationName={props.getPlaceDataFromLocationName}
+                                        setIsAddPlanMapOn={setIsAddPlanMapOn}
+                                        locationList={props.locationList}
+                                        addToLocationList={props.addToLocationList}
+                                    />
                             )}
+                            {
+                                isEditPlanMapOn && (
+                                    <EditPlanMapContainer
+                                        locationList={props.locationList}
+                                        setIsEditPlanMapOn={setIsEditPlanMapOn}
+                                        selectedPlan={selectedPlan}
+                                        changeLocationList={props.changeLocationList}
+                                        getPlaceDataFromLocationName={props.getPlaceDataFromLocationName}
+                                    />
+                                )
+                            }
                         </PlanDropDownBoxWrapper>
                     ))}
                 </PlanDropDownBoxContainer>
@@ -253,19 +289,40 @@ const PlanBoxUpperContentsContainer = styled.div`
     height:15%;
     display:flex;
     justify-content:end;
-`
+    align-items:center;
+`;
 
 const TripleDot = styled(FontAwesomeIcon)`
     margin:0.8rem;
     margin-right:1.5rem;
     font-size:2rem;
-`
+    cursor: pointer;
+`;
+
+const DropdownMenu = styled.div`
+    position: absolute;
+    top: 2rem;
+    right: 1.5rem;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+`;
+
+const DropdownItem = styled.div`
+    padding: 1rem 1.5rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    &:hover {
+        background-color: #f4f4f4;
+    }
+`;
 
 const PlanBoxDownContentsContainer = styled.div`
     width:100%;
     height:85%;
     display:flex;
-`
+`;
 
 const TripleBarWrapper = styled.div`
     width: 10%;

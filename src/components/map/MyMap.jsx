@@ -25,7 +25,6 @@ const MyMap = (props) => {
 
 
   useEffect(() => {
-    console.log(props.markers);
     if(props.markers.length > 0 && props.selectedPlanDay !== 0){
       setNewLines();
       setLat(props.markers[0].lat);
@@ -39,7 +38,6 @@ const MyMap = (props) => {
 
   useEffect(() => {
     if(props.isReArrange) {
-      console.log("@");
       setNewLines();
     }
   },[props.isReArrange]);
@@ -48,7 +46,6 @@ const MyMap = (props) => {
 
   const setNewLines = () => {
     if(props.markers.length > 1){
-      console.log("!");
       const newLines = [];
       for(let i=0;i<props.markers.length-1;i++){
         const f = props.markers[i];
@@ -75,6 +72,9 @@ const MyMap = (props) => {
       }
       setLines(newLines);
       props.setIsReArrange(false);
+    }
+    else {
+      setLines([]);
     }
   }
 

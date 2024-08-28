@@ -31,7 +31,7 @@ const LeftContainer = (props) => {
         setIsMapOn(true);
       }
 
-    }, [props.locationList, props.selectedPlanDay])
+    }, [props.locationList, props.selectedPlanDay, props.isReArrange])
 
     return (
         <Container>
