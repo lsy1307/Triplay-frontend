@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import PlanTripStartPage from './pages/PlanTripStartPage';
 import ClipStartPage from './pages/ClipStartPage.jsx';
+import PlanTripPage from './pages/PlanTripPage';
 
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/planTripStartPage" element={<PlanTripStartPage />} />
         <Route path="/clipStartPage" element={<ClipStartPage />} />
+        <Route path="/planTripPage" element={<PlanTripPage />}/>
       </Routes>
     </BrowserRouter>
   );
