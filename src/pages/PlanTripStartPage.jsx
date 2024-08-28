@@ -1,21 +1,30 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom'; 
 
 const PlanTripStartPage = () => {
+    const navigate = useNavigate();
+
+    const goToPlanTripPage = () => {
+        navigate('/planTripPage');
+    };
+
     return (
         <div>
             {/* Header */}
             <TotalContainer>
                 <UpperContainer>
                     <UpperLeftContainer>
-                        <UpperLeftContainerImageWrapper><PlanTripImg src="src/assets/images/planTripStartPage/plantrip1.png" alt="" /></UpperLeftContainerImageWrapper>
+                        <UpperLeftContainerImageWrapper>
+                            <PlanTripImg src="src/assets/images/planTripStartPage/plantrip1.png" alt="" />
+                        </UpperLeftContainerImageWrapper>
                     </UpperLeftContainer>
                     <UpperRightContainer>
                         <UpperRightContentContainer>
                             <UpperRightHeaderWrapper>Triplay : 여행의 즐거움에<br/>게임의 재미를 더하다!</UpperRightHeaderWrapper>
-                            <UpperRightTextWrapper>여러분들의 여행 준비부터 여행 이후의 추억까지<br/>TripPlay를 통해 더 특별한 경험으로 만들어보세요!</UpperRightTextWrapper>
+                            <UpperRightTextWrapper>여행 준비부터 여행 이후의 추억까지<br/>TripPlay를 통해 더 특별한 경험으로 만들어보세요!</UpperRightTextWrapper>
                             <UpperRightGoToPlanBtnWrapper>
-                                <UpperRightGoToPlanBtn>여행 계획 세우러 가기</UpperRightGoToPlanBtn>
+                                <UpperRightGoToPlanBtn onClick={goToPlanTripPage}>여행 계획 세우러 가기</UpperRightGoToPlanBtn>
                             </UpperRightGoToPlanBtnWrapper>  
                         </UpperRightContentContainer>
                     </UpperRightContainer>
