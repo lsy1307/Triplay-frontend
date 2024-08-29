@@ -1,10 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
-import Main from './pages/Main';
-import Plan from './pages/Plan/Plan';
-import Login from './pages/User/Login';
-import CallBack from './auth/CallBack';
+import MobileLogin from './MobileLogin';
+import MobileTrip from './MobileTrip';
+import MobileTripDetail from './MobileTripDetail';
+import MobilePost from './MobilePost';
+import MobilePostDetail from './MobilePostDetail';
+import MobileClip from './MobileClip';
+import MobileClipDetail from './MobileClipDetail';
+import Login from './Login';
+import CallBack from './CallBack';
+import Main from './Main';
+import Plan from './Plan';
+import PlanDetail from './PlanDetail';
+import Post from './Post';
+import PostDetail from './PostDetail';
+import MyPage from './MyPage';
+import MyPageModify from './MyPageModify';
+import AdminLogin from './AdminLogin';
+import Admin from './Admin';
+import AdminManage from './AdminManage';
+import AdminManageClip from './AdminManageClip';
+import AdminManagePost from './AdminManagePost';
+import AdminManageNotice from './AdminManageNotice';
+import AdminManageTrip from './AdminManageTrip';
 
 function App() {
   const location = useLocation();
