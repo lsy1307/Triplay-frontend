@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const ClipStartPage = () => {
-  const [images, setImages] = useState(["해윙", "해윙", "해윙","해윙", "해윙", "해윙","해윙", "해윙", "해윙"]);
+  const [images, setImages] = useState([]);
 
   return <div>
     <div className="Header"></div>
@@ -66,7 +66,7 @@ const TripTitle = styled.p`
 
 const ButtonContainer = styled.div`
     display: flex;
-    gap: 10px;
+    gap: 0.1rem;
     padding: 0.5rem 0 0.5rem 0;
 `
 
