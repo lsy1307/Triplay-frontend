@@ -1,32 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
-import PlanTripStartPage from './pages/PlanTripStartPage';
-import ClipStartPage from './pages/ClipStartPage.jsx';
-import PlanTripPage from './pages/PlanTripPage';
-import MobileLogin from './MobileLogin';
-import MobileTrip from './MobileTrip';
-import MobileTripDetail from './MobileTripDetail';
-import MobilePost from './MobilePost';
-import MobilePostDetail from './MobilePostDetail';
-import MobileClip from './MobileClip';
-import MobileClipDetail from './MobileClipDetail';
-import Login from './Login';
-import CallBack from './CallBack';
+import ClipStartPage from './pages/Plan/ClipStartPage.jsx';
+import MobileLogin from './pages/Mobile/MobileLogin';
+import MobileTrip from './pages/Mobile/MobileTrip';
+import MobileTripDetail from './pages/Mobile/MobileTripDetail';
+import MobilePost from './pages/Mobile/MobilePost';
+import MobilePostDetail from './pages/Mobile/MobilePostDetail';
+import MobileClip from './pages/Mobile/MobileClip';
+import MobileClipDetail from './pages/Mobile/MobileClipDetail';
+import Login from './pages/User/Login';
+import CallBack from '../src/auth/CallBack';
 import Main from './Main';
-import Plan from './Plan';
-import PlanDetail from './PlanDetail';
-import Post from './Post';
-import PostDetail from './PostDetail';
-import MyPage from './MyPage';
-import MyPageModify from './MyPageModify';
-import AdminLogin from './AdminLogin';
-import Admin from './Admin';
-import AdminManage from './AdminManage';
-import AdminManageClip from './AdminManageClip';
-import AdminManagePost from './AdminManagePost';
-import AdminManageNotice from './AdminManageNotice';
-import AdminManageTrip from './AdminManageTrip'; 
+import Plan from './pages/Plan/Plan';
+import PlanDetail from './pages/Plan/PlanDetail';
+import Post from './pages/Post/Post';
+import PostDetail from './pages/Post/PostDetail';
+import MyPage from './pages/User/MyPage';
+import MyPageModify from './pages/User/MyPageModify';
+import AdminLogin from './pages/Admin/AdminLogin';
+import Admin from './pages/Admin/Admin';
+import AdminManage from './pages/Admin/AdminManage';
+import AdminManageClip from './pages/Admin/AdminManageClip';
+import AdminManagePost from './pages/Admin/AdminManagePost';
+import AdminManageNotice from './pages/Admin/AdminManageNotice';
+import AdminManageTrip from './pages/Admin/AdminManageTrip';
 
 
 function App() {
@@ -54,7 +52,7 @@ function App() {
             <Route path="/clip" element={<MobileClip />} />
             <Route path="/clip/:clipId" element={<MobileClipDetail />} />
             <Route path="/planTripStartPage" element={<PlanTripStartPage />} />
-            <Route path="/clipStartPage" element={<ClipStartPage />} />
+            <Route path="/clip/:clipId/ready" element={<ClipStartPage />} />
             <Route path="/planTripPage" element={<PlanTripPage />}/>
           </>
         ) : (
