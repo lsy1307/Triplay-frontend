@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
+import PlanTripStartPage from './pages/PlanTripStartPage';
+import ClipStartPage from './pages/ClipStartPage.jsx';
+import PlanTripPage from './pages/PlanTripPage';
 import MobileLogin from './MobileLogin';
 import MobileTrip from './MobileTrip';
 import MobileTripDetail from './MobileTripDetail';
@@ -23,7 +26,8 @@ import AdminManage from './AdminManage';
 import AdminManageClip from './AdminManageClip';
 import AdminManagePost from './AdminManagePost';
 import AdminManageNotice from './AdminManageNotice';
-import AdminManageTrip from './AdminManageTrip';
+import AdminManageTrip from './AdminManageTrip'; 
+
 
 function App() {
   const location = useLocation();
@@ -49,6 +53,9 @@ function App() {
             <Route path="/post/:postId" element={<MobilePostDetail />} />
             <Route path="/clip" element={<MobileClip />} />
             <Route path="/clip/:clipId" element={<MobileClipDetail />} />
+            <Route path="/planTripStartPage" element={<PlanTripStartPage />} />
+            <Route path="/clipStartPage" element={<ClipStartPage />} />
+            <Route path="/planTripPage" element={<PlanTripPage />}/>
           </>
         ) : (
           <>
