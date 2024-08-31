@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
-import ClipStartPage from './pages/Plan/ClipStartPage.jsx';
+import MobileClipReady from './pages/Plan/MobileClipReady.jsx';
 import MobileLogin from './pages/Mobile/MobileLogin';
 import MobileTrip from './pages/Mobile/MobileTrip';
 import MobileTripDetail from './pages/Mobile/MobileTripDetail';
@@ -51,9 +51,7 @@ function App() {
             <Route path="/post/:postId" element={<MobilePostDetail />} />
             <Route path="/clip" element={<MobileClip />} />
             <Route path="/clip/:clipId" element={<MobileClipDetail />} />
-            <Route path="/planTripStartPage" element={<PlanTripStartPage />} />
-            <Route path="/clip/:clipId/ready" element={<ClipStartPage />} />
-            <Route path="/planTripPage" element={<PlanTripPage />}/>
+            <Route path="/clip/:clipId/ready" element={<MobileClipReady />} />
           </>
         ) : (
           <>
