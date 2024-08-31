@@ -25,7 +25,7 @@ import AdminManageClip from './pages/Admin/AdminManageClip';
 import AdminManagePost from './pages/Admin/AdminManagePost';
 import AdminManageNotice from './pages/Admin/AdminManageNotice';
 import AdminManageTrip from './pages/Admin/AdminManageTrip';
-import { setIsMobile } from './redux/example/AuthActions';
+import { setIsMobile } from './redux/Auth/AuthActions';
 
 function App() {
   const isMobile = useSelector((state) => state.auth.isMobile);

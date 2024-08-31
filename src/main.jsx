@@ -9,8 +9,6 @@ import { store, persistor } from './redux/Store.jsx';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      {' '}
-      {/* PersistGate 추가 */}
       <React.StrictMode>
         <App />
       </React.StrictMode>
