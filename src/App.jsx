@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 import MobileClipReady from './pages/Plan/MobileClipReady.jsx';
@@ -38,7 +44,7 @@ function App() {
     if (mobileCheck && !window.location.hostname.startsWith('m.')) {
       window.location.href = `${location.pathname}`;
     }
-  }, [location]);
+  }, [location, isMobile]);
 
   return (
     <Routes>
