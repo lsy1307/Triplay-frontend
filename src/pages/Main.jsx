@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Header from '../layout/Header';
 import { useNavigate } from 'react-router-dom';
 
 const Main = () => {
@@ -11,7 +12,7 @@ const Main = () => {
 
   return (
     <div>
-      {/* Header */}
+      <Header/>
       <TotalContainer>
         <UpperContainer>
           <UpperLeftContainer>
