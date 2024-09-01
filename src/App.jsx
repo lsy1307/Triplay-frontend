@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
-import ClipStartPage from './pages/Plan/ClipStartPage.jsx';
+import MobileClipReady from './pages/Plan/MobileClipReady.jsx';
 import MobileLogin from './pages/Mobile/MobileLogin';
 import MobileTrip from './pages/Mobile/MobileTrip';
 import MobileTripDetail from './pages/Mobile/MobileTripDetail';
