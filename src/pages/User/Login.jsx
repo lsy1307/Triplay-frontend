@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { ReactComponent as NaverLogin } from '../assets/svgs/naver_login_icon.svg';
+import { ReactComponent as NaverLogin } from '../../assets/svgs/naver_login_icon.svg';
 
 const Login = () => {
   const handleLoginRedirect = () => {

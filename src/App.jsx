@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 import ClipStartPage from './pages/Plan/ClipStartPage.jsx';
 import MobileLogin from './pages/Mobile/MobileLogin';
@@ -10,8 +11,9 @@ import MobilePostDetail from './pages/Mobile/MobilePostDetail';
 import MobileClip from './pages/Mobile/MobileClip';
 import MobileClipDetail from './pages/Mobile/MobileClipDetail';
 import Login from './pages/User/Login';
+import CallBack from './auth/CallBack';
+import Main from './pages/Main';
 import CallBack from '../src/auth/CallBack';
-import Main from './Main';
 import Plan from './pages/Plan/Plan';
 import PlanDetail from './pages/Plan/PlanDetail';
 import Post from './pages/Post/Post';
@@ -25,20 +27,20 @@ import AdminManageClip from './pages/Admin/AdminManageClip';
 import AdminManagePost from './pages/Admin/AdminManagePost';
 import AdminManageNotice from './pages/Admin/AdminManageNotice';
 import AdminManageTrip from './pages/Admin/AdminManageTrip';
-
+import { setIsMobile } from '../redux/Auth/AuthActions';
 
 function App() {
+  const isMobile = useSelector((state) => state.auth.isMobile);
+  const dispatch = useDispatch();
   const location = useLocation();
-  const [isMobile, setIsMobile] = useState(false);
-
   useEffect(() => {
     const mobileCheck = /Mobi|Android/i.test(navigator.userAgent);
-    setIsMobile(mobileCheck);
-
+    dispatch(setIsMobile(mobileCheck));
     if (mobileCheck && !window.location.hostname.startsWith('m.')) {
       window.location.href = `${location.pathname}`;
     }
   }, [location]);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -53,7 +55,7 @@ function App() {
             <Route path="/clip/:clipId" element={<MobileClipDetail />} />
             <Route path="/planTripStartPage" element={<PlanTripStartPage />} />
             <Route path="/clip/:clipId/ready" element={<ClipStartPage />} />
-            <Route path="/planTripPage" element={<PlanTripPage />}/>
+            <Route path="/planTripPage" element={<PlanTripPage />} />
           </>
         ) : (
           <>
@@ -83,4 +85,10 @@ function App() {
   );
 }
 
-export default App;
+export default function MainApp() {
+  return (
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  );
+}
