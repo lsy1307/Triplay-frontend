@@ -1,31 +1,63 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux'
+import { setImageFile } from '../../redux/Plan/PlanImageActions.js'
+import PlusButtonSrc from '../../assets/images/clipStartPage/ImagePlusButton.svg'; // 경로 수정
 
 const MobileClipReady = () => {
-  const [images, setImages] = useState([]);
+  const dispatch = useDispatch();
+  const images = useSelector((state) => state.planImage.imageFiles) || [];
+
+  const handleFileChange = (event) => {
+    const files = Array.from(event.target.files).map((file) => URL.createObjectURL(file));
+    dispatch(setImageFile([...images, ...files])); // Redux에 추가
+  };
+
+  const handleRemoveImage = (index) => {
+    const newImages = images.filter((_, i) => i !== index);
+    dispatch(setImageFile(newImages)); // Redux에서 삭제
+  };
+
+  const navigate = useNavigate();
+  const { planId } = useParams(); // URL에서 planId 가져오기
+
+  const moveToMakeNewClip = () => {
+    navigate(`/plan/${planId}/clip`); // planId로 URL 변경
+  };
+
+  const moveToUploadPost = () => {
+    navigate(`/plan/${planId}/post`); // planId로 URL 변경
+  };
 
   return <div>
     <div className="Header"></div>
-      <TotalContainer>
-        <TitleContainer>
-          <InfoContainer>
-            <TripDate>23.10.28 ~ 10.29</TripDate>
-            <TripTitle>Trip to 태안</TripTitle>
-          </InfoContainer>
-          <ButtonContainer>
-            <BlacKButton>Post Upload</BlacKButton>
-            <BlacKButton>Make a Video</BlacKButton>
-          </ButtonContainer>
-        </TitleContainer>
-        <FlexContainer>
-          <GridContainer>
-            {images.map((image, index) =>
-              <GridImage src="src/assets/images/planTripStartPage/plantrip1.png" />
-            )}
-            <GridImage src="src/assets/images/clipStartPage/plusCircleButton.jpg"></GridImage>
-          </GridContainer>
-        </FlexContainer>
-      </TotalContainer>
+    <TotalContainer>
+      <TitleContainer>
+        <InfoContainer>
+          <TripDate>23.10.28 ~ 10.29</TripDate>
+          <TripTitle>Trip to 태안</TripTitle>
+        </InfoContainer>
+        <ButtonContainer>
+          <BlacKButton onClick={moveToUploadPost}>Post Upload</BlacKButton>
+          <BlacKButton onClick={moveToMakeNewClip}>Make a Video</BlacKButton>
+        </ButtonContainer>
+      </TitleContainer>
+      <FlexContainer>
+        <GridContainer>
+          {images.map((image, index) =>
+            <GridItem key={index}>
+              <GridImage src={image}/>
+              <GridRemoveButton onClick={() => handleRemoveImage(index)}>X</GridRemoveButton>
+            </GridItem>
+          )}
+          <GridImagePlusInput id="file-upload" type="file" multiple onChange={handleFileChange} />
+          <GridImagePlusButton htmlFor="file-upload">
+            <PlusButtonImage src={PlusButtonSrc}/>
+          </GridImagePlusButton>
+        </GridContainer>
+      </FlexContainer>
+    </TotalContainer>
     <div className="Footer"></div>
   </div>
 }
@@ -93,6 +125,12 @@ const GridContainer = styled.div`
     justify-content: left;
 `;
 
+const GridItem = styled.div`
+    position: relative;
+    width: 7em;
+    height: 10em;
+`
+
 const GridImage = styled.img`
     width: 7em;
     height: 10em;
@@ -100,3 +138,33 @@ const GridImage = styled.img`
     border: 1px solid #ccc;
     text-align: center;
 `;
+
+const GridRemoveButton = styled.button`
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    background-color: #e3e3e3;
+    border-radius: 3em;
+    border: 0;
+    color: black;
+`
+
+const GridImagePlusInput = styled.input`
+    display: none;
+`
+
+const GridImagePlusButton = styled.label`
+    border: 0.2rem solid #898989;
+    width: 7em;
+    height: 10em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-size: cover;
+`
+
+const PlusButtonImage = styled.img`
+    max-width: 100%;
+    max-height: 100%;
+`

@@ -32,7 +32,7 @@ import AdminManageClip from './pages/Admin/AdminManageClip';
 import AdminManagePost from './pages/Admin/AdminManagePost';
 import AdminManageNotice from './pages/Admin/AdminManageNotice';
 import AdminManageTrip from './pages/Admin/AdminManageTrip';
-import { setIsMobile } from './redux/auth/AuthActions.js';
+import { setIsMobile } from './redux/Auth/AuthActions.js';
 
 function App() {
   const isMobile = useSelector((state) => state.auth.isMobile);
@@ -57,9 +57,7 @@ function App() {
           <Route path="/post/:postId" element={<MobilePostDetail />} />
           <Route path="/clip" element={<MobileClip />} />
           <Route path="/clip/:clipId" element={<MobileClipDetail />} />
-          <Route path="/planTripStartPage" element={<PlanTripStartPage />} />
-          <Route path="/clip/:clipId/ready" element={<ClipStartPage />} />
-          <Route path="/planTripPage" element={<PlanTripPage />} />
+          <Route path="/plan/:planId/ready" element={<MobileClipReady />} />
         </>
       ) : (
         <>
