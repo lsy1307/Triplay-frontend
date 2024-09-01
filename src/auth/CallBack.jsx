@@ -8,7 +8,6 @@ const CallBack = () => {
   const navigate = useNavigate();
   const isMobile = useSelector((state) => state.auth.isMobile);
   useEffect(() => {
-    console.log(search);
     const params = new URLSearchParams(search);
     const code = params.get('code');
     const state = params.get('state');
