@@ -11,7 +11,7 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // 기본 로컬 스토리지
 import { combineReducers } from 'redux';
-import AuthReducer from './auth/AuthReducer';
+import AuthReducer from './auth/AuthReducer.js';
 
 // 리듀서 결합
 const rootReducer = combineReducers({
