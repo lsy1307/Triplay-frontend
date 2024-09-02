@@ -75,10 +75,6 @@ const Menu = styled.nav`
     text-decoration: none;
     color: #343a40;
   }
-
-  a:hover {
-    color: #007bff;
-  }
 `;
 
 const LoginButton = styled.button`
