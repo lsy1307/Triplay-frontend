@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const ClipStartPage = () => {
+const MobileClipReady = () => {
   const [images, setImages] = useState([]);
 
   return <div>
@@ -30,7 +30,7 @@ const ClipStartPage = () => {
   </div>
 }
 
-export default ClipStartPage
+export default MobileClipReady
 
 const TotalContainer = styled.div`
     width: 100%;

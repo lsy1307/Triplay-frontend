@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
-import ClipStartPage from './pages/Plan/ClipStartPage.jsx';
+import MobileClipReady from './pages/Plan/MobileClipReady.jsx';
 import MobileLogin from './pages/Mobile/MobileLogin';
 import MobileTrip from './pages/Mobile/MobileTrip';
 import MobileTripDetail from './pages/Mobile/MobileTripDetail';
@@ -36,9 +42,11 @@ function App() {
     const mobileCheck = /Mobi|Android/i.test(navigator.userAgent);
     dispatch(setIsMobile(mobileCheck));
     if (mobileCheck && !window.location.hostname.startsWith('m.')) {
-      window.location.href = `${location.pathname}`;
+      const port = window.location.port ? `:${window.location.port}` : '';
+      const newUrl = `https://m.${window.location.hostname}${port}${location.pathname}`;
+      window.location.href = newUrl;
     }
-  }, [location]);
+  }, [location, dispatch]);
 
   return (
     <Routes>
@@ -51,9 +59,7 @@ function App() {
           <Route path="/post/:postId" element={<MobilePostDetail />} />
           <Route path="/clip" element={<MobileClip />} />
           <Route path="/clip/:clipId" element={<MobileClipDetail />} />
-          <Route path="/planTripStartPage" element={<PlanTripStartPage />} />
-          <Route path="/clip/:clipId/ready" element={<ClipStartPage />} />
-          <Route path="/planTripPage" element={<PlanTripPage />} />
+          <Route path="/clip/:clipId/ready" element={<MobileClipReady />} />
         </>
       ) : (
         <>
