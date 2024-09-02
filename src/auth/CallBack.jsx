@@ -19,11 +19,12 @@ const CallBack = () => {
   const fetchToken = async (code, state) => {
     const res = await getToken(code, state);
     try {
-      localStorage.setItem('token', res);
+      console.log(res);
+      localStorage.setItem('token', res.data.token);
     } catch (error) {
       console.log(error);
     }
-    if (isMobile) navigate('/main');
+    if (!isMobile) navigate('/main');
     else navigate('/trip');
   };
 };
