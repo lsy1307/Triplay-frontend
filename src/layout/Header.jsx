@@ -22,7 +22,7 @@ const Header = () => {
                     <ul>
                         <li><Link to="/plan">준비하기</Link></li>
                         <li><Link to="/post">둘러보기</Link></li>
-                        <li><Link to="/mypage">지난여행</Link></li>
+                        <li><Link to="/post">지난여행</Link></li>
                         <li>
                             <LoginButton onClick={handleLoginClick}>
                                 로그인
