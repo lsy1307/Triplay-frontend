@@ -7,12 +7,12 @@ const Main = () => {
   const navigate = useNavigate();
 
   const goToPlanTripPage = () => {
-    navigate('/planTripPage');
+    navigate('/plan');
   };
 
   return (
     <div>
-      <Header/>
+      <Header />
       <TotalContainer>
         <UpperContainer>
           <UpperLeftContainer>
