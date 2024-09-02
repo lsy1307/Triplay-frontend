@@ -42,9 +42,11 @@ function App() {
     const mobileCheck = /Mobi|Android/i.test(navigator.userAgent);
     dispatch(setIsMobile(mobileCheck));
     if (mobileCheck && !window.location.hostname.startsWith('m.')) {
-      window.location.href = `${location.pathname}`;
+      const port = window.location.port ? `:${window.location.port}` : '';
+      const newUrl = `https://m.${window.location.hostname}${port}${location.pathname}`;
+      window.location.href = newUrl;
     }
-  }, [location, isMobile]);
+  }, [location, dispatch]);
 
   return (
     <Routes>
@@ -57,9 +59,7 @@ function App() {
           <Route path="/post/:postId" element={<MobilePostDetail />} />
           <Route path="/clip" element={<MobileClip />} />
           <Route path="/clip/:clipId" element={<MobileClipDetail />} />
-          <Route path="/planTripStartPage" element={<PlanTripStartPage />} />
-          <Route path="/clip/:clipId/ready" element={<ClipStartPage />} />
-          <Route path="/planTripPage" element={<PlanTripPage />} />
+          <Route path="/clip/:clipId/ready" element={<MobileClipReady />} />
         </>
       ) : (
         <>
