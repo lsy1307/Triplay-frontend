@@ -1,102 +1,118 @@
-import React, { useState, useEffect, useRef } from "react";
-import styled from "styled-components";
+import React, { useState, useEffect, useRef } from 'react';
+import styled from 'styled-components';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Form } from "react-bootstrap";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import SearchMap from "../../map/SearchMap";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Form } from 'react-bootstrap';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { getPlaceDataFromLocationName } from '../../../api/tripInfo';
+import SearchMap from '../../map/SearchMap';
 
 const AddPlanMapContainer = (props) => {
+  // 일정 추가하기 버튼 누르고, 뜬 맵에서 지역 검색했을 때 입력값
+  const [searchedLocation, setSearchedLocation] = useState('');
 
-    // 일정 추가하기 버튼 누르고, 뜬 맵에서 지역 검색했을 때 입력값
-    const [searchedLocation, setSearchedLocation] = useState("");
+  const [searchedCoordinates, setSearchedCoordinates] = useState({
+    lat: -1,
+    lng: -1,
+  });
 
-    const [searchedCoordinates, setSearchedCoordinates] = useState({
-        lat: -1,
-        lng: -1,
-    });
+  const [locationName, setLocationName] = useState('');
 
-    const [locationName, setLocationName] = useState("");
-    
-    const [address, setAddress] = useState("");
+  const [address, setAddress] = useState('');
 
-    const [photoUrl, setPhotoUrl] = useState("");
+  const [photoUrl, setPhotoUrl] = useState('');
 
-    const [phoneNumber, setPhoneNumber] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState(null);
 
-    const [openData, setOpenData] = useState([]);
+  const [openData, setOpenData] = useState([]);
 
-    const onSearchLocationChangeHandler = (e) => {
-        setSearchedLocation(e.target.value);
+  const onSearchLocationChangeHandler = (e) => {
+    setSearchedLocation(e.target.value);
+  };
+
+  const getPhotoUrl = (photoReference) => {
+    return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoReference}&key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}`;
+  };
+
+  const onClickSearchLocationBtnHandler = async (e) => {
+    e.preventDefault();
+
+    const placeData = await getPlaceDataFromLocationName(searchedLocation);
+    let pos = {
+      lat: placeData.data.result.geometry.location.lat,
+      lng: placeData.data.result.geometry.location.lng,
     };
+    setSearchedCoordinates(pos);
 
-    const getPhotoUrl = (photoReference) => {
-      return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoReference}&key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}`;
-   };
+    let locationName = placeData.data.result.name;
+    setLocationName(locationName);
 
-    const onClickSearchLocationBtnHandler = async (e) => {
-        e.preventDefault();
-        
-        const placeData = await props.getPlaceDataFromLocationName(searchedLocation); 
-        let pos = {lat:placeData.result.geometry.location.lat, lng:placeData.result.geometry.location.lng};
-        setSearchedCoordinates(pos);
+    let address = placeData.data.result.formatted_address;
+    setAddress(address);
 
-        let locationName = placeData.result.name;
-        setLocationName(locationName);
+    let photo = placeData.data.result.photos[0];
+    setPhotoUrl(getPhotoUrl(photo.photo_reference));
 
-        let address = placeData.result.formatted_address;
-        setAddress(address);
-
-        let photo = placeData.result.photos[0];
-        setPhotoUrl(getPhotoUrl(photo.photo_reference));
-
-        if(placeData.result.formatted_phone_number){
-          setPhoneNumber(placeData.result.formatted_phone_number);
-        }
-
-        if(placeData.result.opening_hours){
-          setOpenData(placeData.result.opening_hours.weekdat_text);
-        }
-
-        console.log(placeData);
-    };
-
-    const onClickAddToListBtnHandler = () => {
-      const idx = props.locationList.length > 0 ? props.locationList[props.locationList.length-1].idx + 1: 0;
-      const data = {
-        idx:idx,
-        planDay: props.planDay,
-        lat:searchedCoordinates.lat,
-        lng:searchedCoordinates.lng,
-        address:address,
-        locationName:locationName,
-        photoUrl:photoUrl,
-        phoneNumber:phoneNumber,
-        openData:openData
-      }
-      props.addToLocationList(data);
-      props.setIsAddPlanMapOn(false);
+    if (placeData.data.result.formatted_phone_number) {
+      setPhoneNumber(placeData.result.formatted_phone_number);
     }
 
-    return (
-        <ModalOveraly>
-          <ModalContent>
-            <CloseButton onClick={() => {props.setIsAddPlanMapOn(false)}}>X</CloseButton>   
-            <AddPlanSearchContainer className="a">
-              <AddPlanSearchWrapper>
-                  <Form className="d-flex">
-                    <AddPlanSearchInput onChange={onSearchLocationChangeHandler}/>
-                    <AddPlanSearchBtn onClick={onClickSearchLocationBtnHandler}><FontAwesomeIcon icon={faMagnifyingGlass} /></AddPlanSearchBtn>
-                  </Form>
-              </AddPlanSearchWrapper>
-              <AddToListBtn onClick={onClickAddToListBtnHandler}>내 장소에 추가</AddToListBtn>
-            </AddPlanSearchContainer>
-            <AddPlanMapWrapper>
-              <SearchMap searchedCoordinates={searchedCoordinates}/>
-            </AddPlanMapWrapper>
-          </ModalContent>
-        </ModalOveraly>
-    );
+    if (placeData.data.result.opening_hours) {
+      setOpenData(placeData.data.result.opening_hours.weekdat_text);
+    }
+
+    console.log(placeData);
+  };
+
+  const onClickAddToListBtnHandler = () => {
+    const idx =
+      props.locationList.length > 0
+        ? props.locationList[props.locationList.length - 1].idx + 1
+        : 0;
+    const data = {
+      idx: idx,
+      planDay: props.planDay,
+      lat: searchedCoordinates.lat,
+      lng: searchedCoordinates.lng,
+      address: address,
+      locationName: locationName,
+      photoUrl: photoUrl,
+      phoneNumber: phoneNumber,
+      openData: openData,
+    };
+    props.addToLocationList(data);
+    props.setIsAddPlanMapOn(false);
+  };
+
+  return (
+    <ModalOveraly>
+      <ModalContent>
+        <CloseButton
+          onClick={() => {
+            props.setIsAddPlanMapOn(false);
+          }}
+        >
+          X
+        </CloseButton>
+        <AddPlanSearchContainer className="a">
+          <AddPlanSearchWrapper>
+            <Form className="d-flex">
+              <AddPlanSearchInput onChange={onSearchLocationChangeHandler} />
+              <AddPlanSearchBtn onClick={onClickSearchLocationBtnHandler}>
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
+              </AddPlanSearchBtn>
+            </Form>
+          </AddPlanSearchWrapper>
+          <AddToListBtn onClick={onClickAddToListBtnHandler}>
+            내 장소에 추가
+          </AddToListBtn>
+        </AddPlanSearchContainer>
+        <AddPlanMapWrapper>
+          <SearchMap searchedCoordinates={searchedCoordinates} />
+        </AddPlanMapWrapper>
+      </ModalContent>
+    </ModalOveraly>
+  );
 };
 
 export default AddPlanMapContainer;
@@ -114,24 +130,24 @@ const ModalOveraly = styled.div`
 `;
 
 const ModalContent = styled.div`
-    background: white;
-    width: 60%;
-    height: 80%;
-    border-radius: 10px;
-    padding: 2rem 3rem;
-    display: flex;
-    flex-direction: column;
-    justify-content:center;
-    align-items:center;
-`
+  background: white;
+  width: 60%;
+  height: 80%;
+  border-radius: 10px;
+  padding: 2rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
 const CloseButton = styled.button`
-    align-self: flex-end;
-    font-size: 1.5rem;
-    font-weight:1000;
-    border: none;
-    background: none;
-    cursor: pointer;
+  align-self: flex-end;
+  font-size: 1.5rem;
+  font-weight: 1000;
+  border: none;
+  background: none;
+  cursor: pointer;
 `;
 
 const AddPlanSearchContainer = styled.div`
@@ -147,7 +163,7 @@ const AddPlanSearchWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left:8rem;
+  margin-left: 8rem;
 `;
 
 const AddPlanSearchInput = styled.input`
@@ -178,14 +194,14 @@ const AddPlanSearchBtn = styled.button`
 `;
 
 const AddToListBtn = styled.button`
-  font-size:1rem;
-  border-radius:0.8rem;
-  background-color:black;
-  color:white;
-  height:80%;
-  width:15%;
-  margin-left:auto;
-`
+  font-size: 1rem;
+  border-radius: 0.8rem;
+  background-color: black;
+  color: white;
+  height: 80%;
+  width: 15%;
+  margin-left: auto;
+`;
 
 const AddPlanMapWrapper = styled.div`
   width: 100%;

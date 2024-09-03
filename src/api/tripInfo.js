@@ -29,9 +29,8 @@ export const getLocationDataFromLocationName = async (searchLocation) => {
 
 // 여행 지역 이름으로 지역 상세 정보 얻어오는 함수임. 위에 함수보다 상위버전인데 api 호출을 2번 해야함.
 export const getPlaceDataFromLocationName = async (searchLocation) => {
-  const response = await fetch(
-    `http://localhost:8080/place?location=${encodeURIComponent(searchLocation)}`,
+  const response = await GetAxiosInstance(
+    `https://localhost:8443/getGooglePlaceData?location=${encodeURIComponent(searchLocation)}`,
   );
-  const data = await response.json();
-  return data;
+  return response;
 };

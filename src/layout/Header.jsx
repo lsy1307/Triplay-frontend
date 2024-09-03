@@ -3,37 +3,41 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Header = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleLoginClick = () => {
-        navigate('/login');
-    };
+  const handleLoginClick = () => {
+    navigate('/login');
+  };
 
-    return (
-        <TotalContainer>
-            <HeaderWrapper>
-                <Logo>
-                    <Link to="/main">
-                        <img src="../src/assets/images/logo.png" alt="Logo" />
-                    </Link>
-                </Logo>
+  return (
+    <TotalContainer>
+      <HeaderWrapper>
+        <Logo>
+          <Link to="/main">
+            <img src="../src/assets/images/logo.png" alt="Logo" />
+          </Link>
+        </Logo>
 
-                <Menu>
-                    <ul>
-                        <li><Link to="/plan">준비하기</Link></li>
-                        <li><Link to="/post">둘러보기</Link></li>
-                        <li><Link to="/post">지난여행</Link></li>
-                        <li>
-                            <LoginButton onClick={handleLoginClick}>
-                                로그인
-                            </LoginButton>
-                        </li>
-                    </ul>
-                </Menu>
-            </HeaderWrapper>
-        </TotalContainer>
-    );
-}
+        <Menu>
+          <ul>
+            <li>
+              <Link to="/plan">준비하기</Link>
+            </li>
+            <li>
+              <Link to="/post">둘러보기</Link>
+            </li>
+            <li>
+              <Link to="/post">지난여행</Link>
+            </li>
+            <li>
+              <LoginButton onClick={handleLoginClick}>로그인</LoginButton>
+            </li>
+          </ul>
+        </Menu>
+      </HeaderWrapper>
+    </TotalContainer>
+  );
+};
 
 export default Header;
 
@@ -41,6 +45,7 @@ const TotalContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  border-bottom: 1px black solid;
 `;
 
 const HeaderWrapper = styled.header`
@@ -89,7 +94,7 @@ const LoginButton = styled.button`
   padding: 7.5px 20px;
   cursor: pointer;
   font-size: 28px;
-  
+
   &:hover {
     background-color: #0056b3;
   }
