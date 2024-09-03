@@ -32,7 +32,7 @@ import AdminManageClip from './pages/Admin/AdminManageClip';
 import AdminManagePost from './pages/Admin/AdminManagePost';
 import AdminManageNotice from './pages/Admin/AdminManageNotice';
 import AdminManageTrip from './pages/Admin/AdminManageTrip';
-import { setIsMobile } from './redux/Auth/AuthActions.js';
+import { setIsMobile } from './redux/auth/AuthActions.js';
 
 function App() {
   const isMobile = useSelector((state) => state.auth.isMobile);
@@ -42,9 +42,11 @@ function App() {
     const mobileCheck = /Mobi|Android/i.test(navigator.userAgent);
     dispatch(setIsMobile(mobileCheck));
     if (mobileCheck && !window.location.hostname.startsWith('m.')) {
-      window.location.href = `${location.pathname}`;
+      const port = window.location.port ? `:${window.location.port}` : '';
+      const newUrl = `https://m.${window.location.hostname}${port}${location.pathname}`;
+      window.location.href = newUrl;
     }
-  }, [location, isMobile]);
+  }, [location, dispatch]);
 
   return (
     <Routes>
@@ -57,7 +59,7 @@ function App() {
           <Route path="/post/:postId" element={<MobilePostDetail />} />
           <Route path="/clip" element={<MobileClip />} />
           <Route path="/clip/:clipId" element={<MobileClipDetail />} />
-          <Route path="/plan/:planId/ready" element={<MobileClipReady />} />
+          <Route path="/clip/:clipId/ready" element={<MobileClipReady />} />
         </>
       ) : (
         <>

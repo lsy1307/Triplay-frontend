@@ -8,7 +8,6 @@ const CallBack = () => {
   const navigate = useNavigate();
   const isMobile = useSelector((state) => state.auth.isMobile);
   useEffect(() => {
-    console.log(search);
     const params = new URLSearchParams(search);
     const code = params.get('code');
     const state = params.get('state');
@@ -20,11 +19,12 @@ const CallBack = () => {
   const fetchToken = async (code, state) => {
     const res = await getToken(code, state);
     try {
-      localStorage.setItem('token', res);
+      console.log(res);
+      localStorage.setItem('token', res.data.token);
     } catch (error) {
       console.log(error);
     }
-    if (isMobile) navigate('/main');
+    if (!isMobile) navigate('/main');
     else navigate('/trip');
   };
 };

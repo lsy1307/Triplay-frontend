@@ -1,17 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
+import Header from '../layout/Header';
 import { useNavigate } from 'react-router-dom';
 
 const Main = () => {
   const navigate = useNavigate();
 
   const goToPlanTripPage = () => {
-    navigate('/planTripPage');
+    navigate('/plan');
   };
 
   return (
     <div>
-      {/* Header */}
+      <Header />
       <TotalContainer>
         <UpperContainer>
           <UpperLeftContainer>

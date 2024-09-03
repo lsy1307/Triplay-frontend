@@ -9,7 +9,7 @@ axiosInstance.interceptors.request.use(
     if (!accessToken) {
       // 토큰이 없을 경우 로그아웃 처리
       localStorage.clear();
-      window.location.href = '/';
+      window.location.href = '/login';
       throw new Error('토큰 없음');
     }
 

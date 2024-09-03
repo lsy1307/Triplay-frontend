@@ -3,10 +3,18 @@ import styled from 'styled-components';
 import { ReactComponent as NaverLogin } from '../../assets/svgs/naver_login_icon.svg';
 
 const Login = () => {
+  const [state, setState] = useState();
+  const generateState = () => {
+    return Math.random().toString(36).substring(2, 15);
+  };
   const handleLoginRedirect = () => {
-    const url = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${import.meta.env.VITE_CLIENT_ID}&redirect_uri=${encodeURIComponent(import.meta.env.VITE_REDIRECT_URI)}`;
+    const url = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${import.meta.env.VITE_CLIENT_ID}&redirect_uri=${encodeURIComponent(import.meta.env.VITE_REDIRECT_URI)}&state=${state}`;
     window.location.href = url;
   };
+
+  useEffect(() => {
+    setState(generateState());
+  }, []);
   return (
     <Container>
       <ContentContainer>
