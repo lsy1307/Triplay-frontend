@@ -1,33 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux'
-import { setImageFile } from '../../redux/Plan/PlanImageActions.js'
 import PlusButtonSrc from '../../assets/images/clipStartPage/ImagePlusButton.svg'; // 경로 수정
 
-const MobileClipReady = () => {
-  const dispatch = useDispatch();
-  const images = useSelector((state) => state.planImage.imageFiles) || [];
-
-  const handleFileChange = (event) => {
-    const files = Array.from(event.target.files).map((file) => URL.createObjectURL(file));
-    dispatch(setImageFile([...images, ...files])); // Redux에 추가
-  };
-
-  const handleRemoveImage = (index) => {
-    const newImages = images.filter((_, i) => i !== index);
-    dispatch(setImageFile(newImages)); // Redux에서 삭제
-  };
+const MobileClipReady = ({ initialImages }) => {
 
   const navigate = useNavigate();
+  const [images, setImages] = useState(initialImages);
   const { planId } = useParams(); // URL에서 planId 가져오기
+
+  useEffect(() => {
+    setImages(initialImages)
+  }, [initialImages]);
+
+  const moveToUploadPost = () => {
+    // TODO :: 올린 Blob 파일들 formdata로 보내기
+
+    navigate(`/plan/${planId}/post`); // planId로 URL 변경
+  };
 
   const moveToMakeNewClip = () => {
     navigate(`/plan/${planId}/clip`); // planId로 URL 변경
-  };
-
-  const moveToUploadPost = () => {
-    navigate(`/plan/${planId}/post`); // planId로 URL 변경
   };
 
   return <div>
@@ -45,12 +38,13 @@ const MobileClipReady = () => {
       </TitleContainer>
       <FlexContainer>
         <GridContainer>
-          {images.map((image, index) =>
-            <GridItem key={index}>
-              <GridImage src={image}/>
+          {images.map((image, index) => {
+            const url = image instanceof Blob ? URL.createObjectURL(image) : null;
+            return <GridItem key={index}>
+              <GridImage src={url} />
               <GridRemoveButton onClick={() => handleRemoveImage(index)}>X</GridRemoveButton>
-            </GridItem>
-          )}
+            </GridItem>;
+          })}
           <GridImagePlusInput id="file-upload" type="file" multiple onChange={handleFileChange} />
           <GridImagePlusButton htmlFor="file-upload">
             <PlusButtonImage src={PlusButtonSrc}/>
