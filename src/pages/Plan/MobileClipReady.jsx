@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
+import { GetAxiosInstance, PostAxiosInstance } from '../../axios/axios.method';
 import PlusButtonSrc from '../../assets/images/clipStartPage/ImagePlusButton.svg'; // 경로 수정
 
 const MobileClipReady = ({ initialImages }) => {
-
   const navigate = useNavigate();
   const [images, setImages] = useState(initialImages);
   const { planId } = useParams(); // URL에서 planId 가져오기
@@ -13,9 +13,18 @@ const MobileClipReady = ({ initialImages }) => {
     setImages(initialImages)
   }, [initialImages]);
 
+  const submitImage = async (formData) => {
+    const response = await PostAxiosInstance('/user/s3', formData, { // TODO :: Post Update EndPoint 수정
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return response;
+  };
+
   const moveToUploadPost = () => {
     // TODO :: 올린 Blob 파일들 formdata로 보내기
-
+    var formData = new FormData();
+    formData.append("files", images);
+    submitImage(images);
     navigate(`/plan/${planId}/post`); // planId로 URL 변경
   };
 
