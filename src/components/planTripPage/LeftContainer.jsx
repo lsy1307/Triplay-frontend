@@ -1,70 +1,77 @@
-import React, {useState, useEffect} from 'react';
-import styled from "styled-components";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 
-import Map from "../map/MyMap";
+import Map from '../map/MyMap';
 import TripLocationContentContainer from './leftContainer/TripLocationContentContainer';
 
 const LeftContainer = (props) => {
-        // 여행 제목 입력값
-    const [tripTitle, setTripTitle] = useState("");
+  // 여행 제목 입력값
+  const [tripTitle, setTripTitle] = useState('');
 
-    // 여행지 검색하고 엔터 눌렀을 때, 지도 띄우기 여부
-    const [isMapOn, setIsMapOn] = useState(false);
+  // 여행지 검색하고 엔터 눌렀을 때, 지도 띄우기 여부
+  const [isMapOn, setIsMapOn] = useState(false);
 
-    // 검색한 지역의 좌표값 저장
-    const [coordinates, setCoordinates] = useState({ lat: -1, lng: -1 });
+  // 검색한 지역의 좌표값 저장
+  const [coordinates, setCoordinates] = useState({ lat: -1, lng: -1 });
 
-    const [markers, setMarkers] = useState([]);
+  const [markers, setMarkers] = useState([]);
 
-    /* 여행 제목 입력 */
-    const onChangeTripTitleInputHandler = (e) => {
-        setTripTitle(e.target.value);
-    };
+  /* 여행 제목 입력 */
+  const onChangeTripTitleInputHandler = (e) => {
+    setTripTitle(e.target.value);
+  };
 
-    useEffect(() => {
-      const newMarkers = props.locationList.filter(location => location.planDay === props.selectedPlanDay);
-      console.log(newMarkers);
-      if(newMarkers.length <= 0 && coordinates.lat === -1 && coordinates.lng === -1) {
-        setIsMapOn(false);
-      } else {
-        setMarkers(newMarkers);
-        setIsMapOn(true);
-      }
-
-    }, [props.locationList, props.selectedPlanDay, props.isReArrange])
-
-    return (
-        <Container>
-            <TripLocationContentsContainer>
-                <TripTitleInput
-                placeholder="여행 제목을 입력해주세요"
-                value={tripTitle}
-                onChange={onChangeTripTitleInputHandler}
-                />
-                {isMapOn ? (
-                <MapContainer>
-                    <MapWrapper>
-                      <Map
-                          selectedLat={coordinates.lat}
-                          selectedLng={coordinates.lng}
-                          locationList={props.locationList}
-                          markers={markers}
-                          isReArrange={props.isReArrange}
-                          setIsReArrange={props.setIsReArrange}
-                          selectedPlanDay={props.selectedPlanDay}
-                      />
-                    </MapWrapper>
-                </MapContainer>
-                ) : (
-                  <TripLocationContentContainer 
-                    getLocationDataFromLocationName={props.getLocationDataFromLocationName}
-                    setIsMapOn={setIsMapOn}
-                    setCoordinates={setCoordinates}
-                  ></TripLocationContentContainer>
-                )}  
-          </TripLocationContentsContainer>
-        </Container>
+  useEffect(() => {
+    const newMarkers = props.locationList.filter(
+      (location) => location.planDay === props.selectedPlanDay,
     );
+    console.log(newMarkers);
+    if (
+      newMarkers.length <= 0 &&
+      coordinates.lat === -1 &&
+      coordinates.lng === -1
+    ) {
+      setIsMapOn(false);
+    } else {
+      setMarkers(newMarkers);
+      setIsMapOn(true);
+    }
+  }, [props.locationList, props.selectedPlanDay, props.isReArrange]);
+
+  return (
+    <Container>
+      <TripLocationContentsContainer>
+        <TripTitleInput
+          placeholder="여행 제목을 입력해주세요"
+          value={tripTitle}
+          onChange={onChangeTripTitleInputHandler}
+        />
+        {isMapOn ? (
+          <MapContainer>
+            <MapWrapper>
+              <Map
+                selectedLat={coordinates.lat}
+                selectedLng={coordinates.lng}
+                locationList={props.locationList}
+                markers={markers}
+                isReArrange={props.isReArrange}
+                setIsReArrange={props.setIsReArrange}
+                selectedPlanDay={props.selectedPlanDay}
+              />
+            </MapWrapper>
+          </MapContainer>
+        ) : (
+          <TripLocationContentContainer
+            getLocationDataFromLocationName={
+              props.getLocationDataFromLocationName
+            }
+            setIsMapOn={setIsMapOn}
+            setCoordinates={setCoordinates}
+          ></TripLocationContentContainer>
+        )}
+      </TripLocationContentsContainer>
+    </Container>
+  );
 };
 
 export default LeftContainer;
@@ -74,7 +81,6 @@ const Container = styled.div`
   height: 80%;
   display: flex;
   flex-direction: column;
-  border-top: 1px solid black;
   border-bottom: 1px solid black;
 `;
 
@@ -114,4 +120,3 @@ const MapWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
-

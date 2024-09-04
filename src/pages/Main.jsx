@@ -119,27 +119,26 @@ const UpperRightContainer = styled.div`
   align-items: start;
   text-align: end;
   width: 50%;
+  gap: 1rem;
 `;
 
 const UpperRightContentContainer = styled.div`
   width: 100%;
   height: 80%;
+  padding-right: 2rem;
 `;
 
 const UpperRightHeaderWrapper = styled.div`
   font-size: 3.8vw;
   font-weight: 1000;
-  margin: 5%;
 `;
 
 const UpperRightTextWrapper = styled.div`
   font-size: 1.6vw;
   font-weight: 500;
-  margin: 5%;
 `;
 
 const UpperRightGoToPlanBtnWrapper = styled.div`
-  margin: 5%;
   margin-top: 10%;
 `;
 
