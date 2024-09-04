@@ -7,7 +7,7 @@ const Posts = () => {
     const navigate = useNavigate();
 
     const handleCardClick = (postId) => {
-        navigate(`/PostDetail/${postId}`);
+        navigate(`/post/${postId}`);
     };
 
     return (
@@ -53,7 +53,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 50px;
 `;
 
 const SearchBarContainer = styled.div`
@@ -156,18 +156,22 @@ const TextOverlay = styled.div`
     }
 `;
 
-const PostCard = styled.div`
+const PostCard = styled.button`
     position: relative;
     overflow: hidden;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     height: 360px;
+    width: 100%;
+    border: none;
+    padding: 0;
+    cursor: pointer;
 
     img {
         width: 100%;
         height: 100%;
-        display: block;
         object-fit: cover;
+        display: block;
     }
 
     &:hover ${TextOverlay} {
@@ -175,6 +179,7 @@ const PostCard = styled.div`
     }
 `;
 
+// ************ BE 연결 후 삭제 예정 ************
 const postData = [
     {
         src: "../src/assets/images/post/6158BB8D-FD7F-4E78-A302-F7C331F596DA_1_105_c.jpeg",
@@ -213,6 +218,16 @@ const postData = [
         profilePic: "../src/assets/images/profile/142F50F2-F6E7-44E9-8115-532D35D93BE3.jpeg",
         nickname: "lsy",
         city: "경주",
+        iconWho: "../src/assets/images/icons/party/family.png",
+        iconTheme: "../src/assets/images/icons/theme/relax.png"
+    },
+    {
+        src: "../src/assets/images/post/6158BB8D-FD7F-4E78-A302-F7C331F596DA_1_105_c.jpeg",
+        title: "도주제주도",
+        schedule: "2박 3일",
+        profilePic: "../src/assets/images/profile/90263554-A17D-4A49-B3E2-6C6915C0B76E_1_105_c.jpeg",
+        nickname: "수연수연",
+        city: "제주",
         iconWho: "../src/assets/images/icons/party/family.png",
         iconTheme: "../src/assets/images/icons/theme/relax.png"
     }
