@@ -182,6 +182,7 @@ const PostCard = styled.button`
 // ************ BE 연결 후 삭제 예정 ************
 const postData = [
     {
+        id: 1,
         src: "../src/assets/images/post/6158BB8D-FD7F-4E78-A302-F7C331F596DA_1_105_c.jpeg",
         title: "도주제주도",
         schedule: "2박 3일",
@@ -192,6 +193,7 @@ const postData = [
         iconTheme: "../src/assets/images/icons/theme/relax.png"
     },
     {
+        id: 2,
         src: "../src/assets/images/post/2252C171-C8C1-4355-9692-E27DB969F5C9_1_102_o.jpeg",
         title: "rudwnrudrlwkd",
         schedule: "1박 2일",
@@ -202,6 +204,7 @@ const postData = [
         iconTheme: "../src/assets/images/icons/theme/relax.png"
     },
     {
+        id: 3,
         src: "../src/assets/images/post/6158BB8D-FD7F-4E78-A302-F7C331F596DA_1_105_c.jpeg",
         title: "도주제주도",
         schedule: "2박 3일",
@@ -212,6 +215,7 @@ const postData = [
         iconTheme: "../src/assets/images/icons/theme/relax.png"
     },
     {
+        id: 4,
         src: "../src/assets/images/post/2252C171-C8C1-4355-9692-E27DB969F5C9_1_102_o.jpeg",
         title: "rudwnrudrlwkd",
         schedule: "1박 2일",
@@ -222,6 +226,7 @@ const postData = [
         iconTheme: "../src/assets/images/icons/theme/relax.png"
     },
     {
+        id: 5,
         src: "../src/assets/images/post/6158BB8D-FD7F-4E78-A302-F7C331F596DA_1_105_c.jpeg",
         title: "도주제주도",
         schedule: "2박 3일",
