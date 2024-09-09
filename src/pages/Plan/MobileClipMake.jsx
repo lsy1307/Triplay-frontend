@@ -8,7 +8,8 @@ const MobileClipMake = () => {
   const [ images, setIamges ] = useState([])
 
   const getPostImages = async () => {
-    const response = await GetAxiosInstance(`https://localhost:8080/file/image/${postId}`, { // TODO :: Post Image Get EndPoint 수정
+    const response = await GetAxiosInstance(`https://localhost:8080/file/image/${postId}`, {
+      // TODO :: Post Image Get EndPoint 수정
       headers: { 'Content-Type': 'application/json' },
     });
     return response;
