@@ -1,28 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
-import { PostAxiosInstance } from '../../axios/axios.method';
-import PlusButtonSrc from '../../assets/images/clipStartPage/ImagePlusButton.svg'; // 경로 수정
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import PlusButtonSrc from '../../../assets/images/clipStartPage/ImagePlusButton.svg';
+import { PostAxiosInstance } from '../../../axios/AxiosMethod.js';
 
-const MobileClipReady = ({ postTitle, postContent, postContentinitialImages }) => {
+
+const UploadReadyContainer = () => {
   const navigate = useNavigate();
   const [postId, setPostId] = useState(0)
   const [images, setImages] = useState(initialImages);
   const { tripId } = useParams(); // URL에서 planId 가져오기
 
   useEffect(() => {
-    setImages(initialImages)
-  }, [initialImages]);
+    setImages()
+  }, []);
 
   const submitPost = async (formData) => {
-    const response = await PostAxiosInstance('https://localhost:8080/post', formData, { // TODO :: Post Regist EndPoint 수정
+    const response = await PostAxiosInstance('https://localhost:8080/post', formData, {
+      // TODO :: Post Regist EndPoint 수정
       headers: { 'Content-Type': 'multipart/form-data' },
     });
     return response;
   };
 
   const submitImages = async (formData) => {
-    const response = await PostAxiosInstance(`https://localhost:8080/file/image/${postId}/new`, formData, { // TODO :: Post Update EndPoint 수정
+    const response = await PostAxiosInstance(`https://localhost:8080/file/image/${postId}/new`, formData, {
+      // TODO :: Post Update EndPoint 수정
       headers: { 'Content-Type': 'multipart/form-data' },
     });
     return response;
@@ -40,7 +43,7 @@ const MobileClipReady = ({ postTitle, postContent, postContentinitialImages }) =
 
       var imageFormData = new FormData();
       imageFormData.append("files", images);
-      const imageResponse = await submitPost(postFormData)
+      const imageResponse = await submitImages(postFormData)
       if(imageResponse.status === 200) {
         console.log("postImage 저장 완료")
         // TODO :: 해당 이미지 파일들 정상적으로 저장되었음을 alert로 띄우기
@@ -85,7 +88,8 @@ const MobileClipReady = ({ postTitle, postContent, postContentinitialImages }) =
   </div>
 }
 
-export default MobileClipReady
+export default UploadReadyContainer
+
 
 const TotalContainer = styled.div`
     width: 100%;
