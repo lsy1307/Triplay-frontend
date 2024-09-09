@@ -1,35 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
-import { GetAxiosInstance, PostAxiosInstance } from '../../axios/axios.method';
+import { PostAxiosInstance } from '../../axios/axios.method';
 import PlusButtonSrc from '../../assets/images/clipStartPage/ImagePlusButton.svg'; // 경로 수정
 
-const MobileClipReady = ({ initialImages }) => {
+const MobileClipReady = ({ postTitle, postContent, postContentinitialImages }) => {
   const navigate = useNavigate();
+  const [postId, setPostId] = useState(0)
   const [images, setImages] = useState(initialImages);
-  const { planId } = useParams(); // URL에서 planId 가져오기
+  const { tripId } = useParams(); // URL에서 planId 가져오기
 
   useEffect(() => {
     setImages(initialImages)
   }, [initialImages]);
 
-  const submitImage = async (formData) => {
-    const response = await PostAxiosInstance('/user/s3', formData, { // TODO :: Post Update EndPoint 수정
+  const submitPost = async (formData) => {
+    const response = await PostAxiosInstance('https://localhost:8080/post', formData, { // TODO :: Post Regist EndPoint 수정
       headers: { 'Content-Type': 'multipart/form-data' },
     });
     return response;
   };
 
-  const moveToUploadPost = () => {
-    // TODO :: 올린 Blob 파일들 formdata로 보내기
-    var formData = new FormData();
-    formData.append("files", images);
-    submitImage(images);
-    navigate(`/plan/${planId}/post`); // planId로 URL 변경
+  const submitImages = async (formData) => {
+    const response = await PostAxiosInstance(`https://localhost:8080/file/image/${postId}/new`, formData, { // TODO :: Post Update EndPoint 수정
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return response;
+  };
+
+  const moveToUploadPost = async () => {
+    var postFormData = new FormData();
+    postFormData.append("postTitle", postTitle)
+    postFormData.append("postContent", postContent)
+    postFormData.append("tripId", planId)
+    const postResponse = await submitPost(postFormData)
+    if(postResponse.status === 200) {
+      console.log(postResponse.data)
+      setPostId(postResponse.data.postId);
+
+      var imageFormData = new FormData();
+      imageFormData.append("files", images);
+      const imageResponse = await submitPost(postFormData)
+      if(imageResponse.status === 200) {
+        console.log("postImage 저장 완료")
+        // TODO :: 해당 이미지 파일들 정상적으로 저장되었음을 alert로 띄우기
+      } else console.log("post image 저장 오류")
+    } else console.log("post 추가 오류")
   };
 
   const moveToMakeNewClip = () => {
-    navigate(`/plan/${planId}/clip`); // planId로 URL 변경
+    navigate(`/clip/make`, { state:{ postId: postId }}); // planId로 URL 변경
   };
 
   return <div>
