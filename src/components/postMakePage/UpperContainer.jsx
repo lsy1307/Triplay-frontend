@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Map from '../map/MyMap.jsx';
 import styled from 'styled-components';
+import TripTitleContainer from './titleContainer/TripTitleContainer.jsx';
+import UploadReadyContainer from './upperContainer/UploadReadyContainer.jsx';
 
 
 const UpperContainer = (props) => {
   const [coordinates, setCoordinates] = useState({ lat: -1, lng: -1 });
   const [markers, setMarkers] = useState([]); // TODO:: 여기에도 값 추가
+  const [isReady, setIsReady] = useState(false)
 
   useEffect(() => {
     const newMarkers = props.locationList.filter(
@@ -21,20 +24,38 @@ const UpperContainer = (props) => {
     }
   }, [props.locationList, props.selectedPlanDay, props.isReArrange]);
 
+  const setIsReadyToTrue = () => {
+    setIsReady(true);
+  }
+
   return <>
-    <MapContainer>
-      <MapWrapper>
-        <Map
-          selectedLat={coordinates.lat}
-          selectedLng={coordinates.lng}
-          locationList={props.locationList}
-          markers={markers}
-          isReArrange={props.isReArrange}
-          setIsReArrange={props.setIsReArrange}
-          selectedPlanDay={props.selectedPlanDay}
-        />
-      </MapWrapper>
-    </MapContainer>
+    <TripTitleContainer
+      tripId={0}
+      images={[]}
+      isReady={isReady}
+      setIsReadyToTrue={setIsReadyToTrue}
+    />
+    { isReady ?
+      <UploadReadyContainer
+        imageFile={props.imageFile}
+        handleRemoveFile={props.handleRemoveFile}
+        handleFileChange={props.handleFileChange}
+      />
+    :
+      <MapContainer>
+        <MapWrapper>
+          <Map
+            selectedLat={coordinates.lat}
+            selectedLng={coordinates.lng}
+            locationList={props.locationList}
+            markers={markers}
+            isReArrange={props.isReArrange}
+            setIsReArrange={props.setIsReArrange}
+            selectedPlanDay={props.selectedPlanDay}
+          />
+        </MapWrapper>
+      </MapContainer>
+    }
   </>
 }
 

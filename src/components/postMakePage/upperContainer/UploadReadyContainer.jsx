@@ -1,140 +1,43 @@
-import { useNavigate, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import PlusButtonSrc from '../../../assets/images/clipStartPage/ImagePlusButton.svg';
-import { PostAxiosInstance } from '../../../axios/AxiosMethod.js';
 
 
-const UploadReadyContainer = () => {
-  const navigate = useNavigate();
-  const [postId, setPostId] = useState(0)
-  const [images, setImages] = useState(initialImages);
-  const { tripId } = useParams(); // URL에서 planId 가져오기
-
+const UploadReadyContainer = (props) => {
   useEffect(() => {
     setImages()
   }, []);
 
-  const submitPost = async (formData) => {
-    const response = await PostAxiosInstance('https://localhost:8080/post', formData, {
-      // TODO :: Post Regist EndPoint 수정
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
-    return response;
+  const handleFileChange = (event) => {
+    const files = event.target.files;
+
+    if (files.length > 0) {
+      const file = files[0]; // 첫 번째 파일만 추가 (필요시 여러 파일 처리 가능)
+      props.handleFileChange(file); // 부모의 addImage 함수 호출하여 Blob 추가
+    }
   };
 
-  const submitImages = async (formData) => {
-    const response = await PostAxiosInstance(`https://localhost:8080/file/image/${postId}/new`, formData, {
-      // TODO :: Post Update EndPoint 수정
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
-    return response;
-  };
-
-  const moveToUploadPost = async () => {
-    var postFormData = new FormData();
-    postFormData.append("postTitle", postTitle)
-    postFormData.append("postContent", postContent)
-    postFormData.append("tripId", planId)
-    const postResponse = await submitPost(postFormData)
-    if(postResponse.status === 200) {
-      console.log(postResponse.data)
-      setPostId(postResponse.data.postId);
-
-      var imageFormData = new FormData();
-      imageFormData.append("files", images);
-      const imageResponse = await submitImages(postFormData)
-      if(imageResponse.status === 200) {
-        console.log("postImage 저장 완료")
-        // TODO :: 해당 이미지 파일들 정상적으로 저장되었음을 alert로 띄우기
-      } else console.log("post image 저장 오류")
-    } else console.log("post 추가 오류")
-  };
-
-  const moveToMakeNewClip = () => {
-    navigate(`/clip/make`, { state:{ postId: postId }}); // planId로 URL 변경
-  };
-
-  return <div>
-    <div className="Header"></div>
-    <TotalContainer>
-      <TitleContainer>
-        <InfoContainer>
-          <TripDate>23.10.28 ~ 10.29</TripDate>
-          <TripTitle>Trip to 태안</TripTitle>
-        </InfoContainer>
-        <ButtonContainer>
-          <BlacKButton onClick={moveToUploadPost}>Post Upload</BlacKButton>
-          <BlacKButton onClick={moveToMakeNewClip}>Make a Video</BlacKButton>
-        </ButtonContainer>
-      </TitleContainer>
-      <FlexContainer>
-        <GridContainer>
-          {images.map((image, index) => {
-            const url = image instanceof Blob ? URL.createObjectURL(image) : null;
-            return <GridItem key={index}>
-              <GridImage src={url} />
-              <GridRemoveButton onClick={() => handleRemoveImage(index)}>X</GridRemoveButton>
-            </GridItem>;
-          })}
-          <GridImagePlusInput id="file-upload" type="file" multiple onChange={handleFileChange} />
-          <GridImagePlusButton htmlFor="file-upload">
-            <PlusButtonImage src={PlusButtonSrc}/>
-          </GridImagePlusButton>
-        </GridContainer>
-      </FlexContainer>
-    </TotalContainer>
-    <div className="Footer"></div>
-  </div>
+  return <>
+    <FlexContainer>
+      <GridContainer>
+        {props.imageFile.map((file, index) => {
+          const url = file instanceof File ? URL.createObjectURL(new Blob([file], { type: file.type })) : null;
+          return <GridItem key={index}>
+            <GridImage src={url} />
+            <GridRemoveButton onClick={() => props.handleRemoveFile(index)}>X</GridRemoveButton>
+          </GridItem>;
+        })}
+        <GridImagePlusInput id="file-upload" type="file" onChange={handleFileChange} />
+        <GridImagePlusButton htmlFor="file-upload">
+          <PlusButtonImage src={PlusButtonSrc}/>
+        </GridImagePlusButton>
+      </GridContainer>
+    </FlexContainer>
+  </>
 }
 
 export default UploadReadyContainer
 
-
-const TotalContainer = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-`
-
-const TitleContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 1rem;
-`
-
-const InfoContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-`
-
-const TripDate = styled.p`
-    // font-family
-    // font-size
-    text-align: start;
-    margin: 0;
-`
-
-const TripTitle = styled.p`
-    // font-family
-    font-size: 1.5rem;
-    text-align: start;
-    margin: 0;
-`
-
-const ButtonContainer = styled.div`
-    display: flex;
-    gap: 0.1rem;
-    padding: 0.5rem 0 0.5rem 0;
-`
-
-const BlacKButton = styled.button`
-    background-color: black;
-    border: 0;
-    border-radius: 0.5rem;
-    color: white;
-`
 
 const FlexContainer = styled.div`
     width:90%;

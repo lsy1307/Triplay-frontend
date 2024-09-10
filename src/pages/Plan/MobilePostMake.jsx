@@ -22,8 +22,14 @@ const MobilePostMake = () => {
     setLocationList(data);
   };
 
-  const [postId, setPostId] = useState(0)
-  const [images, setImages] = useState([]);
+  const [imageFiles, setImageFiles] = useState([])
+  const handleRemoveFile = (index) => {
+    setImageFiles((prevImageFiles) => prevImageFiles.filter((_, i) => i !== index))
+  }
+
+  const handleFileChange = (newImageFile) => {
+    setImageFiles((prevImageFiles) => [...prevImageFiles, newImageFile]);
+  }
 
   useEffect(() => {
     // TODO :: api 호출해서 값 가져오기
@@ -38,16 +44,24 @@ const MobilePostMake = () => {
         locationList={locationList}
         isReArrange={isReArrange}
         setIsReArrange={setIsReArrange}
+
+        imageFiles={imageFiles}
+        handleRemoveFile={handleRemoveFile}
+        handleFileChange={handleFileChange}
       ></UpperContainer>
       <LowerContainer
         getLocationDataFromLocationName={getLocationDataFromLocationName}
         getPlaceDataFromLocationName={getPlaceDataFromLocationName}
+        locationList={locationList}
         addToLocationList={addToLocationList}
         changeLocationList={changeLocationList}
-        locationList={locationList}
-        setSelectedPlanDay={setSelectedPlanDay}
         selectedPlanDay={selectedPlanDay}
+        setSelectedPlanDay={setSelectedPlanDay}
         setIsReArrange={setIsReArrange}
+
+        imageFiles={imageFiles}
+        handleRemoveFile={handleRemoveFile}
+        handleFileChange={handleFileChange}
       ></LowerContainer>
     </TotalContainer>
   </>
@@ -57,7 +71,7 @@ const TotalContainer = styled.div`
     width: 100%;
     height: 85vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
 `
 
