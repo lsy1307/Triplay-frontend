@@ -12,9 +12,20 @@ body {
   height: 100%;
   background: var(--Basic-White, #fff);
 }
-.button {
+button {
   margin: 0;
   padding: 0;
   border: none;
   background-color: transparent;
+  outline: none;
+  box-sizing: border-box;
+}
+
+@media (max-width: 419px) {
+  html,
+  body {
+    max-width: 419px;
+    width: 100%;
+    margin: 0 auto;
+  }
 }

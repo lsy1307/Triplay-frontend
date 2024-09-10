@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as NaverLogin } from '../../assets/svgs/naver_login_icon.svg';
+import { generateState, handleLoginRedirect } from '../../api/oauth';
 
 const Login = () => {
   const [state, setState] = useState();
-  const generateState = () => {
-    return Math.random().toString(36).substring(2, 15);
-  };
-  const handleLoginRedirect = () => {
-    const url = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${import.meta.env.VITE_CLIENT_ID}&redirect_uri=${encodeURIComponent(import.meta.env.VITE_REDIRECT_URI)}&state=${state}`;
-    window.location.href = url;
-  };
 
   useEffect(() => {
     setState(generateState());
@@ -19,7 +13,7 @@ const Login = () => {
     <Container>
       <ContentContainer>
         Triplay와 함께 떠나기
-        <LoginButton onClick={handleLoginRedirect}>
+        <LoginButton onClick={() => handleLoginRedirect(state)}>
           <NaverLogin />
         </LoginButton>
       </ContentContainer>
