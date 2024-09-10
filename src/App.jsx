@@ -8,7 +8,6 @@ import {
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
-import MobileClipReady from './pages/Plan/MobileClipReady.jsx';
 import MobileLogin from './pages/Mobile/MobileLogin';
 import MobileTrip from './pages/Mobile/MobileTrip';
 import MobileTripDetail from './pages/Mobile/MobileTripDetail';

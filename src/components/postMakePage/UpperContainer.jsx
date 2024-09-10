@@ -1,10 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Map from '../map/MyMap.jsx';
+import styled from 'styled-components';
 
 
 const UpperContainer = (props) => {
   const [coordinates, setCoordinates] = useState({ lat: -1, lng: -1 });
-  const [markers, setMarkers] = useState([]);
+  const [markers, setMarkers] = useState([]); // TODO:: 여기에도 값 추가
+
+  useEffect(() => {
+    const newMarkers = props.locationList.filter(
+      (location) => location.planDay === props.selectedPlanDay,
+    );
+    console.log(newMarkers);
+    if (
+      !(newMarkers.length <= 0 &&
+      coordinates.lat === -1 &&
+      coordinates.lng === -1)
+    ) {
+      setMarkers(newMarkers);
+    }
+  }, [props.locationList, props.selectedPlanDay, props.isReArrange]);
 
   return <>
     <MapContainer>
@@ -22,5 +37,21 @@ const UpperContainer = (props) => {
     </MapContainer>
   </>
 }
+
+const MapContainer = styled.div`
+  width: 100%;
+  height: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const MapWrapper = styled.div`
+  width: 90%;
+  height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 export default UpperContainer

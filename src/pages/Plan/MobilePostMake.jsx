@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Map from '../../components/map/MyMap.jsx';
-import Header from '../../layout/Header.jsx';
 import { getLocationDataFromLocationName, getPlaceDataFromLocationName } from '../../api/tripInfo.js';
 import UpperContainer from '../../components/postMakePage/UpperContainer.jsx';
 import LowerContainer from '../../components/postMakePage/LowerContainer.jsx';
+import styled from 'styled-components';
+import MobileHeader from '../../layout/MobileHeader.jsx';
 
 
 const MobilePostMake = () => {
@@ -12,7 +12,7 @@ const MobilePostMake = () => {
   // TODO :: 밑에 trip domain data들에 대해 정보 띄우기(Component화)
 
 
-  const [locationList, setLocationList] = useState([]);
+  const [locationList, setLocationList] = useState([]); // TODO :: 여기에 값 추가
   const [selectedPlanDay, setSelectedPlanDay] = useState(0);
   const [isReArrange, setIsReArrange] = useState(false);
   const addToLocationList = (data) => {
@@ -26,11 +26,11 @@ const MobilePostMake = () => {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-
+    // TODO :: api 호출해서 값 가져오기
   }, []);
 
   return <>
-    <Header />
+    <MobileHeader />
     <TotalContainer>
       <UpperContainer
         getLocationDataFromLocationName={getLocationDataFromLocationName}
@@ -52,5 +52,13 @@ const MobilePostMake = () => {
     </TotalContainer>
   </>
 }
+
+const TotalContainer = styled.div`
+    width: 100%;
+    height: 85vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
 
 export default MobilePostMake
