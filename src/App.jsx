@@ -82,7 +82,7 @@ function App() {
           <Route path="/admin/manage/notice" element={<AdminManageNotice />} />
           <Route path="/manage/trip" element={<AdminManageTrip />} />
         </>
-      )}
+      )} 
     </Routes>
   );
 }
