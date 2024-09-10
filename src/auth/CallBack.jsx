@@ -21,11 +21,13 @@ const CallBack = () => {
     try {
       console.log(res);
       localStorage.setItem('token', res.data.token);
+      localStorage.setItem('refresh', res.data.refresh);
+      if (!isMobile) navigate('/main');
+      else navigate('/trip');
     } catch (error) {
       console.log(error);
+      navigate('/login');
     }
-    if (!isMobile) navigate('/main');
-    else navigate('/trip');
   };
 };
 

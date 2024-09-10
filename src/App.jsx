@@ -43,7 +43,8 @@ function App() {
     dispatch(setIsMobile(mobileCheck));
     if (mobileCheck && !window.location.hostname.startsWith('m.')) {
       const port = window.location.port ? `:${window.location.port}` : '';
-      const newUrl = `https://m.${window.location.hostname}${port}${location.pathname}`;
+      const queryParams = window.location.search;
+      const newUrl = `https://m.${window.location.hostname}${port}${location.pathname}${queryParams}`;
       window.location.href = newUrl;
     }
   }, [location, dispatch]);
@@ -53,6 +54,7 @@ function App() {
       {isMobile ? (
         <>
           <Route path="/login" element={<MobileLogin />} />
+          <Route path="/callback" element={<CallBack />} />
           <Route path="/trip" element={<MobileTrip />} />
           <Route path="/trip/:tripId" element={<MobileTripDetail />} />
           <Route path="/post" element={<MobilePost />} />
