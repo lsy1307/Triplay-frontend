@@ -13,7 +13,11 @@ const UploadReadyContainer = (props) => {
 
     if (files.length > 0) {
       const file = files[0]; // 첫 번째 파일만 추가 (필요시 여러 파일 처리 가능)
-      props.handleFileChange(file); // 부모의 addImage 함수 호출하여 Blob 추가
+      props.handleFileChange({
+        day: 0,
+        place: "",
+        img: file
+      }); // 부모의 addImage 함수 호출하여 Blob 추가
     }
   };
 
@@ -21,7 +25,7 @@ const UploadReadyContainer = (props) => {
     <FlexContainer>
       <GridContainer>
         {props.imageFile.map((file, index) => {
-          const url = file instanceof File ? URL.createObjectURL(new Blob([file], { type: file.type })) : null;
+          const url = file.img instanceof File ? URL.createObjectURL(new Blob([file.img], { type: file.type })) : null;
           return <GridItem key={index}>
             <GridImage src={url} />
             <GridRemoveButton onClick={() => props.handleRemoveFile(index)}>X</GridRemoveButton>

@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { getLocationDataFromLocationName, getPlaceDataFromLocationName } from '../../api/tripInfo.js';
 import UpperContainer from '../../components/postMakePage/UpperContainer.jsx';
 import LowerContainer from '../../components/postMakePage/LowerContainer.jsx';
 import styled from 'styled-components';
 import MobileHeader from '../../layout/MobileHeader.jsx';
+import { GetAxiosInstance } from '../../axios/AxiosMethod.js';
+import axios from 'axios';
 
 
 const MobilePostMake = () => {
   // TODO :: Trip, TripDate, Place 정보 받아오기
   // TODO :: 해당 data를 바탕으로 구글 맵 띄우기
   // TODO :: 밑에 trip domain data들에 대해 정보 띄우기(Component화)
-
+  const { tripId } = useParams();
 
   const [locationList, setLocationList] = useState([]); // TODO :: 여기에 값 추가
   const [selectedPlanDay, setSelectedPlanDay] = useState(0);
@@ -31,9 +34,14 @@ const MobilePostMake = () => {
     setImageFiles((prevImageFiles) => [...prevImageFiles, newImageFile]);
   }
 
-  useEffect(() => {
-    // TODO :: api 호출해서 값 가져오기
-  }, []);
+  const getTripDateInfo = async () => {
+    const res = await GetAxiosInstance(`https://localhost:8443/trip/${tripId}`)
+    console.log(res.data);
+  }
+
+  useEffect(()=> {
+    getTripDateInfo();
+  },[])
 
   return <>
     <MobileHeader />
