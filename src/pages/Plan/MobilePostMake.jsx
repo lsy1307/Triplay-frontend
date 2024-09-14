@@ -6,7 +6,6 @@ import LowerContainer from '../../components/postMakePage/LowerContainer.jsx';
 import styled from 'styled-components';
 import MobileHeader from '../../layout/MobileHeader.jsx';
 import { GetAxiosInstance } from '../../axios/AxiosMethod.js';
-import axios from 'axios';
 
 
 const MobilePostMake = () => {
@@ -18,6 +17,7 @@ const MobilePostMake = () => {
   const [locationList, setLocationList] = useState([]); // TODO :: 여기에 값 추가
   const [selectedPlanDay, setSelectedPlanDay] = useState(0);
   const [isReArrange, setIsReArrange] = useState(false);
+
   const addToLocationList = (data) => {
     setLocationList([...locationList, data]);
   };
@@ -34,13 +34,13 @@ const MobilePostMake = () => {
     setImageFiles((prevImageFiles) => [...prevImageFiles, newImageFile]);
   }
 
-  const getTripDateInfo = async () => {
-    const res = await GetAxiosInstance(`https://localhost:8443/trip/${tripId}`)
-    console.log(res.data);
-  }
+  // const getTripDateInfo = async () => {
+  //   const res = await GetAxiosInstance(`https://localhost:8443/trip/${tripId}`)
+  //   console.log(res.data);
+  // }
 
   useEffect(()=> {
-    getTripDateInfo();
+    // getTripDateInfo();
   },[])
 
   return <>
