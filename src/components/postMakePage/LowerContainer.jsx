@@ -9,6 +9,16 @@ const LowerContainer = (props) => {
     <TripDayContainer
       planDay={1}
       selectedPlanDay={props.selectedPlanDay}
+      setSelectedPlanDay={props.setSelectedPlanDay}
+      getLocationDataFromLocationName={props.getLocationDataFromLocationName}
+      getPlaceDataFromLocationName={props.getPlaceDataFromLocationName}
+      locationList={props.locationList}
+      addToLocationList={props.addToLocationList}
+    />
+    <TripDayContainer
+      planDay={2}
+      selectedPlanDay={props.selectedPlanDay}
+      setSelectedPlanDay={props.setSelectedPlanDay}
       getLocationDataFromLocationName={props.getLocationDataFromLocationName}
       getPlaceDataFromLocationName={props.getPlaceDataFromLocationName}
       locationList={props.locationList}
