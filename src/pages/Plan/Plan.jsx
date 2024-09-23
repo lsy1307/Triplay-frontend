@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import axios from 'axios';
-import {
-  getLocationDataFromLocationName,
-  getPlaceDataFromLocationName,
-} from '../../api/tripInfo.js';
 
 import LeftContainer from '../../components/planTripPage/LeftContainer.jsx';
 import RightContainer from '../../components/planTripPage/RightContainer.jsx';
@@ -39,15 +34,12 @@ const Plan = () => {
       <Header />
       <TotalContainer>
         <LeftContainer
-          getLocationDataFromLocationName={getLocationDataFromLocationName}
           selectedPlanDay={selectedPlanDay}
           locationList={locationList}
           isReArrange={isReArrange}
           setIsReArrange={setIsReArrange}
         ></LeftContainer>
         <RightContainer
-          getLocationDataFromLocationName={getLocationDataFromLocationName}
-          getPlaceDataFromLocationName={getPlaceDataFromLocationName}
           addToLocationList={addToLocationList}
           changeLocationList={changeLocationList}
           locationList={locationList}
