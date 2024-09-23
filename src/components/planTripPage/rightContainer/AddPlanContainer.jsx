@@ -172,8 +172,6 @@ const AddPlanContainer = (props) => {
                                 isAddPlanMapOn && (
                                     <AddPlanMapContainer
                                         planDay={props.selectedPlanDay}
-                                        getLocationDataFromLocationName={props.getLocationDataFromLocationName}
-                                        getPlaceDataFromLocationName={props.getPlaceDataFromLocationName}
                                         setIsAddPlanMapOn={setIsAddPlanMapOn}
                                         locationList={props.locationList}
                                         addToLocationList={props.addToLocationList}
@@ -186,7 +184,6 @@ const AddPlanContainer = (props) => {
                                         setIsEditPlanMapOn={setIsEditPlanMapOn}
                                         selectedPlan={selectedPlan}
                                         changeLocationList={props.changeLocationList}
-                                        getPlaceDataFromLocationName={props.getPlaceDataFromLocationName}
                                     />
                                 )
                             }
@@ -199,6 +196,9 @@ const AddPlanContainer = (props) => {
                     일정 추가하기 <FontAwesomeIcon icon={faPlus} />
                 </AddPlanBtn>
             </AddPlanBtnWrapper>
+            <CompletePlanBtnWrapper>
+                
+            </CompletePlanBtnWrapper>
         </Container>
     );
 };
@@ -215,7 +215,7 @@ const Container = styled.div`
 
 const PlanContentsContainer = styled.div`
     width: 100%;
-    max-height: 60%;
+    max-height: 50%;
     margin-bottom: 1rem;
 `;
 
@@ -384,3 +384,7 @@ const AddPlanBtn = styled.button`
   font-size: 2.5rem;
   font-weight: 700;
 `;
+
+const CompletePlanBtnWrapper = styled.div`
+    
+`

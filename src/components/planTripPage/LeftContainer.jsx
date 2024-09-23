@@ -5,9 +5,6 @@ import Map from '../map/MyMap';
 import TripLocationContentContainer from './leftContainer/TripLocationContentContainer';
 
 const LeftContainer = (props) => {
-  // 여행 제목 입력값
-  const [tripTitle, setTripTitle] = useState('');
-
   // 여행지 검색하고 엔터 눌렀을 때, 지도 띄우기 여부
   const [isMapOn, setIsMapOn] = useState(false);
 
@@ -18,14 +15,13 @@ const LeftContainer = (props) => {
 
   /* 여행 제목 입력 */
   const onChangeTripTitleInputHandler = (e) => {
-    setTripTitle(e.target.value);
+    props.setTripTitle(e.target.value);
   };
 
   useEffect(() => {
     const newMarkers = props.locationList.filter(
       (location) => location.planDay === props.selectedPlanDay,
     );
-    console.log(newMarkers);
     if (
       newMarkers.length <= 0 &&
       coordinates.lat === -1 &&
@@ -43,7 +39,7 @@ const LeftContainer = (props) => {
       <TripLocationContentsContainer>
         <TripTitleInput
           placeholder="여행 제목을 입력해주세요"
-          value={tripTitle}
+          value={props.tripTitle}
           onChange={onChangeTripTitleInputHandler}
         />
         {isMapOn ? (
@@ -62,9 +58,6 @@ const LeftContainer = (props) => {
           </MapContainer>
         ) : (
           <TripLocationContentContainer
-            getLocationDataFromLocationName={
-              props.getLocationDataFromLocationName
-            }
             setIsMapOn={setIsMapOn}
             setCoordinates={setCoordinates}
           ></TripLocationContentContainer>

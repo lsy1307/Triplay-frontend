@@ -7,11 +7,10 @@ import DatePicker from "react-datepicker";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 
-const CalendarInputWrapper = () => {
+const CalendarInputWrapper = (props) => {
     // 캘린더 부분
     const refDatePicker = useRef(null);
-    const [dateRange, setDateRange] = useState([null, null]);
-    const [startDate, endDate] = dateRange;
+    const [startDate, endDate] = props.dateRange;
     const openDatePicker = () => {
         // DatePicker 참조를 통해 달력을 엽니다.
         refDatePicker.current.setOpen(true);
@@ -37,9 +36,7 @@ const CalendarInputWrapper = () => {
                     style={{ cursor: "pointer", fontSize: "3rem" }}
                 />
                 {startDate && endDate ? (
-                    <CalenderInputLabel onClick={openDatePicker}>{`${formatDate(
-                    startDate
-                    )} ~ ${formatDate(endDate)}`}</CalenderInputLabel>
+                    <CalenderInputLabel onClick={openDatePicker}>{`${formatDate(startDate)} ~ ${formatDate(endDate)}`}</CalenderInputLabel>
                 ) : (
                     <CalenderInputLabel onClick={openDatePicker}>
                     언제 떠나는 여행인가요?
@@ -51,7 +48,7 @@ const CalendarInputWrapper = () => {
                     selectsRange
                     startDate={startDate}
                     endDate={endDate}
-                    onChange={(update) => setDateRange(update)}
+                    onChange={(update) => props.setDateRange(update)}
                     dateFormat="yyyy/MM/dd"
                     customInput={
                     <input type="text" style={{ display: "none" }} />
@@ -66,7 +63,7 @@ const CalendarInputWrapper = () => {
 export default CalendarInputWrapper;
 
 const Container = styled.div`
-  width: 100%;
+  width: 80%;
   display: flex;
   justify-content: center;
   margin-bottom: 2rem;
@@ -82,9 +79,13 @@ const ContentsWrapper = styled.div`
 
 const CalenderInputLabel = styled.label`
   cursor: pointer;
-  font-size: 2rem;
+  font-size: clamp(0.5rem, 1.6vw, 2rem); /* 폰트 크기를 동적으로 조정 */
   margin-left: 0.5em;
+  white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+  overflow: hidden; /* 넘치는 텍스트 숨기기 */
+  text-overflow: ellipsis; /* 넘치는 텍스트에 '...' 표시 */
 `;
+
 
 const GlobalStyle = createGlobalStyle`
     /* 전역 CSS 파일이나 createGlobalStyle 컴포넌트에 추가 */

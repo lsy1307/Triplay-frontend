@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import styled from "styled-components";
 import locations from "../../locations";
 
+import {getGooglePlaceDataByLocationName} from "../../../api/tripInfo";
+
 const TripLocationContentContainer = (props) => {
 
       /* 여행지 검색 입력값 */
@@ -31,7 +33,8 @@ const TripLocationContentContainer = (props) => {
         );
         if (locationObject) {
             props.setIsMapOn(true);
-            const coords = await props.getLocationDataFromLocationName(locationObject.fullName);
+            const res = await getGooglePlaceDataByLocationName(locationObject.fullName);
+            const coords = res.data.results[0].geometry.location;
             props.setCoordinates({ lat: coords.lat, lng: coords.lng });
         }
         }

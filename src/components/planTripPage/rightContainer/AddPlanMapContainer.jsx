@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Form } from 'react-bootstrap';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { getPlaceDataFromLocationName } from '../../../api/tripInfo';
+import { Input } from 'antd';
+const { Search } = Input;
+
+import { getGooglePlaceDetailDataByLocationName } from '../../../api/tripInfo';
 import SearchMap from '../../map/SearchMap';
 
 const AddPlanMapContainer = (props) => {
@@ -22,7 +22,7 @@ const AddPlanMapContainer = (props) => {
 
   const [photoUrl, setPhotoUrl] = useState('');
 
-  const [phoneNumber, setPhoneNumber] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const [openData, setOpenData] = useState([]);
 
@@ -35,33 +35,37 @@ const AddPlanMapContainer = (props) => {
   };
 
   const onClickSearchLocationBtnHandler = async (e) => {
-    e.preventDefault();
-
-    const placeData = await getPlaceDataFromLocationName(searchedLocation);
+    const placeData = await getGooglePlaceDetailDataByLocationName(searchedLocation);
     let pos = {
       lat: placeData.data.result.geometry.location.lat,
       lng: placeData.data.result.geometry.location.lng,
     };
     setSearchedCoordinates(pos);
 
-    let locationName = placeData.data.result.name;
-    setLocationName(locationName);
+    if(placeData.data.result.name){
+      let locationName = placeData.data.result.name;
+      setLocationName(locationName);
+    }
 
-    let address = placeData.data.result.formatted_address;
-    setAddress(address);
+    if(placeData.data.result.formatted_address){
+      let address = placeData.data.result.formatted_address;
+      setAddress(address);
+    }
 
-    let photo = placeData.data.result.photos[0];
-    setPhotoUrl(getPhotoUrl(photo.photo_reference));
+    if(placeData.data.result.photos){
+      let photo = placeData.data.result.photos[0];
+      setPhotoUrl(getPhotoUrl(photo.photo_reference));
+    }
 
     if (placeData.data.result.formatted_phone_number) {
-      setPhoneNumber(placeData.result.formatted_phone_number);
+      let phone_number = placeData.data.result.formatted_phone_number
+      setPhoneNumber(phone_number);
     }
 
     if (placeData.data.result.opening_hours) {
-      setOpenData(placeData.data.result.opening_hours.weekdat_text);
+      let weekday_text = placeData.data.result.opening_hours.weekday_text
+      setOpenData(weekday_text);
     }
-
-    console.log(placeData);
   };
 
   const onClickAddToListBtnHandler = () => {
@@ -96,12 +100,10 @@ const AddPlanMapContainer = (props) => {
         </CloseButton>
         <AddPlanSearchContainer className="a">
           <AddPlanSearchWrapper>
-            <Form className="d-flex">
-              <AddPlanSearchInput onChange={onSearchLocationChangeHandler} />
-              <AddPlanSearchBtn onClick={onClickSearchLocationBtnHandler}>
-                <FontAwesomeIcon icon={faMagnifyingGlass} />
-              </AddPlanSearchBtn>
-            </Form>
+            <StyledSearch
+              onChange={onSearchLocationChangeHandler}
+              onSearch={onClickSearchLocationBtnHandler}
+            />
           </AddPlanSearchWrapper>
           <AddToListBtn onClick={onClickAddToListBtnHandler}>
             내 장소에 추가
@@ -166,32 +168,20 @@ const AddPlanSearchWrapper = styled.div`
   margin-left: 8rem;
 `;
 
-const AddPlanSearchInput = styled.input`
-  border-radius: 1.5rem 0 0 1.5rem;
-  padding: 0 15px;
-  font-size: 1.5rem;
-  flex-grow: 1;
-  border-right: none;
-  height: 3rem;
+const StyledSearch = styled(Search)`
+  width: 70%; 
 
-  &:focus {
-    outline: none;
-    box-shadow: none;
+  .ant-input {
+    height: 2vw; 
+    font-size: 1.5vw; 
+  }
+
+  .ant-input-search-button {
+    width: 4vw;  
+    height: 2vw;
   }
 `;
 
-const AddPlanSearchBtn = styled.button`
-  border-radius: 0 25px 25px 0;
-  border-left: none;
-  padding: 10px 20px;
-  height: 3rem;
-  font-size: 1.2rem;
-  border-left: none;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
 const AddToListBtn = styled.button`
   font-size: 1rem;
@@ -207,3 +197,4 @@ const AddPlanMapWrapper = styled.div`
   width: 100%;
   height: 100%;
 `;
+

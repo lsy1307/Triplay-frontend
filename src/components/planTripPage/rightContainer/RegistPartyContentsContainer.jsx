@@ -37,6 +37,7 @@ const RegistPartyContentsContainer = (props) => {
                         isselected={`${selectedPartyNum === index}`}
                         onClick={() => {
                           setSelectedPartyNume(index);
+                          props.setPartyName(parties[index])
                         }}
                       >
                         {partyName}
