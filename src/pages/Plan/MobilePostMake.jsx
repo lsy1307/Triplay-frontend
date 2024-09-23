@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getLocationDataFromLocationName, getPlaceDataFromLocationName } from '../../api/tripInfo.js';
 import UpperContainer from '../../components/postMakePage/UpperContainer.jsx';
 import LowerContainer from '../../components/postMakePage/LowerContainer.jsx';
 import styled from 'styled-components';
@@ -61,6 +60,7 @@ const MobilePostMake = () => {
     handleTripInfoChange('tripStartDate', res.data["tripStartDate"])
     handleTripInfoChange('tripEndDate', res.data["tripEndDate"])
     handleTripInfoChange('tripParty', res.data["tripParty"])
+    handleTripInfoChange('tripId', tripId)
     handleTripInfoChange('tripTitle', res.data["tripTitle"])
     res.data["places"].forEach(place => {
       const idx =
@@ -68,6 +68,7 @@ const MobilePostMake = () => {
           ? locationList[locationList.length - 1].idx + 1
           : 0;
       const data = {
+        placeId: place["placeId"],
         idx: idx,
         planDay: place["visitDay"],
         lat: place["latitude"],
@@ -95,7 +96,6 @@ const MobilePostMake = () => {
     <MobileHeader />
     <TotalContainer>
       <UpperContainer
-        getLocationDataFromLocationName={getLocationDataFromLocationName}
         selectedPlanDay={selectedPlanDay}
         locationList={locationList}
         isReArrange={isReArrange}
@@ -109,8 +109,6 @@ const MobilePostMake = () => {
         handleFileChange={handleFileChange}
       ></UpperContainer>
       <LowerContainer
-        getLocationDataFromLocationName={getLocationDataFromLocationName}
-        getPlaceDataFromLocationName={getPlaceDataFromLocationName}
         locationList={locationList}
         maxPlanDay={maxPlanDay}
         addMaxPlanDay={addMaxPlanDay}

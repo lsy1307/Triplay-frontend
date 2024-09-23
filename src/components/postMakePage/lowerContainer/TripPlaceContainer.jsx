@@ -39,8 +39,7 @@ const TripPlaceContainer = (props) => {
         img: file
       })
       props.handleFileChange({
-        day: props.location.planDay,
-        place: props.location.locationName,
+        placeId: props.location.placeId,
         img: file
       }); // 부모의 addImage 함수 호출하여 Blob 추가
     }

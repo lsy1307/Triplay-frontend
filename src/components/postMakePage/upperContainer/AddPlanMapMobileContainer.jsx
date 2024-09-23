@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Form } from 'react-bootstrap';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { getPlaceDataFromLocationName } from '../../../api/tripInfo';
+import { getGooglePlaceDetailDataByLocationName } from '../../../api/tripInfo';
 import SearchMap from '../../map/SearchMap';
 
 const AddPlanMapContainer = (props) => {
@@ -37,7 +37,7 @@ const AddPlanMapContainer = (props) => {
   const onClickSearchLocationBtnHandler = async (e) => {
     e.preventDefault();
 
-    const placeData = await getPlaceDataFromLocationName(searchedLocation);
+    const placeData = await getGooglePlaceDetailDataByLocationName(searchedLocation);
     let pos = {
       lat: placeData.data.result.geometry.location.lat,
       lng: placeData.data.result.geometry.location.lng,
