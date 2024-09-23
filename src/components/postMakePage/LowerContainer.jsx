@@ -36,6 +36,10 @@ const TotalContainer = styled.div`
 const TripDayAddButton = styled.button`
     width: 100%;
     display: flex;
-    justify-content: center;
     align-items: center;
+    border: 1px solid;
+    border-radius: 0.2rem;
+    padding: 0.5rem;
+    font-weight: bolder;
+    font-size: 1.3rem;
 `

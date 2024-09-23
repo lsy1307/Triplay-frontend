@@ -53,6 +53,7 @@ export default TripDayContainer
 const DayContainer = styled.div`
     padding: 0.5rem;
     border: 1px solid;
+    border-radius: 0.2rem;
     display: flex;
     flex-direction: column;
     gap: ${({ isopen }) => (isopen === "true" ? '0.5rem' : '')};
@@ -65,6 +66,8 @@ const DayHeader = styled.div`
 `
 
 const DayInfo = styled.p`
+    font-weight: bolder;
+    font-size: 1.3rem;
     margin: 0;
 `
 

@@ -17,7 +17,7 @@ const TripPlaceContainer = (props) => {
     props.changeLocationList(updatedLocationList);
   };
 
-  return <TotalContainer>
+  return <PlaceContainer>
     <PlaceHeader>
       <LocationInfo>
         <LocationName>{props.location.locationName}</LocationName>
@@ -28,13 +28,14 @@ const TripPlaceContainer = (props) => {
     <PlaceBody>
 
     </PlaceBody>
-  </TotalContainer>
+  </PlaceContainer>
 }
 
 export default TripPlaceContainer
 
-const TotalContainer = styled.div`
-  border: 1px solid;  
+const PlaceContainer = styled.div`
+    border-radius: 0.5rem;
+    background-color: #d5d5d5;
 `
 
 const PlaceHeader = styled.div`
