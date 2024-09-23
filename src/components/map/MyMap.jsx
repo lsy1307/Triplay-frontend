@@ -33,6 +33,8 @@ const MyMap = (props) => {
     else {
       if (props.selectedLat !== -1) setLat(props.selectedLat);
       if (props.selectedLng !== -1) setLng(props.selectedLng);
+      setLines([]);
+      console.log(props.markers);
     }
   },[props.markers, props.selectedLat, props.selectedLng]);
 
@@ -41,8 +43,6 @@ const MyMap = (props) => {
       setNewLines();
     }
   },[props.isReArrange]);
-
-  useEffect(() => {},[lines]);
 
   const setNewLines = () => {
     if(props.markers.length > 1){
@@ -93,7 +93,7 @@ const MyMap = (props) => {
       zoom={13}
       // onClick={handleMapClick}
     >
-      {props.markers.map((marker, idx) => (
+      {props.selectedPlanDay !== 0 && props.markers.map((marker, idx) => (
         <Marker key={idx} position={marker} />
       ))}
       {lines.map((line, idx) => (
