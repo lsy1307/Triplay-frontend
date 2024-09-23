@@ -1,4 +1,4 @@
-import AddPlanMapContainer from '../../planTripPage/rightContainer/AddPlanMapContainer.jsx';
+import AddPlanMapContainer from '../../postMakePage/upperContainer/AddPlanMapMobileContainer.jsx';
 import React, { useState } from 'react';
 import styled, {keyframes} from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,7 +6,6 @@ import { faPlay } from '@fortawesome/free-solid-svg-icons';
 
 const TripDayContainer = (props) => {
   const [isAddPlanMapOn, setIsAddPlanMapOn] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
 
   const changeIsAddPlanMapOn = () => {
     setIsAddPlanMapOn(!isAddPlanMapOn)
@@ -16,12 +15,15 @@ const TripDayContainer = (props) => {
     props.setSelectedPlanDay(prevDay => prevDay === data ? 0 : data);
   };
 
-  return <DayContainer>
+  return <DayContainer isopen={`${props.selectedPlanDay === props.planDay}`}>
     <DayHeader onClick={() => toggleDropdown(props.planDay)}>
       <DayInfo>{props.planDay}일차</DayInfo>
       <ToggleIcon icon={faPlay} isopen={`${props.selectedPlanDay === props.planDay}`} />
     </DayHeader>
     <DayBody isopen={`${props.selectedPlanDay === props.planDay}`}>
+      {
+        // props.locationList.map(location => <TripPlaceContainer></TripPlaceContainer>)
+      }
       <TripPlaceAddButton onClick={() => changeIsAddPlanMapOn()}>장소 추가하기</TripPlaceAddButton>
       {
         isAddPlanMapOn && (
@@ -46,12 +48,13 @@ const DayContainer = styled.div`
     border: 1px solid;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: ${({ isopen }) => (isopen === "true" ? '0.5rem' : '')};
 `
 
 const DayHeader = styled.div`
     display: flex;
     justify-content: space-between;
+    align-items: center;
 `
 
 const DayInfo = styled.p`
@@ -102,3 +105,7 @@ const slideUp = keyframes`
         opacity: 0;
     }
 `;
+
+const TripPlaceContainer = styled.div`
+
+`

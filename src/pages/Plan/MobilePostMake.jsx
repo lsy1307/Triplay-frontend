@@ -34,13 +34,13 @@ const MobilePostMake = () => {
     setImageFiles((prevImageFiles) => [...prevImageFiles, newImageFile]);
   }
 
-  // const getTripDateInfo = async () => {
-  //   const res = await GetAxiosInstance(`https://localhost:8443/trip/${tripId}`)
-  //   console.log(res.data);
-  // }
+  const getTripDateInfo = async () => {
+    const res = await GetAxiosInstance(`https://localhost:8443/trip/${tripId}`)
+    console.log(res.data);
+  }
 
   useEffect(()=> {
-    // getTripDateInfo();
+    getTripDateInfo();
   },[])
 
   return <>
