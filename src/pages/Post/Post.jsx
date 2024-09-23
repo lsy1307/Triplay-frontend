@@ -1,10 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Header from '../../layout/Header';
 import { useNavigate } from 'react-router-dom';
+import { fetchPosts } from '../../api/allposts';
+import { fetchUserDetail } from '../../api/userDetail';
+import { fetchTripDetails } from '../../api/tripDetail';
+import { fetchFileDetails } from '../../api/fileDetail';
+import { getIconWho } from '../../components/iconUtils';
 
 const Posts = () => {
     const navigate = useNavigate();
+    const [posts, setPosts] = useState([]);
+
+    useEffect(() => {
+        const getPosts = async () => {
+            try {
+                const fetchedPosts = await fetchPosts();
+
+                const postsWithDetails = await Promise.all(fetchedPosts.map(async (post) => {
+                    const userDetails = await fetchUserDetail(post.userId);  // 사용자 정보와 프로필 사진 가져오기
+                    const tripDetails = await fetchTripDetails(post.tripId);
+                    const fileDetails = await fetchFileDetails(post.postId);
+
+                    const thumbnailUrl = post.imageUrls.length > 0 ? post.imageUrls[0] : null;
+
+                    return {
+                        ...post,
+                        userDetails,
+                        tripDetails,
+                        thumbnailUrl,
+                    };
+                }));
+
+                setPosts(postsWithDetails);
+            } catch (error) {
+                console.error("Error loading posts: ", error);
+            }
+        };
+
+        getPosts();
+    }, []);
 
     const handleCardClick = (postId) => {
         navigate(`/post/${postId}`);
@@ -19,23 +54,21 @@ const Posts = () => {
                     <button>검색</button>
                 </SearchBarContainer>
                 <PostGrid>
-                    {postData.map((post, index) => (
+                    {posts.map((post, index) => (
                         <PostCard key={index} onClick={() => handleCardClick(post.id)}>
-                            <img src={post.src} alt={`Post ${index + 1}`} />
+                            <img src={post.thumbnailUrl} alt={`Post ${index + 1}`} />
                             <TextOverlay>
                                 <div className="top-row">
-                                    <h3>{post.title}</h3>
-                                    <p>{post.schedule}</p>
+                                    <p>{post.tripDetails?.tripStartDate} ~ {post.tripDetails?.tripEndDate}</p>
                                 </div>
                                 <div className="bottom-row">
                                     <div className="profile-info">
-                                        <img src={post.profilePic} alt="Profile" />
-                                        <p>{post.nickname}님의 <br/>
-                                        {post.city}</p>
+                                        <img src={post.userDetails?.profilePicUrl} alt="Profile" /> {/* 프로필 사진 */}
+                                        <p>{post.userDetails?.userName}님의 <br/>
+                                        {post.postTitle}</p>
                                     </div>
                                     <div className="icons">
-                                        <img src={post.iconWho} alt="Who with" />
-                                        <img src={post.iconTheme} alt="Theme" />
+                                        <img src={getIconWho(post.tripDetails?.tripParty)} alt="누구와" />
                                     </div>
                                 </div>
                             </TextOverlay>
@@ -178,62 +211,3 @@ const PostCard = styled.button`
         opacity: 1;
     }
 `;
-
-// ************ BE 연결 후 삭제 예정 ************
-const postData = [
-    {
-        id: 1,
-        src: "../src/assets/images/post/6158BB8D-FD7F-4E78-A302-F7C331F596DA_1_105_c.jpeg",
-        title: "도주제주도",
-        schedule: "2박 3일",
-        profilePic: "../src/assets/images/profile/90263554-A17D-4A49-B3E2-6C6915C0B76E_1_105_c.jpeg",
-        nickname: "수연수연",
-        city: "제주",
-        iconWho: "../src/assets/images/icons/party/family.png",
-        iconTheme: "../src/assets/images/icons/theme/relax.png"
-    },
-    {
-        id: 2,
-        src: "../src/assets/images/post/2252C171-C8C1-4355-9692-E27DB969F5C9_1_102_o.jpeg",
-        title: "rudwnrudrlwkd",
-        schedule: "1박 2일",
-        profilePic: "../src/assets/images/profile/142F50F2-F6E7-44E9-8115-532D35D93BE3.jpeg",
-        nickname: "lsy",
-        city: "경주",
-        iconWho: "../src/assets/images/icons/party/family.png",
-        iconTheme: "../src/assets/images/icons/theme/relax.png"
-    },
-    {
-        id: 3,
-        src: "../src/assets/images/post/6158BB8D-FD7F-4E78-A302-F7C331F596DA_1_105_c.jpeg",
-        title: "도주제주도",
-        schedule: "2박 3일",
-        profilePic: "../src/assets/images/profile/90263554-A17D-4A49-B3E2-6C6915C0B76E_1_105_c.jpeg",
-        nickname: "수연수연",
-        city: "제주",
-        iconWho: "../src/assets/images/icons/party/family.png",
-        iconTheme: "../src/assets/images/icons/theme/relax.png"
-    },
-    {
-        id: 4,
-        src: "../src/assets/images/post/2252C171-C8C1-4355-9692-E27DB969F5C9_1_102_o.jpeg",
-        title: "rudwnrudrlwkd",
-        schedule: "1박 2일",
-        profilePic: "../src/assets/images/profile/142F50F2-F6E7-44E9-8115-532D35D93BE3.jpeg",
-        nickname: "lsy",
-        city: "경주",
-        iconWho: "../src/assets/images/icons/party/family.png",
-        iconTheme: "../src/assets/images/icons/theme/relax.png"
-    },
-    {
-        id: 5,
-        src: "../src/assets/images/post/6158BB8D-FD7F-4E78-A302-F7C331F596DA_1_105_c.jpeg",
-        title: "도주제주도",
-        schedule: "2박 3일",
-        profilePic: "../src/assets/images/profile/90263554-A17D-4A49-B3E2-6C6915C0B76E_1_105_c.jpeg",
-        nickname: "수연수연",
-        city: "제주",
-        iconWho: "../src/assets/images/icons/party/family.png",
-        iconTheme: "../src/assets/images/icons/theme/relax.png"
-    }
-];
