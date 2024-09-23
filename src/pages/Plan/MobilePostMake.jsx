@@ -4,6 +4,8 @@ import { getLocationDataFromLocationName, getPlaceDataFromLocationName } from '.
 import UpperContainer from '../../components/postMakePage/UpperContainer.jsx';
 import LowerContainer from '../../components/postMakePage/LowerContainer.jsx';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import MobileHeader from '../../layout/MobileHeader.jsx';
 import { GetAxiosInstance } from '../../axios/AxiosMethod.js';
 
@@ -19,15 +21,17 @@ const MobilePostMake = () => {
   const [selectedPlanDay, setSelectedPlanDay] = useState(0);
   const [isReArrange, setIsReArrange] = useState(false);
   const [tripInfo, setTripInfo] = useState({});
+  const [imageFiles, setImageFiles] = useState([])
+  const [isReady, setIsReady] = useState(false)
 
   const addToLocationList = (data) => {
     setLocationList(prevList => [...prevList, data]); // 이전 상태를 기반으로 상태 업데이트
   };
   const changeLocationList = (data) => {
     setLocationList(data);
+
   };
 
-  const [imageFiles, setImageFiles] = useState([])
   const handleRemoveFile = (index) => {
     setImageFiles((prevImageFiles) => prevImageFiles.filter((_, i) => i !== index))
   }
@@ -41,6 +45,14 @@ const MobilePostMake = () => {
       ...prevState,
       [key]: value
     }))
+  }
+
+  const handleChangeIsReady = () => {
+    setIsReady(prev => !prev);
+  }
+
+  const addMaxPlanDay = () => {
+    setMaxPlanDay(prev => prev + 1)
   }
 
   const getTripDateInfo = async () => {
@@ -89,6 +101,8 @@ const MobilePostMake = () => {
         isReArrange={isReArrange}
         setIsReArrange={setIsReArrange}
 
+        isReady={isReady}
+        handleChangeIsReady={handleChangeIsReady}
         tripInfo={tripInfo}
         imageFiles={imageFiles}
         handleRemoveFile={handleRemoveFile}
@@ -99,26 +113,48 @@ const MobilePostMake = () => {
         getPlaceDataFromLocationName={getPlaceDataFromLocationName}
         locationList={locationList}
         maxPlanDay={maxPlanDay}
+        addMaxPlanDay={addMaxPlanDay}
         addToLocationList={addToLocationList}
         changeLocationList={changeLocationList}
         selectedPlanDay={selectedPlanDay}
         setSelectedPlanDay={setSelectedPlanDay}
         setIsReArrange={setIsReArrange}
 
+        isReady={isReady}
         imageFiles={imageFiles}
         handleRemoveFile={handleRemoveFile}
         handleFileChange={handleFileChange}
       ></LowerContainer>
     </TotalContainer>
+    {isReady && <ReturnButton onClick={handleChangeIsReady}><ReturnIconSvg icon={faArrowLeft}/>Return</ReturnButton>}
   </>
 }
 
 const TotalContainer = styled.div`
     width: 100%;
-    height: 85vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+`
+
+const ReturnButton = styled.button`
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
+    border-radius: 0.5rem;
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 5rem;
+    height: 5rem;
+`
+
+const ReturnIconSvg = styled(FontAwesomeIcon)`
+    width: 2rem;
+    height: 2rem;
 `
 
 export default MobilePostMake

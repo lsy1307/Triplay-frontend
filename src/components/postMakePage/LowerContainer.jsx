@@ -3,24 +3,31 @@ import TripDayContainer from './lowerContainer/TripDayContainer.jsx';
 import React, { useState } from 'react';
 
 const LowerContainer = (props) => {
-  return <TotalContainer>
-    {
-      Array.from({length: props.maxPlanDay}, (_, index) => (
-        <TripDayContainer
-          key={index}
-          planDay={index + 1}
-          selectedPlanDay={props.selectedPlanDay}
-          setSelectedPlanDay={props.setSelectedPlanDay}
-          getLocationDataFromLocationName={props.getLocationDataFromLocationName}
-          getPlaceDataFromLocationName={props.getPlaceDataFromLocationName}
-          locationList={props.locationList}
-          addToLocationList={props.addToLocationList}
-          changeLocationList={props.changeLocationList}
-        />
-      ))
-    }
-    <TripDayAddButton>일정 추가하기</TripDayAddButton>
-  </TotalContainer>
+  return props.isReady ?
+      <></>
+    :
+      <TotalContainer>
+        {
+          Array.from({length: props.maxPlanDay}, (_, index) => (
+            <TripDayContainer
+              key={index}
+              planDay={index + 1}
+              selectedPlanDay={props.selectedPlanDay}
+              setSelectedPlanDay={props.setSelectedPlanDay}
+              getLocationDataFromLocationName={props.getLocationDataFromLocationName}
+              getPlaceDataFromLocationName={props.getPlaceDataFromLocationName}
+              locationList={props.locationList}
+              addToLocationList={props.addToLocationList}
+              changeLocationList={props.changeLocationList}
+
+              imageFiles={props.imageFiles}
+              handleRemoveFile={props.handleRemoveFile}
+              handleFileChange={props.handleFileChange}
+            />
+          ))
+        }
+        <TripDayAddButton onClick={props.addMaxPlanDay}>일정 추가하기</TripDayAddButton>
+      </TotalContainer>
 }
 
 export default LowerContainer

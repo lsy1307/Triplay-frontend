@@ -4,9 +4,6 @@ import PlusButtonSrc from '../../../assets/images/clipStartPage/ImagePlusButton.
 
 
 const UploadReadyContainer = (props) => {
-  useEffect(() => {
-    setImages()
-  }, []);
 
   const handleFileChange = (event) => {
     const files = event.target.files;
@@ -24,17 +21,13 @@ const UploadReadyContainer = (props) => {
   return <>
     <FlexContainer>
       <GridContainer>
-        {props.imageFile.map((file, index) => {
+        {props.imageFiles.map((file, index) => {
           const url = file.img instanceof File ? URL.createObjectURL(new Blob([file.img], { type: file.type })) : null;
           return <GridItem key={index}>
             <GridImage src={url} />
             <GridRemoveButton onClick={() => props.handleRemoveFile(index)}>X</GridRemoveButton>
           </GridItem>;
         })}
-        <GridImagePlusInput id="file-upload" type="file" onChange={handleFileChange} />
-        <GridImagePlusButton htmlFor="file-upload">
-          <PlusButtonImage src={PlusButtonSrc}/>
-        </GridImagePlusButton>
       </GridContainer>
     </FlexContainer>
   </>
@@ -46,6 +39,7 @@ export default UploadReadyContainer
 const FlexContainer = styled.div`
     width:90%;
     display:flex;
+    padding-top: 1rem;
     justify-content:center;
     margin: 0 auto;
 `
@@ -81,24 +75,4 @@ const GridRemoveButton = styled.button`
     border-radius: 3em;
     border: 0;
     color: black;
-`
-
-const GridImagePlusInput = styled.input`
-    display: none;
-`
-
-const GridImagePlusButton = styled.label`
-    border: 0.2rem solid #898989;
-    width: 7em;
-    height: 10em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    background-size: cover;
-`
-
-const PlusButtonImage = styled.img`
-    max-width: 100%;
-    max-height: 100%;
 `

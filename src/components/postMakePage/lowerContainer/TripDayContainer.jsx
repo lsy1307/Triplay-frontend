@@ -29,6 +29,10 @@ const TripDayContainer = (props) => {
             key={index}
             location={location}
             changeLocationList={props.changeLocationList}
+
+            imageFiles={props.imageFiles}
+            handleRemoveFile={props.handleRemoveFile}
+            handleFileChange={props.handleFileChange}
           />)
       }
       <TripPlaceAddButton onClick={() => changeIsAddPlanMapOn()}>장소 추가하기</TripPlaceAddButton>
@@ -84,7 +88,24 @@ const DayBody = styled.div`
     transition: max-height 0.6s ease, opacity 0.6s ease;
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.5rem;
+    overflow-y: auto;  // 가로 스크롤을 허용
+    white-space: nowrap;  // 요소들이 한 줄에 나오게 함
+    width: 100%;  // 필요에 따라 너비를 지정
+    height: auto; // 높이는 필요에 맞게 지정
+
+    &::-webkit-scrollbar {
+        width: 0.5rem; // 스크롤바 높이
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #888; // 스크롤바 색상
+        border-radius: 0.2rem;    // 스크롤바 둥글게
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: #555; // 스크롤바 hover 색상
+    }
 `
 
 const TripPlaceAddButton = styled.button`

@@ -18,11 +18,10 @@ const MobileHeader = () => {
             <img src="/src/assets/images/logo.png" alt="Logo" />
           </Link>
         </Logo>
-
         <Menu>
           <ul>
             <li>
-              <LoginButton onClick={handleLoginClick}>로그인</LoginButton>
+              {localStorage.getItem("token") == null && <LoginButton onClick={handleLoginClick}>로그인</LoginButton>}
             </li>
           </ul>
         </Menu>

@@ -18,31 +18,15 @@ const TripTitleContainer = (props) => {
     return response;
   };
 
-  const submitImages = async (formData) => {
-    const response = await PostAxiosInstance(`https://localhost:8080/file/image/${postId}/new`, formData, {
-      // TODO :: Post Update EndPoint 수정
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
-    return response;
-  };
-
   const uploadPost = async () => {
     var postFormData = new FormData();
-    postFormData.append("postTitle", props.postTitle)
-    postFormData.append("postContent", props.postContent)
-    postFormData.append("tripId", props.tripId)
+    postFormData.append("postTitle", props.tripInfo["tripTitle"])
+    // postFormData.append("postContent", props.postContent)
+    postFormData.append("tripId", props.tripInfo["tripId"])
+    postFormData.append("newImages", props.imageFiles)
     const postResponse = await submitPost(postFormData)
     if(postResponse.status === 200) {
-      console.log(postResponse.data)
-      setPostId(postResponse.data.postId);
-
-      var imageFormData = new FormData();
-      imageFormData.append("files", props.images);
-      const imageResponse = await submitImages(imageFormData)
-      if(imageResponse.status === 200) {
-        console.log("postImage 저장 완료")
-        // TODO :: 해당 이미지 파일들 정상적으로 저장되었음을 alert로 띄우기
-      } else console.log("post image 저장 오류")
+      console.log("post 추가 완료")
     } else console.log("post 추가 오류")
   };
 
@@ -51,33 +35,29 @@ const TripTitleContainer = (props) => {
   };
 
   return <>
-    {props.isReady ?
-      <TitleContainer>
-        <InfoContainer>
-          <TripDate>{props.tripInfo["tripStartDate"].replace('-',".")} ~ {props.tripInfo["tripEndDate"].replace('-',".")}</TripDate>
-          <TripTitle>{props.tripInfo["tripTitle"]}</TripTitle>
-        </InfoContainer>
-        <ButtonContainer>
-          <BlackButton onClick={uploadPost}>포스트 업로드</BlackButton>
-          <BlackButton onClick={moveToMakeClip}>클립 만들기</BlackButton>
-        </ButtonContainer>
-      </TitleContainer>
-    :
-      <TitleContainer>
-        <InfoContainer>
-          <TripDate>
-            {props.tripInfo["tripStartDate"] == null || props.tripInfo["tripEndDate"] == null ? 'loading' : props.tripInfo["tripStartDate"].replace('-',".")
-              + ' ~ '
-              + props.tripInfo["tripEndDate"].replace('-',".")}
-          </TripDate>
-          <TripTitle>{props.tripInfo["tripTitle"] === null ? 'loading' : props.tripInfo["tripTitle"]}</TripTitle>
-        </InfoContainer>
-        <ButtonContainer>
-          <BlackButton onClick={props.setIsReadyToTrue}>완료</BlackButton>
-          <BlackButton>삭제</BlackButton>
-        </ButtonContainer>
-      </TitleContainer>
-    }
+    <TitleContainer>
+      <InfoContainer>
+        <TripDate>
+          {props.tripInfo["tripStartDate"] == null || props.tripInfo["tripEndDate"] == null ? 'loading' : props.tripInfo["tripStartDate"].replace('-',".")
+            + ' ~ '
+            + props.tripInfo["tripEndDate"].replace('-',".")}
+        </TripDate>
+        <TripTitle>{props.tripInfo["tripTitle"] === null ? 'loading' : props.tripInfo["tripTitle"]}</TripTitle>
+      </InfoContainer>
+      <ButtonContainer>
+        {props.isReady ?
+          <>
+            <BlackButton onClick={uploadPost}>Upload</BlackButton>
+            <BlackButton onClick={moveToMakeClip}>Clip</BlackButton>
+          </>
+        :
+          <>
+            <BlackButton onClick={props.handleChangeIsReady}>완료</BlackButton>
+            <BlackButton>삭제</BlackButton>
+          </>
+        }
+      </ButtonContainer>
+    </TitleContainer>
   </>
 }
 
@@ -104,6 +84,7 @@ const TripDate = styled.p`
 const TripTitle = styled.p`
     // font-family
     font-size: 1.5rem;
+    font-weight: bolder;
     text-align: start;
     margin: 0;
 `
@@ -119,5 +100,6 @@ const BlackButton = styled.button`
     border: 0;
     border-radius: 0.5rem;
     padding: 0 1rem 0 1rem;
+    height: 2.5rem;
     color: white;
 `

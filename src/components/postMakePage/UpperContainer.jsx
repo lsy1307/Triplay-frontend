@@ -8,7 +8,6 @@ import UploadReadyContainer from './upperContainer/UploadReadyContainer.jsx';
 const UpperContainer = (props) => {
   const [coordinates, setCoordinates] = useState({ lat: -1, lng: -1 });
   const [markers, setMarkers] = useState([]); // TODO:: 여기에도 값 추가
-  const [isReady, setIsReady] = useState(false)
 
   useEffect(() => {
     const newMarkers = props.locationList.filter(
@@ -24,20 +23,16 @@ const UpperContainer = (props) => {
     }
   }, [props.locationList, props.selectedPlanDay, props.isReArrange]);
 
-  const setIsReadyToTrue = () => {
-    setIsReady(true);
-  }
-
   return <>
     <TripTitleContainer
       tripInfo={props.tripInfo}
-      images={[]}
-      isReady={isReady}
-      setIsReadyToTrue={setIsReadyToTrue}
+      imageFiles={props.imageFiles}
+      isReady={props.isReady}
+      handleChangeIsReady={props.handleChangeIsReady}
     />
-    { isReady ?
+    { props.isReady ?
       <UploadReadyContainer
-        imageFile={props.imageFile}
+        imageFiles={props.imageFiles}
         handleRemoveFile={props.handleRemoveFile}
         handleFileChange={props.handleFileChange}
       />
@@ -61,7 +56,7 @@ const UpperContainer = (props) => {
 
 const MapContainer = styled.div`
   width: 100%;
-  height: 40%;
+  height: 40vh;
   display: flex;
   justify-content: center;
   align-items: center;
