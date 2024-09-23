@@ -22,7 +22,7 @@ const AddPlanMapContainer = (props) => {
 
   const [photoUrl, setPhotoUrl] = useState('');
 
-  const [phoneNumber, setPhoneNumber] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const [openData, setOpenData] = useState([]);
 
@@ -44,24 +44,30 @@ const AddPlanMapContainer = (props) => {
     };
     setSearchedCoordinates(pos);
 
-    let locationName = placeData.data.result.name;
-    setLocationName(locationName);
+    if(placeData.data.result.name){
+      let locationName = placeData.data.result.name;
+      setLocationName(locationName);
+    }
 
-    let address = placeData.data.result.formatted_address;
-    setAddress(address);
+    if(placeData.data.result.formatted_address){
+      let address = placeData.data.result.formatted_address;
+      setAddress(address);
+    }
 
-    let photo = placeData.data.result.photos[0];
-    setPhotoUrl(getPhotoUrl(photo.photo_reference));
+    if(placeData.data.result.photos){
+      let photo = placeData.data.result.photos[0];
+      setPhotoUrl(getPhotoUrl(photo.photo_reference));
+    }
 
     if (placeData.data.result.formatted_phone_number) {
-      setPhoneNumber(placeData.result.formatted_phone_number);
+      let phone_number = placeData.data.result.formatted_phone_number
+      setPhoneNumber(phone_number);
     }
 
     if (placeData.data.result.opening_hours) {
-      setOpenData(placeData.data.result.opening_hours.weekdat_text);
+      let weekday_text = placeData.data.result.opening_hours.weekday_text
+      setOpenData(weekday_text);
     }
-
-    console.log(placeData);
   };
 
   const onClickAddToListBtnHandler = () => {
