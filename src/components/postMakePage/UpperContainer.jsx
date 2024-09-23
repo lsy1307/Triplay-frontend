@@ -30,7 +30,7 @@ const UpperContainer = (props) => {
 
   return <>
     <TripTitleContainer
-      tripId={0}
+      tripInfo={props.tripInfo}
       images={[]}
       isReady={isReady}
       setIsReadyToTrue={setIsReadyToTrue}

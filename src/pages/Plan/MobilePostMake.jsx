@@ -14,12 +14,14 @@ const MobilePostMake = () => {
   // TODO :: 밑에 trip domain data들에 대해 정보 띄우기(Component화)
   const { tripId } = useParams();
 
+  const [maxPlanDay, setMaxPlanDay] = useState(0)
   const [locationList, setLocationList] = useState([]); // TODO :: 여기에 값 추가
   const [selectedPlanDay, setSelectedPlanDay] = useState(0);
   const [isReArrange, setIsReArrange] = useState(false);
+  const [tripInfo, setTripInfo] = useState({});
 
   const addToLocationList = (data) => {
-    setLocationList([...locationList, data]);
+    setLocationList(prevList => [...prevList, data]); // 이전 상태를 기반으로 상태 업데이트
   };
   const changeLocationList = (data) => {
     setLocationList(data);
@@ -34,14 +36,48 @@ const MobilePostMake = () => {
     setImageFiles((prevImageFiles) => [...prevImageFiles, newImageFile]);
   }
 
+  const handleTripInfoChange = (key, value) => {
+    setTripInfo((prevState) => ({
+      ...prevState,
+      [key]: value
+    }))
+  }
+
   const getTripDateInfo = async () => {
     const res = await GetAxiosInstance(`https://localhost:8443/trip/${tripId}`)
-    console.log(res.data);
+    console.log(res.data)
+    handleTripInfoChange('tripStartDate', res.data["tripStartDate"])
+    handleTripInfoChange('tripEndDate', res.data["tripEndDate"])
+    handleTripInfoChange('tripParty', res.data["tripParty"])
+    handleTripInfoChange('tripTitle', res.data["tripTitle"])
+    res.data["places"].forEach(place => {
+      const idx =
+        locationList.length > 0
+          ? locationList[locationList.length - 1].idx + 1
+          : 0;
+      const data = {
+        idx: idx,
+        planDay: place["visitDay"],
+        lat: place["latitude"],
+        lng: place["longitude"],
+        address: place["address"],
+        locationName: place["placeTitle"],
+        photoUrl: place["placeThumbnail"],
+        phoneNumber: null,
+        openData: [],
+      };
+      if(place["visitDay"] > maxPlanDay) setMaxPlanDay(place["visitDay"])
+      addToLocationList(data);
+    })
   }
 
   useEffect(()=> {
     getTripDateInfo();
   },[])
+
+  useEffect(() => {
+    console.log(locationList)
+  }, [locationList]);
 
   return <>
     <MobileHeader />
@@ -53,6 +89,7 @@ const MobilePostMake = () => {
         isReArrange={isReArrange}
         setIsReArrange={setIsReArrange}
 
+        tripInfo={tripInfo}
         imageFiles={imageFiles}
         handleRemoveFile={handleRemoveFile}
         handleFileChange={handleFileChange}
@@ -61,6 +98,7 @@ const MobilePostMake = () => {
         getLocationDataFromLocationName={getLocationDataFromLocationName}
         getPlaceDataFromLocationName={getPlaceDataFromLocationName}
         locationList={locationList}
+        maxPlanDay={maxPlanDay}
         addToLocationList={addToLocationList}
         changeLocationList={changeLocationList}
         selectedPlanDay={selectedPlanDay}

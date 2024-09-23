@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import styled, {keyframes} from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
+import TripPlaceContainer from './TripPlaceContainer.jsx';
 
 const TripDayContainer = (props) => {
   const [isAddPlanMapOn, setIsAddPlanMapOn] = useState(false);
@@ -22,7 +23,13 @@ const TripDayContainer = (props) => {
     </DayHeader>
     <DayBody isopen={`${props.selectedPlanDay === props.planDay}`}>
       {
-        // props.locationList.map(location => <TripPlaceContainer></TripPlaceContainer>)
+        props.locationList.filter(location => location.planDay === props.planDay)
+          .map((location, index) => <TripPlaceContainer
+            locationList={props.locationList}
+            key={index}
+            location={location}
+            changeLocationList={props.changeLocationList}
+          />)
       }
       <TripPlaceAddButton onClick={() => changeIsAddPlanMapOn()}>장소 추가하기</TripPlaceAddButton>
       {
@@ -72,6 +79,9 @@ const DayBody = styled.div`
     max-height: ${({ isopen }) => (isopen === "true" ? "1000px" : "0")};
     opacity: ${({ isopen }) => (isopen === "true" ? 1 : 0)};
     transition: max-height 0.6s ease, opacity 0.6s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
 `
 
 const TripPlaceAddButton = styled.button`
@@ -105,7 +115,3 @@ const slideUp = keyframes`
         opacity: 0;
     }
 `;
-
-const TripPlaceContainer = styled.div`
-
-`

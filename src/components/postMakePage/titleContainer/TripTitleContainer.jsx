@@ -54,8 +54,8 @@ const TripTitleContainer = (props) => {
     {props.isReady ?
       <TitleContainer>
         <InfoContainer>
-          <TripDate>23.10.28 ~ 10.29</TripDate>
-          <TripTitle>Trip to 태안</TripTitle>
+          <TripDate>{props.tripInfo["tripStartDate"].replace('-',".")} ~ {props.tripInfo["tripEndDate"].replace('-',".")}</TripDate>
+          <TripTitle>{props.tripInfo["tripTitle"]}</TripTitle>
         </InfoContainer>
         <ButtonContainer>
           <BlackButton onClick={uploadPost}>포스트 업로드</BlackButton>
@@ -65,8 +65,12 @@ const TripTitleContainer = (props) => {
     :
       <TitleContainer>
         <InfoContainer>
-          <TripDate>23.10.28 ~ 10.29</TripDate>
-          <TripTitle>Trip to 태안</TripTitle>
+          <TripDate>
+            {props.tripInfo["tripStartDate"] == null || props.tripInfo["tripEndDate"] == null ? 'loading' : props.tripInfo["tripStartDate"].replace('-',".")
+              + ' ~ '
+              + props.tripInfo["tripEndDate"].replace('-',".")}
+          </TripDate>
+          <TripTitle>{props.tripInfo["tripTitle"] === null ? 'loading' : props.tripInfo["tripTitle"]}</TripTitle>
         </InfoContainer>
         <ButtonContainer>
           <BlackButton onClick={props.setIsReadyToTrue}>완료</BlackButton>
