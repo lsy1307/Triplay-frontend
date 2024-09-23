@@ -12,10 +12,6 @@ const RightContainer = (props) => {
         <CalendarInputWrapper></CalendarInputWrapper>
         <RegistPartyContentsContainer></RegistPartyContentsContainer>
         <AddPlanContainer
-          getLocationDataFromLocationName={
-            props.getLocationDataFromLocationName
-          }
-          getPlaceDataFromLocationName={props.getPlaceDataFromLocationName}
           addToLocationList={props.addToLocationList}
           locationList={props.locationList}
           changeLocationList={props.changeLocationList}

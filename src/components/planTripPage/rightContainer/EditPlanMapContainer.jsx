@@ -6,6 +6,8 @@ import { Form } from "react-bootstrap";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import SearchMap from "../../map/SearchMap";
 
+import { getGooglePlaceDetailDataByLocationName } from "../../../api/tripInfo";
+
 const EditPlanMapContainer = (props) => {
 
     // 일정 추가하기 버튼 누르고, 뜬 맵에서 지역 검색했을 때 입력값
@@ -37,7 +39,7 @@ const EditPlanMapContainer = (props) => {
     const onClickSearchLocationBtnHandler = async (e) => {
         e.preventDefault();
         
-        const placeData = await props.getPlaceDataFromLocationName(searchedLocation); 
+        const placeData = await getGooglePlaceDetailDataByLocationName(searchedLocation); 
         let pos = {lat:placeData.result.geometry.location.lat, lng:placeData.result.geometry.location.lng};
         setSearchedCoordinates(pos);
 

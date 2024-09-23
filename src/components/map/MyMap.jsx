@@ -78,35 +78,6 @@ const MyMap = (props) => {
     }
   }
 
-  // const handleMapClick = (event) => {
-  //   const newMarker = { lat: event.latLng.lat(), lng: event.latLng.lng() };
-  //   props.setLocationList([...props.markers, newMarker]);
-  //   console.log(props.markers);
-
-  //   if (props.markers.length >= 1) {
-  //     const lastMarker = props.markers[props.markers.length - 1];
-  //     const newLine = {
-  //       path: [lastMarker, newMarker],
-  //       options: {
-  //         strokeColor: "#0000FF",
-  //         strokeOpacity: 0.8,
-  //         strokeWeight: 2,
-  //         icons: [
-  //           {
-  //             icon: {
-  //               path: window.google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-  //               scale: 3,
-  //               strokeColor: "#FF0000",
-  //             },
-  //             offset: "100%",
-  //           },
-  //         ],
-  //       },
-  //     };
-  //     setLines([...lines, newLine]);
-  //   }
-  // };
-
   if (loadError) {
     return <div>Error loading maps</div>;
   }

@@ -62,9 +62,6 @@ const LeftContainer = (props) => {
           </MapContainer>
         ) : (
           <TripLocationContentContainer
-            getLocationDataFromLocationName={
-              props.getLocationDataFromLocationName
-            }
             setIsMapOn={setIsMapOn}
             setCoordinates={setCoordinates}
           ></TripLocationContentContainer>
