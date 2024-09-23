@@ -40,24 +40,29 @@ const EditPlanMapContainer = (props) => {
         e.preventDefault();
         
         const placeData = await getGooglePlaceDetailDataByLocationName(searchedLocation); 
-        let pos = {lat:placeData.result.geometry.location.lat, lng:placeData.result.geometry.location.lng};
+        const placeDataResult = placeData.data.result;
+        let pos = {lat:placeDataResult.geometry.location.lat, lng:placeDataResult.geometry.location.lng};
         setSearchedCoordinates(pos);
 
-        let locationName = placeData.result.name;
+        let locationName = placeDataResult.name;
         setLocationName(locationName);
 
-        let address = placeData.result.formatted_address;
-        setAddress(address);
-
-        let photo = placeData.result.photos[0];
-        setPhotoUrl(getPhotoUrl(photo.photo_reference));
-
-        if(placeData.result.formatted_phone_number){
-          setPhoneNumber(placeData.result.formatted_phone_number);
+        if(placeDataResult.formatted_address){
+          let address = placeDataResult.formatted_address;
+          setAddress(address);
         }
 
-        if(placeData.result.opening_hours){
-          setOpenData(placeData.result.opening_hours.weekdat_text);
+        if(placeDataResult.photos) {
+          let photo = placeDataResult.photos[0];
+          setPhotoUrl(getPhotoUrl(photo.photo_reference));
+        }
+
+        if(placeDataResult.formatted_phone_number){
+          setPhoneNumber(placeDataResult.formatted_phone_number);
+        }
+
+        if(placeDataResult.opening_hours){
+          setOpenData(placeDataResult.opening_hours.weekday_text);
         }
     };
 
@@ -85,6 +90,7 @@ const EditPlanMapContainer = (props) => {
           ];
 
           props.changeLocationList(updatedLocationList);
+          props.setIsEditPlanMapOn(false);
       } else {
           console.log("Location not found");
       }
