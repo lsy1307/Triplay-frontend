@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Form } from "react-bootstrap";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { Input } from 'antd';
+const { Search } = Input;
+
 import SearchMap from "../../map/SearchMap";
 
 import { getGooglePlaceDetailDataByLocationName } from "../../../api/tripInfo";
@@ -36,9 +36,7 @@ const EditPlanMapContainer = (props) => {
       return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoReference}&key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}`;
    };
 
-    const onClickSearchLocationBtnHandler = async (e) => {
-        e.preventDefault();
-        
+    const onClickSearchLocationBtnHandler = async () => {
         const placeData = await getGooglePlaceDetailDataByLocationName(searchedLocation); 
         const placeDataResult = placeData.data.result;
         let pos = {lat:placeDataResult.geometry.location.lat, lng:placeDataResult.geometry.location.lng};
@@ -107,10 +105,10 @@ const EditPlanMapContainer = (props) => {
             <CloseButton onClick={() => {props.setIsEditPlanMapOn(false)}}>X</CloseButton>   
             <AddPlanSearchContainer className="a">
               <AddPlanSearchWrapper>
-                  <Form className="d-flex">
-                    <AddPlanSearchInput onChange={onSearchLocationChangeHandler} value={searchedLocation} />
-                    <AddPlanSearchBtn onClick={onClickSearchLocationBtnHandler}><FontAwesomeIcon icon={faMagnifyingGlass} /></AddPlanSearchBtn>
-                  </Form>
+              <StyledSearch
+                onChange={onSearchLocationChangeHandler}
+                onSearch={onClickSearchLocationBtnHandler}
+              />
               </AddPlanSearchWrapper>
               <AddToListBtn onClick={onClickEditBtnHandler}>수정하기</AddToListBtn>
             </AddPlanSearchContainer>
@@ -173,31 +171,18 @@ const AddPlanSearchWrapper = styled.div`
   margin-left:8rem;
 `;
 
-const AddPlanSearchInput = styled.input`
-  border-radius: 1.5rem 0 0 1.5rem;
-  padding: 0 15px;
-  font-size: 1.5rem;
-  flex-grow: 1;
-  border-right: none;
-  height: 3rem;
+const StyledSearch = styled(Search)`
+  width: 70%; 
 
-  &:focus {
-    outline: none;
-    box-shadow: none;
+  .ant-input {
+    height: 2vw; 
+    font-size: 1.5vw; 
   }
-`;
 
-const AddPlanSearchBtn = styled.button`
-  border-radius: 0 25px 25px 0;
-  border-left: none;
-  padding: 10px 20px;
-  height: 3rem;
-  font-size: 1.2rem;
-  border-left: none;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  .ant-input-search-button {
+    width: 4vw;  
+    height: 2vw;
+  }
 `;
 
 const AddToListBtn = styled.button`
