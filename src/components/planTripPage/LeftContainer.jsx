@@ -25,7 +25,6 @@ const LeftContainer = (props) => {
     const newMarkers = props.locationList.filter(
       (location) => location.planDay === props.selectedPlanDay,
     );
-    console.log(newMarkers);
     if (
       newMarkers.length <= 0 &&
       coordinates.lat === -1 &&
