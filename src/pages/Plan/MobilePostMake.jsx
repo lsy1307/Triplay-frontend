@@ -79,7 +79,7 @@ const MobilePostMake = () => {
         phoneNumber: place["phoneNumber"],
         openData: place["openData"],
       };
-      if(place["visitDay"] > maxPlanDay) setMaxPlanDay(place["visitDay"])
+      if(place["planDay"] > maxPlanDay) setMaxPlanDay(place["planDay"])
       addToLocationList(data);
     })
   }
