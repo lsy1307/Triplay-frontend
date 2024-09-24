@@ -30,7 +30,7 @@ const Header = () => {
               <Link to="/post">지난여행</Link>
             </li>
             <li>
-              <LoginButton onClick={handleLoginClick}>로그인</LoginButton>
+              <LoginButton onClick={handleLoginClick}>로그아웃</LoginButton>
             </li>
           </ul>
         </Menu>

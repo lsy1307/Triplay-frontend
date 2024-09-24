@@ -39,6 +39,7 @@ function App() {
   const isMobile = useSelector((state) => state.auth.isMobile);
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
   useEffect(() => {
     const mobileCheck = /Mobi|Android/i.test(navigator.userAgent);
     dispatch(setIsMobile(mobileCheck));
@@ -46,10 +47,12 @@ function App() {
       const port = window.location.port ? `:${window.location.port}` : '';
       const queryParams = window.location.search;
       const newUrl = `https://m.${window.location.hostname}${port}${location.pathname}${queryParams}`;
-      window.location.href = newUrl;
+      navigate(newUrl);
     }
   }, [location, dispatch]);
-
+  useEffect(() => {
+    if (location.pathname === '/') navigate('/login');
+  }, []);
   return (
     <Routes>
       {isMobile ? (
@@ -84,7 +87,7 @@ function App() {
           <Route path="/admin/manage/notice" element={<AdminManageNotice />} />
           <Route path="/manage/trip" element={<AdminManageTrip />} />
         </>
-      )} 
+      )}
     </Routes>
   );
 }
