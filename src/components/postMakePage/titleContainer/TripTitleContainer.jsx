@@ -11,7 +11,7 @@ const TripTitleContainer = (props) => {
   }, []);
 
   const submitPost = async (formData) => {
-    const response = await PostAxiosInstance('https://localhost:8080/post', formData, {
+    const response = await PostAxiosInstance('https://localhost:8443/post', formData, {
       // TODO :: Post Regist EndPoint 수정
       headers: { 'Content-Type': 'multipart/form-data' },
     });
@@ -26,7 +26,8 @@ const TripTitleContainer = (props) => {
     postFormData.append("newImages", props.imageFiles)
     const postResponse = await submitPost(postFormData)
     if(postResponse.status === 200) {
-      console.log("post 추가 완료")
+      alert("post 추가 완료")
+      navigate('/post')
     } else console.log("post 추가 오류")
   };
 

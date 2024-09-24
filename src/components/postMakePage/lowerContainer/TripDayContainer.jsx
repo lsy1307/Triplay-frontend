@@ -40,8 +40,6 @@ const TripDayContainer = (props) => {
         isAddPlanMapOn && (
           <AddPlanMapContainer
             planDay={props.selectedPlanDay}
-            getLocationDataFromLocationName={props.getLocationDataFromLocationName}
-            getPlaceDataFromLocationName={props.getPlaceDataFromLocationName}
             setIsAddPlanMapOn={setIsAddPlanMapOn}
             locationList={props.locationList}
             addToLocationList={props.addToLocationList}

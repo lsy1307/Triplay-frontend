@@ -5,19 +5,6 @@ import PlusButtonSrc from '../../../assets/images/clipStartPage/ImagePlusButton.
 
 const UploadReadyContainer = (props) => {
 
-  const handleFileChange = (event) => {
-    const files = event.target.files;
-
-    if (files.length > 0) {
-      const file = files[0]; // 첫 번째 파일만 추가 (필요시 여러 파일 처리 가능)
-      props.handleFileChange({
-        day: 0,
-        place: "",
-        img: file
-      }); // 부모의 addImage 함수 호출하여 Blob 추가
-    }
-  };
-
   return <>
     <FlexContainer>
       <GridContainer>
@@ -25,7 +12,6 @@ const UploadReadyContainer = (props) => {
           const url = file.img instanceof File ? URL.createObjectURL(new Blob([file.img], { type: file.type })) : null;
           return <GridItem key={index}>
             <GridImage src={url} />
-            <GridRemoveButton onClick={() => props.handleRemoveFile(index)}>X</GridRemoveButton>
           </GridItem>;
         })}
       </GridContainer>
