@@ -69,15 +69,15 @@ const MobilePostMake = () => {
           : 0;
       const data = {
         placeId: place["placeId"],
-        idx: idx,
-        planDay: place["visitDay"],
-        lat: place["latitude"],
-        lng: place["longitude"],
+        idx: place["idx"],
+        planDay: place["planDay"],
+        lat: place["lat"],
+        lng: place["lng"],
         address: place["address"],
-        locationName: place["placeTitle"],
-        photoUrl: place["placeThumbnail"],
-        phoneNumber: null,
-        openData: [],
+        locationName: place["locationName"],
+        photoUrl: place["photoUrl"],
+        phoneNumber: place["phoneNumber"],
+        openData: place["openData"],
       };
       if(place["visitDay"] > maxPlanDay) setMaxPlanDay(place["visitDay"])
       addToLocationList(data);
