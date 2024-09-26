@@ -12,7 +12,7 @@ const Login = () => {
   return (
     <Container>
       <ContentContainer>
-        Triplay와 함께 떠나기
+        Triplay와 함께 떠나기✈️
         <LoginButton onClick={() => handleLoginRedirect(state)}>
           <NaverLogin />
         </LoginButton>

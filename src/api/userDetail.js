@@ -1,32 +1,24 @@
-import axios from 'axios';
-
-const baseURL = import.meta.env.VITE_BASE_URL;
+import { GetAxiosInstance } from '../axios/AxiosMethod';
 
 export const fetchUserDetail = async (userId) => {
-    try {
-        const token = localStorage.getItem('token');
+  try {
+    const token = localStorage.getItem('token');
 
-        const userResponse = await axios.get(`${baseURL}/user/${userId}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+    const userResponse = await GetAxiosInstance(`/user/${userId}`);
 
-        const profileImageResponse = await axios.get(`${baseURL}/file/image/profile/${userId}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+    const profileImageResponse = await GetAxiosInstance(
+      `/file/image/profile/${userId}`,
+    );
 
-        const profilePicUrl = profileImageResponse.data || '/default-profile-image.jpg';
+    const profilePicUrl =
+      profileImageResponse.data || '/default-profile-image.jpg';
 
-        return {
-            ...userResponse.data,
-            profilePicUrl,
-        };
-
-    } catch (error) {
-        console.error("Error fetching user details:", error);
-        throw error;
-    }
+    return {
+      ...userResponse.data,
+      profilePicUrl,
+    };
+  } catch (error) {
+    console.error('Error fetching user details:', error);
+    throw error;
+  }
 };

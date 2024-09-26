@@ -2,15 +2,17 @@ import { GetAxiosInstance } from '../axios/AxiosMethod';
 
 export const getGooglePlaceDataByLocationName = async (searchLocation) => {
   const response = await GetAxiosInstance(
-    `https://localhost:8443/getGooglePlaceData?location=${encodeURIComponent(searchLocation)}`,
+    `/getGooglePlaceData?location=${encodeURIComponent(searchLocation)}`,
   );
   return response;
 };
 
 // 여행 지역 이름으로 지역 상세 정보 얻어오는 함수임. 위에 함수보다 상위버전인데 api 호출을 2번 해야함.
-export const getGooglePlaceDetailDataByLocationName = async (searchLocation) => {
+export const getGooglePlaceDetailDataByLocationName = async (
+  searchLocation,
+) => {
   const response = await GetAxiosInstance(
-    `https://localhost:8443/getGooglePlaceDetailData?location=${encodeURIComponent(searchLocation)}`,
+    `/getGooglePlaceDetailData?location=${encodeURIComponent(searchLocation)}`,
   );
   return response;
 };
