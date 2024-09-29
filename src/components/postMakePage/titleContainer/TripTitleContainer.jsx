@@ -19,15 +19,28 @@ const TripTitleContainer = (props) => {
   };
 
   const uploadPost = async () => {
-    var postFormData = new FormData();
-    postFormData.append("postTitle", props.tripInfo["tripTitle"])
-    // postFormData.append("postContent", props.postContent)
-    postFormData.append("tripId", props.tripInfo["tripId"])
-    postFormData.append("newImages", props.imageFiles)
+    const postFormData = new FormData();
+    postFormData.append("postTitle", props.tripInfo["tripTitle"]);
+    postFormData.append("tripId", props.tripInfo["tripId"]);
+
+    // newImages를 JSON 문자열로 변환하여 추가
+    const newImagesJson = JSON.stringify(props.imageFiles.map(image => ({
+      placeId: image.placeId,
+      placeImageOrder: image.placeImageOrder
+      // 파일은 별도로 추가
+    })));
+    postFormData.append("newImages", newImagesJson);
+
+    // 모든 파일을 동일한 이름 'files'로 추가
+    props.imageFiles.forEach((image) => {
+      postFormData.append("files", image.img); // 파일을 동일한 필드명으로 추가
+      console.log(image.img);
+    });
+
     const postResponse = await submitPost(postFormData)
+
     if(postResponse.status === 200) {
       alert("post 추가 완료")
-      navigate('/post')
     } else console.log("post 추가 오류")
   };
 

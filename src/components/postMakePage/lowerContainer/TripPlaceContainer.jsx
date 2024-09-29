@@ -6,17 +6,8 @@ import PlusButtonSrc from '../../../assets/images/clipStartPage/ImagePlusButton.
 
 const TripPlaceContainer = (props) => {
 
-  const [placeImageFiles, setPlaceImageFiles] = useState([])
   const [count, setCount] = useState(0);
 
-  const handlePlaceFileChange = (newImageFile) => {
-    setPlaceImageFiles((prevImageFiles) => [...prevImageFiles, newImageFile]);
-  }
-
-  const handlePlaceRemoveFile = (index) => {
-    setPlaceImageFiles((prevImageFiles) => prevImageFiles.filter((_, i) => i !== index))
-    props.handleRemoveFile(index)
-  }
 
   const handleDeleteClick = (location) => {
     const foundIndex = props.locationList.findIndex(foundLocation =>
@@ -28,26 +19,21 @@ const TripPlaceContainer = (props) => {
     ];
 
     props.changeLocationList(updatedLocationList);
+    setCount(prevCount => prevCount - 1);
   };
 
   const handleFileChange = (event) => {
     const files = event.target.files;
-
     if (files.length > 0) {
-      const file = files[0]; // 첫 번째 파일만 추가 (필요시 여러 파일 처리 가능)
-      handlePlaceFileChange({
-        img: file
-      })
+      const file = files[0]; // 첫 번째 파일만 추가
       props.handleFileChange({
         placeId: props.location.placeId,
+        placeImageOrder: count,
         img: file
-      }); // 부모의 addImage 함수 호출하여 Blob 추가
+      });
     }
+    setCount(prevCount => prevCount + 1);
   };
-
-  useEffect(() => {
-    console.log(placeImageFiles);
-  },[placeImageFiles])
 
   return <PlaceContainer>
     <PlaceHeader>
@@ -59,14 +45,15 @@ const TripPlaceContainer = (props) => {
     </PlaceHeader>
     <PlaceBodyWrapper>
       <PlaceBody>
-        {placeImageFiles.map((file, index) => {
+        {props.imageFiles.map((file, index) => {
           const url = file.img instanceof File ? URL.createObjectURL(new Blob([file.img])) : null;
-          return <ItemWrapper key={index}>
-            <ItemImage src={url} />
-            <ItemRemoveButton onClick={() => handlePlaceRemoveFile(index)}>
-              <ItemRemoveSvg icon={faXmark}></ItemRemoveSvg>
-            </ItemRemoveButton>
-          </ItemWrapper>;
+          if(file.placeId === props.location.placeId)
+            return <ItemWrapper key={index}>
+              <ItemImage src={url} />
+              <ItemRemoveButton onClick={() => props.handleRemoveFile(index)}>
+                <ItemRemoveSvg icon={faXmark}></ItemRemoveSvg>
+              </ItemRemoveButton>
+            </ItemWrapper>;
         })}
         <ImagePlusButton>
           <ImagePlusInput type="file" onChange={handleFileChange} />
