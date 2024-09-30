@@ -10,13 +10,10 @@ import { GetAxiosInstance } from '../../axios/AxiosMethod.js';
 
 
 const MobilePostMake = () => {
-  // TODO :: Trip, TripDate, Place 정보 받아오기
-  // TODO :: 해당 data를 바탕으로 구글 맵 띄우기
-  // TODO :: 밑에 trip domain data들에 대해 정보 띄우기(Component화)
   const { tripId } = useParams();
 
   const [maxPlanDay, setMaxPlanDay] = useState(0)
-  const [locationList, setLocationList] = useState([]); // TODO :: 여기에 값 추가
+  const [locationList, setLocationList] = useState([]);
   const [selectedPlanDay, setSelectedPlanDay] = useState(0);
   const [isReArrange, setIsReArrange] = useState(false);
   const [tripInfo, setTripInfo] = useState({});

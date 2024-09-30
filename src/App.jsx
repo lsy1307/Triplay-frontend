@@ -67,7 +67,7 @@ function App() {
           <Route path="/clip" element={<MobileClip />} />
           <Route path="/clip/:clipId" element={<MobileClipDetail />} />
           <Route path="/trip/:tripId/post" element={<MobilePostMake />} />
-          <Route path="/trip/:tripId/clip" element={<MobileClipMake />} />
+          <Route path="/post/:postId/clip" element={<MobileClipMake />} />
         </>
       ) : (
         <>
