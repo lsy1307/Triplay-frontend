@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  useLocation,
-  useNavigate,
-} from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 import MobileLogin from './pages/Mobile/MobileLogin';
@@ -39,7 +33,6 @@ function App() {
   const isMobile = useSelector((state) => state.auth.isMobile);
   const dispatch = useDispatch();
   const location = useLocation();
-  const navigate = useNavigate();
   useEffect(() => {
     const mobileCheck = /Mobi|Android/i.test(navigator.userAgent);
     dispatch(setIsMobile(mobileCheck));
@@ -47,12 +40,10 @@ function App() {
       const port = window.location.port ? `:${window.location.port}` : '';
       const queryParams = window.location.search;
       const newUrl = `https://m.${window.location.hostname}${port}${location.pathname}${queryParams}`;
-      navigate(newUrl);
+      console.log(newUrl);
+      window.location.href = newUrl;
     }
   }, [location, dispatch]);
-  useEffect(() => {
-    if (location.pathname === '/') navigate('/login');
-  }, []);
   return (
     <Routes>
       {isMobile ? (
