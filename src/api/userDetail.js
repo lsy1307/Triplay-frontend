@@ -5,11 +5,7 @@ import defaultProfileImage from '../assets/images/default-profile-image.png';
 export const fetchUserId = async () => {
   try {
     const token = localStorage.getItem('token');
-    const response = await GetAxiosInstance('/', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await GetAxiosInstance('/');
     return response.data.userId;
   } catch (error) {
     console.error('Error fetching user ID:', error);
