@@ -28,6 +28,7 @@ const Posts = () => {
                         ...post,
                         userDetails,
                         tripDetails,
+                        fileDetails,
                         thumbnailUrl,
                     };
                 }));
