@@ -6,7 +6,7 @@ export const getIconWho = (tripParty) => {
             return "../src/assets/images/icons/party/friends.png";
         case '연인과':
             return "../src/assets/images/icons/party/couple.png";
-        case '나혼자':
+        case '혼자':
             return "../src/assets/images/icons/party/solo.png";
         default:
             return null;

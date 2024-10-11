@@ -3,9 +3,6 @@ import styled from 'styled-components';
 import Header from '../../layout/Header';
 import { useNavigate } from 'react-router-dom';
 import { fetchPosts } from '../../api/allposts';
-import { fetchUserDetail } from '../../api/userDetail';
-import { fetchTripDetails } from '../../api/tripDetail';
-import { fetchFileDetails } from '../../api/fileDetail';
 import { getIconWho } from '../../components/iconUtils';
 
 const Posts = () => {
@@ -18,16 +15,11 @@ const Posts = () => {
                 const fetchedPosts = await fetchPosts();
 
                 const postsWithDetails = await Promise.all(fetchedPosts.map(async (post) => {
-                    const userDetails = await fetchUserDetail(post.userId);  // 사용자 정보와 프로필 사진 가져오기
-                    const tripDetails = await fetchTripDetails(post.tripId);
-                    const fileDetails = await fetchFileDetails(post.postId);
 
                     const thumbnailUrl = post.imageUrls.length > 0 ? post.imageUrls[0] : null;
 
                     return {
                         ...post,
-                        userDetails,
-                        tripDetails,
                         thumbnailUrl,
                     };
                 }));
@@ -55,7 +47,7 @@ const Posts = () => {
                 </SearchBarContainer>
                 <PostGrid>
                     {posts.map((post, index) => (
-                        <PostCard key={index} onClick={() => handleCardClick(post.id)}>
+                        <PostCard key={index} onClick={() => handleCardClick(post.postId)}>
                             <img src={post.thumbnailUrl} alt={`Post ${index + 1}`} />
                             <TextOverlay>
                                 <div className="top-row">
@@ -63,8 +55,8 @@ const Posts = () => {
                                 </div>
                                 <div className="bottom-row">
                                     <div className="profile-info">
-                                        <img src={post.userDetails?.profilePicUrl} alt="Profile" /> {/* 프로필 사진 */}
-                                        <p>{post.userDetails?.userName}님의 <br/>
+                                        <img src={post.profileImageUrl} alt="Profile" />
+                                        <p>{post.userName}님의 <br/>
                                         {post.postTitle}</p>
                                     </div>
                                     <div className="icons">
