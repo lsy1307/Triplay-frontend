@@ -15,11 +15,9 @@ export const fetchUserId = async () => {
 // 유저 세부 정보를 가져오는 함수
 export const fetchUserDetail = async (userId) => {
   try {
-
     if (!userId) {
       userId = await fetchUserId();
     }
-
     // 유저 정보 가져오기
     const userResponse = await GetAxiosInstance(`/user/${userId}`);
 
