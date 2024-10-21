@@ -16,11 +16,8 @@ const Posts = () => {
 
                 const postsWithDetails = await Promise.all(fetchedPosts.map(async (post) => {
 
-                    const thumbnailUrl = post.imageUrls.length > 0 ? post.imageUrls[0] : null;
-
                     return {
-                        ...post,
-                        thumbnailUrl,
+                        ...post
                     };
                 }));
 
@@ -48,10 +45,10 @@ const Posts = () => {
                 <PostGrid>
                     {posts.map((post, index) => (
                         <PostCard key={index} onClick={() => handleCardClick(post.postId)}>
-                            <img src={post.thumbnailUrl} alt={`Post ${index + 1}`} />
+                            <img src={post.thumbnailImageUrl} alt={`Post ${index + 1}`} />
                             <TextOverlay>
                                 <div className="top-row">
-                                    <p>{post.tripDetails?.tripStartDate} ~ {post.tripDetails?.tripEndDate}</p>
+                                    <p>{post.tripStartDate} ~ {post.tripEndDate}</p>
                                 </div>
                                 <div className="bottom-row">
                                     <div className="profile-info">
@@ -60,7 +57,7 @@ const Posts = () => {
                                         {post.postTitle}</p>
                                     </div>
                                     <div className="icons">
-                                        <img src={getIconWho(post.tripDetails?.tripParty)} alt="누구와" />
+                                        <img src={getIconWho(post.tripParty)} alt="누구와" />
                                     </div>
                                 </div>
                             </TextOverlay>
