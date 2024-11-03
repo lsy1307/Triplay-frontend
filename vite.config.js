@@ -15,5 +15,5 @@ export default defineConfig({
     },
   },
   plugins: [react(), svgr()],
-  base: '/Triplay-frontend/',
+  base: '/',
 });
