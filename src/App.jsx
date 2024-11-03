@@ -31,9 +31,11 @@ import AdminManageClip from './pages/Admin/AdminManageClip';
 import AdminManagePost from './pages/Admin/AdminManagePost';
 import AdminManageNotice from './pages/Admin/AdminManageNotice';
 import AdminManageTrip from './pages/Admin/AdminManageTrip';
+import AdminManageUser from './pages/Admin/AdminManageUser.jsx';
 import { setIsMobile } from './redux/auth/AuthActions.js';
 import MobileClipMake from './pages/Plan/MobileClipMake.jsx';
 import MobilePostMake from './pages/Plan/MobilePostMake.jsx';
+import AdminRoute from './components/admin/AdminRoute.jsx'
 
 function App() {
   const isMobile = useSelector((state) => state.auth.isMobile);
@@ -51,7 +53,7 @@ function App() {
     }
   }, [location, dispatch]);
   useEffect(() => {
-    navigate('/login');
+    // navigate('/login'); // 주석 처리하지 않으면 '관리자 로그인' 엔드포인트(`/admin/login`)에 접속할 수 없어요...
     console.log('왜 안됨?');
   }, []);
   return (
@@ -81,12 +83,13 @@ function App() {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/mypage/modify" element={<MyPageModify />} />
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/home" element={<Admin />} />
-          <Route path="/admin/manage" element={<AdminManage />} />
-          <Route path="/admin/manage/clip" element={<AdminManageClip />} />
-          <Route path="/admin/manage/post" element={<AdminManagePost />} />
-          <Route path="/admin/manage/notice" element={<AdminManageNotice />} />
-          <Route path="/manage/trip" element={<AdminManageTrip />} />
+          <Route path="/admin/home" element={<AdminRoute><Admin /></AdminRoute>} />
+          <Route path="/admin/manage" element={<AdminRoute><AdminManage /></AdminRoute>} />
+          <Route path="/admin/manage/clip" element={<AdminRoute><AdminManageClip /></AdminRoute>} />
+          <Route path="/admin/manage/post" element={<AdminRoute><AdminManagePost /></AdminRoute>} />
+          <Route path="/admin/manage/notice" element={<AdminRoute><AdminManageNotice /></AdminRoute>} />
+          <Route path="/admin/manage/user" element={<AdminRoute><AdminManageUser /></AdminRoute>} />
+          <Route path="/manage/trip" element={<AdminRoute><AdminManageTrip /></AdminRoute>} />
         </>
       )}
     </Routes>
