@@ -4,12 +4,14 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import MobileHeader from '../../layout/MobileHeader.jsx';
 import LoadingComponent from '../../components/clipMakePage/upperContainer/LoadingComponent.jsx';
+import ClipPreviewComponent from '../../components/clipMakePage/upperContainer/ClipPreviewComponent.jsx';
 
 const MobileClipMake = () => {
 
   const { postId } = useParams();
   const [ images, setIamges ] = useState([])
   const [ isLoading, setIsLoading ] = useState(true)
+  const [ videoUrl, setVideoUrl ] = useState('')
 
   const changeImages = (newImages) => {
     setIamges(prevState => [...prevState, newImages])
@@ -20,20 +22,22 @@ const MobileClipMake = () => {
   }
 
   const getPostImages = async () => {
-    const response = await GetAxiosInstance(`https://localhost:8443/file/image/${postId}`, {
+    const response = await GetAxiosInstance(`https://localhost:8443/file/image/blob/${postId}`, {
       // TODO :: Post Image Get EndPoint 수정
       headers: { 'Content-Type': 'application/json' },
     });
-    return response;
+    changeImages(response.data)
   };
 
-  useEffect(async () => {
-    const response = await getPostImages();
-    changeImages(response.data)
+  useEffect(() => {
+    getPostImages()
   }, []);
 
   useEffect(() => {
-    console.log(images)
+    if(images.length > 0) {
+      changeIsLoading();
+
+    }
   }, [images])
 
   return  <>
@@ -46,8 +50,11 @@ const MobileClipMake = () => {
           isLoading={isLoading}
           changeIsLoading={changeIsLoading}
         /> :
-        <>
-        </>
+        <ClipPreviewComponent
+          images={images}
+          videoUrl={videoUrl}
+          setVideoUrl={setVideoUrl}
+        />
       }
     </TotalContainer>
   </>
