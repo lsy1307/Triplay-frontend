@@ -5,6 +5,7 @@ import {
   Route,
   useLocation,
   useNavigate,
+  Navigate,
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
@@ -31,11 +32,10 @@ import AdminManageClip from './pages/Admin/AdminManageClip';
 import AdminManagePost from './pages/Admin/AdminManagePost';
 import AdminManageNotice from './pages/Admin/AdminManageNotice';
 import AdminManageTrip from './pages/Admin/AdminManageTrip';
-import AdminManageUser from './pages/Admin/AdminManageUser.jsx';
 import { setIsMobile } from './redux/auth/AuthActions.js';
 import MobileClipMake from './pages/Plan/MobileClipMake.jsx';
 import MobilePostMake from './pages/Plan/MobilePostMake.jsx';
-import AdminRoute from './components/admin/AdminRoute.jsx'
+import AdminRoute from './components/admin/AdminRoute.jsx';
 
 function App() {
   const isMobile = useSelector((state) => state.auth.isMobile);
@@ -72,25 +72,67 @@ function App() {
           <Route path="/post/:postId/clip" element={<MobileClipMake />} />
         </>
       ) : (
-        <>
-          <Route path="/login" element={<Login />} />
-          <Route path="/callback" element={<CallBack />} />
-          <Route path="/main" element={<Main />} />
-          <Route path="/plan" element={<Plan />} />
-          <Route path="/plan/:planId" element={<PlanDetail />} />
-          <Route path="/post" element={<Post />} />
-          <Route path="/post/:postId" element={<PostDetail />} />
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/mypage/modify" element={<MyPageModify />} />
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/home" element={<AdminRoute><Admin /></AdminRoute>} />
-          <Route path="/admin/manage" element={<AdminRoute><AdminManage /></AdminRoute>} />
-          <Route path="/admin/manage/clip" element={<AdminRoute><AdminManageClip /></AdminRoute>} />
-          <Route path="/admin/manage/post" element={<AdminRoute><AdminManagePost /></AdminRoute>} />
-          <Route path="/admin/manage/notice" element={<AdminRoute><AdminManageNotice /></AdminRoute>} />
-          <Route path="/admin/manage/user" element={<AdminRoute><AdminManageUser /></AdminRoute>} />
-          <Route path="/manage/trip" element={<AdminRoute><AdminManageTrip /></AdminRoute>} />
-        </>
+        <Route path="/">
+          <Route index element={<Navigate to="/main" />} />
+          <Route path="login" element={<Login />} />
+          <Route path="callback" element={<CallBack />} />
+          <Route path="main" element={<Main />} />
+          <Route path="plan" element={<Plan />} />
+          <Route path="plan/:planId" element={<PlanDetail />} />
+          <Route path="post" element={<Post />} />
+          <Route path="post/:postId" element={<PostDetail />} />
+          <Route path="mypage" element={<MyPage />} />
+          <Route path="mypage/modify" element={<MyPageModify />} />
+          <Route path="admin/login" element={<AdminLogin />} />
+          <Route
+            path="admin/home"
+            element={
+              <AdminRoute>
+                <Admin />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="admin/manage"
+            element={
+              <AdminRoute>
+                <AdminManage />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="admin/manage/clip"
+            element={
+              <AdminRoute>
+                <AdminManageClip />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="admin/manage/post"
+            element={
+              <AdminRoute>
+                <AdminManagePost />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="admin/manage/notice"
+            element={
+              <AdminRoute>
+                <AdminManageNotice />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="manage/trip"
+            element={
+              <AdminRoute>
+                <AdminManageTrip />
+              </AdminRoute>
+            }
+          />
+        </Route>
       )}
     </Routes>
   );
