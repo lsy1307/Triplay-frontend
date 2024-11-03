@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import PlusButtonSrc from '../../../assets/images/clipStartPage/ImagePlusButton.svg';
-
 
 const UploadReadyContainer = (props) => {
 
@@ -41,13 +39,13 @@ const GridContainer = styled.div`
 
 const GridItem = styled.div`
     position: relative;
-    width: 7em;
-    height: 10em;
+    width: 6em;
+    height: 8.4em;
 `
 
 const GridImage = styled.img`
-    width: 7em;
-    height: 10em;
+    width: 6em;
+    height: 8.4em;
     background-color: #f0f0f0;
     border: 1px solid #ccc;
     text-align: center;

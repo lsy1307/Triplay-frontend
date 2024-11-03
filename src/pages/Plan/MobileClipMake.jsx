@@ -5,12 +5,16 @@ import styled from 'styled-components';
 import MobileHeader from '../../layout/MobileHeader.jsx';
 import LoadingComponent from '../../components/clipMakePage/upperContainer/LoadingComponent.jsx';
 import ClipPreviewComponent from '../../components/clipMakePage/upperContainer/ClipPreviewComponent.jsx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import ClipExtraInfoRegistComponent from '../../components/clipMakePage/upperContainer/ClipExtraInfoRegistComponent.jsx';
 
 const MobileClipMake = () => {
 
-  const { postId } = useParams();
+  const { clipId } = useParams();
   const [ images, setIamges ] = useState([])
   const [ isLoading, setIsLoading ] = useState(true)
+  const [ isReady, setIsReady ] = useState(false)
 
   const changeImages = (newImages) => {
     setIamges(prevState => newImages)
@@ -20,9 +24,13 @@ const MobileClipMake = () => {
     setIsLoading(prev => !prev);
   }
 
+  const changeIsReady = () => {
+    setIsReady(prev => !prev);
+  }
+
   const getPostImages = async () => {
-    const response = await GetAxiosInstance(`https://localhost:8443/file/image/${postId}`, {
-      // TODO :: Post Image Get EndPoint 수정
+    const response = await GetAxiosInstance(`https://localhost:8443/file/image/clip/${clipId}`, {
+      // TODO :: Clip Image Get EndPoint 수정
       headers: { 'Content-Type': 'application/json' },
     });
     changeImages(response.data)
@@ -38,22 +46,32 @@ const MobileClipMake = () => {
     }
   }, [images])
 
-  return  <TotalContainer>
-    <MobileHeader />
-    <InnerContainer>
-      {
-        isLoading ?
-        <LoadingComponent
-          images={images}
-          isLoading={isLoading}
-          changeIsLoading={changeIsLoading}
-        /> :
-        <ClipPreviewComponent
-          images={images}
-        />
-      }
-    </InnerContainer>
-  </TotalContainer>
+  return  <>
+    <TotalContainer>
+      <MobileHeader />
+      <InnerContainer>
+        {
+          isLoading ?
+          <LoadingComponent
+            images={images}
+            isLoading={isLoading}
+            changeIsLoading={changeIsLoading}
+          /> :
+          (
+            isReady ?
+            <ClipExtraInfoRegistComponent
+              clipId={clipId}
+            /> :
+            <ClipPreviewComponent
+              images={images}
+              changeIsReady={changeIsReady}
+            />
+          )
+        }
+      </InnerContainer>
+    </TotalContainer>
+    {(isReady && isReady) && <ReturnButton onClick={changeIsReady}><ReturnIconSvg icon={faArrowLeft}/>Return</ReturnButton>}
+  </>
 }
 
 export default MobileClipMake
@@ -73,4 +91,24 @@ const InnerContainer = styled.div`
   align-items: center;
   justify-content: center;
   overflow: hidden; /* 내부 콘텐츠가 넘치는 경우 숨김 처리 */
+`
+
+const ReturnButton = styled.button`
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
+    border-radius: 0.5rem;
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 5rem;
+    height: 5rem;
+`
+
+const ReturnIconSvg = styled(FontAwesomeIcon)`
+    width: 2rem;
+    height: 2rem;
 `

@@ -19,6 +19,7 @@ const MobilePostMake = () => {
   const [tripInfo, setTripInfo] = useState({});
   const [imageFiles, setImageFiles] = useState([])
   const [isReady, setIsReady] = useState(false)
+  const [isUploaded, setIsUploaded] = useState(false)
 
   const addToLocationList = (data) => {
     setLocationList(prevList => [...prevList, data]); // 이전 상태를 기반으로 상태 업데이트
@@ -45,6 +46,10 @@ const MobilePostMake = () => {
 
   const handleChangeIsReady = () => {
     setIsReady(prev => !prev);
+  }
+
+  const handleChangeIsUploaded = () => {
+    setIsUploaded(prev => !prev);
   }
 
   const addMaxPlanDay = () => {
@@ -100,8 +105,11 @@ const MobilePostMake = () => {
 
         isReady={isReady}
         handleChangeIsReady={handleChangeIsReady}
+        isUploaded={isUploaded}
+        handleChangeIsUploaded={handleChangeIsUploaded}
         tripInfo={tripInfo}
         imageFiles={imageFiles}
+        setImageFiles={setImageFiles}
         handleRemoveFile={handleRemoveFile}
         handleFileChange={handleFileChange}
       ></UpperContainer>
@@ -121,7 +129,7 @@ const MobilePostMake = () => {
         handleFileChange={handleFileChange}
       ></LowerContainer>
     </TotalContainer>
-    {isReady && <ReturnButton onClick={handleChangeIsReady}><ReturnIconSvg icon={faArrowLeft}/>Return</ReturnButton>}
+    {(isReady && !isUploaded) && <ReturnButton onClick={handleChangeIsReady}><ReturnIconSvg icon={faArrowLeft}/>Return</ReturnButton>}
   </>
 }
 

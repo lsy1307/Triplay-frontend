@@ -5,14 +5,21 @@ import styled from 'styled-components';
 
 const TripTitleContainer = (props) => {
   const navigate = useNavigate();
-  const [postId, setPostId] = useState(0)
 
   useEffect(() => {
   }, []);
 
   const submitPost = async (formData) => {
+    props.handleChangeIsUploaded();
     const response = await PostAxiosInstance('https://localhost:8443/post', formData, {
       // TODO :: Post Regist EndPoint 수정
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return response;
+  };
+
+  const submitClip = async (formData) => {
+    const response = await PostAxiosInstance('https://localhost:8443/clip', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
     return response;
@@ -34,7 +41,6 @@ const TripTitleContainer = (props) => {
     // 모든 파일을 동일한 이름 'files'로 추가
     props.imageFiles.forEach((image) => {
       postFormData.append("files", image.img); // 파일을 동일한 필드명으로 추가
-      console.log(image.img);
     });
 
     const postResponse = await submitPost(postFormData)
@@ -44,9 +50,22 @@ const TripTitleContainer = (props) => {
     } else console.log("post 추가 오류")
   };
 
-  const moveToMakeClip = () => {
-    navigate(`/trip/${props.tripId}/clip`); // planId로 URL 변경
-  };
+  const generateClip = async () => {
+    const clipFormData = new FormData();
+
+    // TODO:: formData 일치화
+    props.imageFiles.forEach((image) => {
+      clipFormData.append("files", image.img); // 파일을 동일한 필드명으로 추가
+      console.log(image.img);
+    });
+
+    const clipResponse = await submitClip(clipFormData)
+
+    if(clipResponse.status === 200) {
+      alert("clip 이미지 업로드 완료")
+      navigate(`/clip/${clipResponse.data}/config`); // planId로 URL 변경
+    } else console.log("clip 추가 오류")
+  }
 
   return <>
     <TitleContainer>
@@ -61,8 +80,11 @@ const TripTitleContainer = (props) => {
       <ButtonContainer>
         {props.isReady ?
           <>
-            <BlackButton onClick={uploadPost}>Upload</BlackButton>
-            <BlackButton onClick={moveToMakeClip}>Clip</BlackButton>
+            {props.isUploaded ?
+              <BlackButton onClick={generateClip}>Clip Generate</BlackButton>
+            :
+              <BlackButton onClick={uploadPost}>Post Upload</BlackButton>
+            }
           </>
         :
           <>
