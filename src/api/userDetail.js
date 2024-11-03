@@ -1,5 +1,5 @@
 import { GetAxiosInstance } from '../axios/AxiosMethod';
-import defaultProfileImage from '../assets/images/default-profile-image.png';
+import defaultProfileImage from '../../public/assets/images/default-profile-image.png';
 
 // 유저 ID를 가져오는 함수
 export const fetchUserId = async () => {
@@ -23,12 +23,12 @@ export const fetchUserDetail = async (userId) => {
 
     // 프로필 이미지 가져오기
     const profileImageResponse = await GetAxiosInstance(
-      `/file/image/profile/${userId}`
+      `/file/image/profile/${userId}`,
     );
 
     // 기본 이미지가 필요한 경우 처리
     const profilePicUrl =
-      profileImageResponse.data === "default"
+      profileImageResponse.data === 'default'
         ? defaultProfileImage
         : profileImageResponse.data;
 

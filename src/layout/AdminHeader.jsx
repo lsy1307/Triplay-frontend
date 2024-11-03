@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import HeaderLogo from '../assets/svgs/header_logo.svg';
+import HeaderLogo from '../../public/assets/svgs/header_logo.svg';
 
 const AdminHeader = () => {
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ const AdminHeader = () => {
   return (
     <Header>
       <LogoWrapper onClick={handleLogoClick}>
-        <Logo src={HeaderLogo} alt='Header Logo' />
+        <Logo src={HeaderLogo} alt="Header Logo" />
       </LogoWrapper>
       <LoginButton onClick={handleLoginClick}>
         {isLoggedIn ? 'LOGOUT' : 'LOGIN'}
