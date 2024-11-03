@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import AdminHeader from '../../layout/AdminHeader';
-import Branding from '../../../public/assets/svgs/branding.svg';
+import Branding from '../../assets/svgs/branding.svg';
 import axios from 'axios';
 
 // 관리자 로그인 뷰
@@ -32,10 +32,7 @@ const AdminLogin = () => {
       setErrorMessage('비밀번호를 입력해 주세요.');
     } else {
       try {
-        const response = await axios.post(
-          `${import.meta.env.VITE_BASE_URL}/admin/login`,
-          { email, password },
-        );
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/admin/login`, { email, password });
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('refresh', response.data.refresh);
         // 관리자 로그인 상태를 구분하기 위한 추가 플래그
@@ -43,13 +40,11 @@ const AdminLogin = () => {
         navigate('/admin/home');
       } catch (error) {
         console.error('Login error:', error);
-        setErrorMessage(
-          '로그인에 실패했습니다. 아이디와 비밀번호를 확인해 주세요.',
-        );
+        setErrorMessage('로그인에 실패했습니다. 아이디와 비밀번호를 확인해 주세요.');
       }
     }
   };
-
+  
   return (
     <Container>
       <AdminHeader />
@@ -59,22 +54,22 @@ const AdminLogin = () => {
           <LoginForm onSubmit={handleLogin}>
             <InputGroup>
               <InputLabel>아이디</InputLabel>
-              <Input
+              <Input 
                 type="text"
-                placeholder="아이디(이메일)"
+                placeholder='아이디(이메일)'
                 onChange={(e) => setEmail(e.target.value)}
               />
             </InputGroup>
             <InputGroup>
               <InputLabel>비밀번호</InputLabel>
-              <Input
+              <Input 
                 type="password"
-                placeholder="비밀번호"
+                placeholder='비밀번호'
                 onChange={(e) => setPassword(e.target.value)}
               />
               {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
             </InputGroup>
-            <SubmitButton type="submit">로그인</SubmitButton>
+            <SubmitButton type='submit'>로그인</SubmitButton>
           </LoginForm>
         </LeftSection>
         <RightSection>

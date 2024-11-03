@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { ReactComponent as NaverLoginIcon } from '../../../public/assets/svgs/naver_login_icon.svg';
+import { ReactComponent as NaverLoginIcon } from '../../assets/svgs/naver_login_icon.svg';
 import { handleLoginRedirect, generateState } from '../../api/oauth';
 
 const MobileLogin = () => {
