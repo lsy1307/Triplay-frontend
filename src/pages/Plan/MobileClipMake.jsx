@@ -11,10 +11,9 @@ const MobileClipMake = () => {
   const { postId } = useParams();
   const [ images, setIamges ] = useState([])
   const [ isLoading, setIsLoading ] = useState(true)
-  const [ videoUrl, setVideoUrl ] = useState('')
 
   const changeImages = (newImages) => {
-    setIamges(prevState => [...prevState, newImages])
+    setIamges(prevState => newImages)
   }
 
   const changeIsLoading = () => {
@@ -22,7 +21,7 @@ const MobileClipMake = () => {
   }
 
   const getPostImages = async () => {
-    const response = await GetAxiosInstance(`https://localhost:8443/file/image/blob/${postId}`, {
+    const response = await GetAxiosInstance(`https://localhost:8443/file/image/${postId}`, {
       // TODO :: Post Image Get EndPoint 수정
       headers: { 'Content-Type': 'application/json' },
     });
@@ -36,13 +35,12 @@ const MobileClipMake = () => {
   useEffect(() => {
     if(images.length > 0) {
       changeIsLoading();
-
     }
   }, [images])
 
-  return  <>
+  return  <TotalContainer>
     <MobileHeader />
-    <TotalContainer>
+    <InnerContainer>
       {
         isLoading ?
         <LoadingComponent
@@ -52,22 +50,27 @@ const MobileClipMake = () => {
         /> :
         <ClipPreviewComponent
           images={images}
-          videoUrl={videoUrl}
-          setVideoUrl={setVideoUrl}
         />
       }
-    </TotalContainer>
-  </>
+    </InnerContainer>
+  </TotalContainer>
 }
 
 export default MobileClipMake
 
 const TotalContainer = styled.div`
+  height: 100vh; /* 전체 화면을 차지하도록 설정 */
+  display: flex;
+  flex-direction: column;
+  margin: 0; /* 기본 여백 제거 */
+`
+
+const InnerContainer = styled.div`
   width: 100%;
-  height: 100%;
-  flex-grow: 1;
+  flex-grow: 1; /* 남은 공간을 차지 */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow: hidden; /* 내부 콘텐츠가 넘치는 경우 숨김 처리 */
 `

@@ -1,74 +1,80 @@
-import { GetAxiosInstance } from '../../../axios/AxiosMethod';
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
-
-const ffmpeg = createFFmpeg({ log: true });
 
 const ClipPreviewComponent = (props) => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const intervalRef = useRef(null); // 인터벌 ID 저장을 위한 ref
 
-    const [imagesFile, setImagesFile] = useState([])
+    const handleTouch = (event) => {
+        const containerWidth = event.currentTarget.clientWidth;
+        const touchX = event.clientX || event.touches[0].clientX;
 
-    const addImageFile = (newImages) => {
-        const imageArray = Array.from(newImages)
-        setImagesFile(prev => [...prev, ...imageArray])
-    }
-
-    const load = async () => {
-        if (!ffmpeg.isLoaded()) {
-            await ffmpeg.load();
+        // 터치한 위치에 따라 이전 또는 다음 이미지로 이동
+        if (touchX < containerWidth / 2) {
+            // 왼쪽 반쪽 터치
+            console.log(props.images.length);
+            setCurrentIndex((prevIndex) => {
+                const newIndex = prevIndex > 0 ? prevIndex - 1 : props.images.length - 1;
+                console.log(`이전 이미지: ${newIndex}`); // 로그 추가
+                return newIndex;
+            });
+        } else {
+            // 오른쪽 반쪽 터치
+            setCurrentIndex((prevIndex) => {
+                const newIndex = prevIndex < props.images.length - 1 ? prevIndex + 1 : 0;
+                console.log(`다음 이미지: ${newIndex}`); // 로그 추가
+                return newIndex;
+            });
         }
-    };
-    
-    const createVideo = async () => {
-        await load();
-
-        // 슬라이드용 파일 목록 생성
-        for (let i = 0; i < imagesFile.length; i++) {
-            const fileName = `image-${i}.png`;
-            ffmpeg.FS('writeFile', fileName, await fetchFile(imagesFile[i]));
-        }
-
-        await ffmpeg.run(
-            '-framerate', '1', // 초당 1장의 이미지
-            '-i', 'image-%d.png', // 패턴을 통해 이미지들을 불러옴
-            '-c:v', 'libx264',
-            '-pix_fmt', 'yuv420p',
-            '-movflags', 'frag_keyframe+empty_moov',
-            'output.mp4'
-        );
-
-        // 생성된 동영상을 가져와서 미리보기
-        const data = ffmpeg.FS('readFile', 'output.mp4');
-        const videoBlob = new Blob([data.buffer], { type: 'video/mp4' });
-
-        // 기존 Blob URL이 있는 경우 해제
-        if (props.videoUrl) {
-            URL.revokeObjectURL(videoUrl);
-        }
-        
-        const videoUrl = URL.createObjectURL(videoBlob);
-        props.setVideoUrl(videoUrl);
+        resetInterval(); // 터치 시 인터벌 리셋
     };
 
-    return <>
-        <input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={(e) => addImageFile(e.target.files)}
-        />
-        <button onClick={createVideo}>Create Video</button>
-        {props.videoUrl && (
-            <div>
-            <video controls width="500">
-                <source src={props.videoUrl} type="video/mp4" />
-                Your browser does not support the video tag.
-            </video>
-            </div>
-        )}
-    </>
-}
+    // 자동 변경을 위한 함수
+    const startInterval = () => {
+        intervalRef.current = setInterval(() => {
+            setCurrentIndex((prevIndex) => (prevIndex < props.images.length - 1 ? prevIndex + 1 : 0));
+        }, 5000); // 5초마다 변경
+    };
 
-export default ClipPreviewComponent
+    // 인터벌 초기화 함수
+    const resetInterval = () => {
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+        }
+        startInterval(); // 새로운 인터벌 시작
+    };
+
+    // 컴포넌트 마운트 시 인터벌 시작
+    useEffect(() => {
+        resetInterval();
+        return () => clearInterval(intervalRef.current); // 언마운트 시 인터벌 클리어
+    }, [props.images.length]);
+
+    return (
+        <ImageContainer onTouchStart={handleTouch}>
+            {props.images.map((imageUrl, index) => (
+                <ImageWrapper key={index} isVisible={index === currentIndex}>
+                    <img src={imageUrl} alt={`Clip ${index}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </ImageWrapper>
+            ))}
+        </ImageContainer>
+    );
+};
+
+export default ClipPreviewComponent;
+
+const ImageContainer = styled.div`
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    cursor: pointer; /* 포인터 커서 추가 */
+`;
+
+const ImageWrapper = styled.div`
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
+    transition: opacity 0.5s; /* 부드러운 전환 효과 */
+`;

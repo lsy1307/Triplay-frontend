@@ -50,10 +50,10 @@ function App() {
       window.location.href = newUrl;
     }
   }, [location, dispatch]);
-  useEffect(() => {
-    navigate('/login');
-    console.log('왜 안됨?');
-  }, []);
+  // useEffect(() => {
+  //   navigate('/login');
+  //   console.log('왜 안됨?');
+  // }, []);
   return (
     <Routes>
       {isMobile ? (
