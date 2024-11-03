@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 const ClipPreviewComponent = (props) => {
+    // props로는 clip에서 보여줄 imageURL을 images라는 배열로 보내야 함
+    
     const [currentIndex, setCurrentIndex] = useState(0);
     const intervalRef = useRef(null); // 인터벌 ID 저장을 위한 ref
 
