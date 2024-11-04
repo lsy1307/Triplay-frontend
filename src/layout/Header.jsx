@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { fetchUserDetail } from '../api/userDetail';
+import MainLogo from '../../src/assets/images/logo.png';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ const Header = () => {
       <HeaderWrapper>
         <Logo>
           <Link to="/main">
-            <img src="../src/assets/images/logo.png" alt="Logo" />
+            <img src={MainLogo} alt="Logo" />
           </Link>
         </Logo>
 
