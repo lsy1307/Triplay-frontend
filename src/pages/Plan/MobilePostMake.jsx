@@ -10,18 +10,16 @@ import { GetAxiosInstance } from '../../axios/AxiosMethod.js';
 
 
 const MobilePostMake = () => {
-  // TODO :: Trip, TripDate, Place 정보 받아오기
-  // TODO :: 해당 data를 바탕으로 구글 맵 띄우기
-  // TODO :: 밑에 trip domain data들에 대해 정보 띄우기(Component화)
   const { tripId } = useParams();
 
   const [maxPlanDay, setMaxPlanDay] = useState(0)
-  const [locationList, setLocationList] = useState([]); // TODO :: 여기에 값 추가
+  const [locationList, setLocationList] = useState([]);
   const [selectedPlanDay, setSelectedPlanDay] = useState(0);
   const [isReArrange, setIsReArrange] = useState(false);
   const [tripInfo, setTripInfo] = useState({});
   const [imageFiles, setImageFiles] = useState([])
   const [isReady, setIsReady] = useState(false)
+  const [isUploaded, setIsUploaded] = useState(false)
 
   const addToLocationList = (data) => {
     setLocationList(prevList => [...prevList, data]); // 이전 상태를 기반으로 상태 업데이트
@@ -48,6 +46,10 @@ const MobilePostMake = () => {
 
   const handleChangeIsReady = () => {
     setIsReady(prev => !prev);
+  }
+
+  const handleChangeIsUploaded = () => {
+    setIsUploaded(prev => !prev);
   }
 
   const addMaxPlanDay = () => {
@@ -103,8 +105,11 @@ const MobilePostMake = () => {
 
         isReady={isReady}
         handleChangeIsReady={handleChangeIsReady}
+        isUploaded={isUploaded}
+        handleChangeIsUploaded={handleChangeIsUploaded}
         tripInfo={tripInfo}
         imageFiles={imageFiles}
+        setImageFiles={setImageFiles}
         handleRemoveFile={handleRemoveFile}
         handleFileChange={handleFileChange}
       ></UpperContainer>
@@ -124,7 +129,7 @@ const MobilePostMake = () => {
         handleFileChange={handleFileChange}
       ></LowerContainer>
     </TotalContainer>
-    {isReady && <ReturnButton onClick={handleChangeIsReady}><ReturnIconSvg icon={faArrowLeft}/>Return</ReturnButton>}
+    {(isReady && !isUploaded) && <ReturnButton onClick={handleChangeIsReady}><ReturnIconSvg icon={faArrowLeft}/>Return</ReturnButton>}
   </>
 }
 
