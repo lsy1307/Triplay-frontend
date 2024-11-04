@@ -37,6 +37,7 @@ const generateDaysObject = (startDate, endDate, places) => {
     places.forEach((place) => {
         const visitDate = new Date(startDate);
         visitDate.setDate(visitDate.getDate() + (place.planDay - 1));
+        console.log(visitDate);
         const formattedVisitDate = format(visitDate, 'yyyy-MM-dd');
 
         if (days[formattedVisitDate]) {
