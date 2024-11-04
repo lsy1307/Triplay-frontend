@@ -8,11 +8,15 @@ const MapContainer = ({ isLoaded, places }) => {
             {isLoaded ? (
                 <GoogleMap
                     mapContainerStyle={{ height: '100%', width: '100%' }}
-                    center={places[0].location}
+                    center={{ lat: places[0].lat, lng: places[0].lng }}
                     zoom={10}
                 >
                     {places.map((place, index) => (
-                        <Marker key={index} position={place.location} label={(index + 1).toString()} />
+                        <Marker 
+                            key={index} 
+                            position={{ lat: place.lat, lng: place.lng }}
+                            label={(index + 1).toString()} 
+                        />
                     ))}
                 </GoogleMap>
             ) : (
@@ -21,6 +25,7 @@ const MapContainer = ({ isLoaded, places }) => {
         </MapWrapper>
     );
 };
+
 
 export default MapContainer;
 

@@ -7,12 +7,12 @@ const TripInfo = ({ post, startDate, endDate, isFollowing, toggleFollowing }) =>
     return (
         <InfoWrapper>
             <InfoContainer>
-                <WhoWith>{post.with}</WhoWith>
+                <WhoWith>{post.tripParty}</WhoWith>
                 <Dates>{`${startDate} ~ ${endDate}`}</Dates>
             </InfoContainer>
             <Profile>
                 <Link to={`/profile/${post.userId}`}>
-                    <img src={post.profilePic} alt="Profile" />
+                    <img src={post.profileImageUrl} alt="Profile" />
                 </Link>
                 <FollowButton isFollowing={isFollowing} toggleFollowing={toggleFollowing} />
             </Profile>
