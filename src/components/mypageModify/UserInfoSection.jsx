@@ -52,7 +52,6 @@ const UserInfoSection = () => {
   const handleDelete = async () => {
     try {
       await deleteProfileImage();
-      setUserInfo((prev) => ({ ...prev, profilePicUrl: '' }));
       console.log('Profile image deleted successfully');
     } catch (error) {
       console.error('Error deleting profile image:', error);
@@ -146,6 +145,7 @@ const ProfileImage = styled.div`
   margin: 0 auto;
   border-radius: 50%;
   overflow: hidden;
+   object-fit: cover;
   background-color: #888;
 
   img {
