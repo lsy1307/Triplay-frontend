@@ -55,6 +55,7 @@ function App() {
   useEffect(() => {
     // navigate('/login'); // 주석 처리하지 않으면 '관리자 로그인' 엔드포인트(`/admin/login`)에 접속할 수 없어요...
     console.log('왜 안됨?');
+    console.log("뭘 왜 안돼야 십수연아");
   }, []);
   return (
     <Routes>
