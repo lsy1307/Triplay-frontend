@@ -34,10 +34,6 @@ const MyMap = (props) => {
       if (props.selectedLat !== -1) setLat(props.selectedLat);
       if (props.selectedLng !== -1) setLng(props.selectedLng);
       setLines([]);
-<<<<<<< Updated upstream
-      console.log(props.markers);
-=======
->>>>>>> Stashed changes
     }
   },[props.markers, props.selectedLat, props.selectedLng]);
 
