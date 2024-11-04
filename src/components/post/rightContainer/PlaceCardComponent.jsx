@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import ReportModal from './ReportModal';
 
-const PlaceCardComponent = ({ place }) => {
+const PlaceCardComponent = ({ place, files }) => {
     const [showReportModal, setShowReportModal] = useState(false);
 
     const openReportModal = () => {
@@ -13,15 +13,20 @@ const PlaceCardComponent = ({ place }) => {
         setShowReportModal(false);
     };
 
+    const placeImages = files
+        .filter(file => file.postPlaceId === place.id)
+        .sort((a, b) => a.postImageOrder - b.postImageOrder);
+
     return (
         <PlaceCard>
             <PlaceHeader>
-                <h4>{place.name}</h4>
+                <h4>{place.locationName}</h4>
+                <p>{place.address || '주소를 찾을 수 없습니다.'}</p>
                 <OptionsButton onClick={openReportModal}>•••</OptionsButton>
             </PlaceHeader>
             <Images>
-                {place.images.map((image, imgIndex) => (
-                    <img src={image} alt={`Place ${imgIndex}`} key={imgIndex} />
+                {placeImages.map((file, idx) => (
+                    <img src={file.fileUrl} alt={`Place ${idx}`} key={idx} />
                 ))}
             </Images>
 

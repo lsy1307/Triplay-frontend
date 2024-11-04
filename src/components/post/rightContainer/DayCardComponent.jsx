@@ -3,23 +3,25 @@ import styled from 'styled-components';
 import ToggleButton from './ToggleButton';
 import PlaceCardComponent from './PlaceCardComponent';
 
-const DayCardComponent = ({ day, dayIndex, places }) => {
+const DayCardComponent = ({ day, dayIndex, places, files }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleOpen = () => {
         setIsOpen(!isOpen);
     };
 
+    const placesForThisDay = places.filter((place) => place.planDay === dayIndex);
+
     return (
         <DayCard>
             <DayHeader>
-                <h2>{`Day ${dayIndex} (${day})`}</h2>
+                <h2>{`${dayIndex}일차 (${day})`}</h2>
                 <ToggleButton isOpen={isOpen} onClick={toggleOpen} />
             </DayHeader>
             {isOpen && (
                 <PlacesContainer>
-                    {places.map((place, placeIndex) => (
-                        <PlaceCardComponent key={placeIndex} place={place} />
+                    {placesForThisDay.map((place, idx) => (
+                        <PlaceCardComponent key={idx} place={place} files={files} />
                     ))}
                 </PlacesContainer>
             )}
