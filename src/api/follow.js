@@ -4,10 +4,10 @@ import {
   DeleteAxiosInstance,
 } from '../axios/AxiosMethod';
 
-export const checkIfFollowing = async (toUserId, fromUserId) => {
+export const checkIfFollowing = async (fromUserId) => {
   try {
     const response = await GetAxiosInstance(
-      `/follow/${post.userId}/${post.currentUserId}`,
+      `/follow/is-following/${fromUserId}`,
     );
     return response.data;
   } catch (error) {
@@ -15,10 +15,10 @@ export const checkIfFollowing = async (toUserId, fromUserId) => {
   }
 };
 
-export const followUser = async (toUserId, fromUserId) => {
+export const followUser = async (fromUserId) => {
   try {
     const response = await PostAxiosInstance(
-      `/follow/${post.userId}/${post.currentUserId}`,
+      `/follow/${fromUserId}`,
     );
     return response.data;
   } catch (error) {
@@ -26,10 +26,10 @@ export const followUser = async (toUserId, fromUserId) => {
   }
 };
 
-export const unfollowUser = async (toUserId, fromUserId) => {
+export const unfollowUser = async (fromUserId) => {
   try {
     const response = await DeleteAxiosInstance(
-      `/follow/${post.userId}/${post.currentUserId}`,
+      `/follow/${fromUserId}`,
     );
     return response.data;
   } catch (error) {
