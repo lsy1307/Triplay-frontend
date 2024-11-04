@@ -59,7 +59,9 @@ const Header = () => {
               <li>
                 {userInfo ? (
                   <>
-                    <LoginButton onClick={handleLogoutClick}>로그아웃</LoginButton>
+                    <LoginButton onClick={handleLogoutClick}>
+                      로그아웃
+                    </LoginButton>
                   </>
                 ) : (
                   <LoginButton onClick={handleLoginClick}>로그인</LoginButton>
@@ -71,7 +73,9 @@ const Header = () => {
             <ProfileContainer>
               <img src={userInfo.profilePicUrl} alt="Profile" />
               <span>{userInfo.userName}</span>
-              <ModifyButton onClick={handleModifyClick}>내 정보 수정</ModifyButton>
+              <ModifyButton onClick={handleModifyClick}>
+                내 정보 수정
+              </ModifyButton>
             </ProfileContainer>
           )}
         </MenuAndProfile>
