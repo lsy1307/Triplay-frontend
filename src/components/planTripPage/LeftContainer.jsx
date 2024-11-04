@@ -23,10 +23,7 @@ const LeftContainer = (props) => {
       (location) => location.planDay === props.selectedPlanDay,
     );
     if (
-      newMarkers.length <= 0 &&
-      coordinates.lat === -1 &&
-      coordinates.lng === -1
-    ) {
+      newMarkers.length <= 0 && coordinates.lat === -1 && coordinates.lng === -1) {
       setIsMapOn(false);
     } else {
       setMarkers(newMarkers);
