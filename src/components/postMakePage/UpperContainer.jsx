@@ -3,6 +3,7 @@ import Map from '../map/MyMap.jsx';
 import styled from 'styled-components';
 import TripTitleContainer from './titleContainer/TripTitleContainer.jsx';
 import UploadReadyContainer from './upperContainer/UploadReadyContainer.jsx';
+import ClipImageUploadComponent from '../clipMakePage/upperContainer/ClipImageUploadComponent.jsx';
 
 
 const UpperContainer = (props) => {
@@ -23,35 +24,46 @@ const UpperContainer = (props) => {
     }
   }, [props.locationList, props.selectedPlanDay, props.isReArrange]);
 
-  return <>
-    <TripTitleContainer
-      tripInfo={props.tripInfo}
-      imageFiles={props.imageFiles}
-      isReady={props.isReady}
-      handleChangeIsReady={props.handleChangeIsReady}
-    />
-    { props.isReady ?
-      <UploadReadyContainer
+  return (
+    <>
+      <TripTitleContainer
+        tripInfo={props.tripInfo}
         imageFiles={props.imageFiles}
-        handleRemoveFile={props.handleRemoveFile}
-        handleFileChange={props.handleFileChange}
+        isReady={props.isReady}
+        handleChangeIsReady={props.handleChangeIsReady}
+        isUploaded={props.isUploaded}
+        handleChangeIsUploaded={props.handleChangeIsUploaded}
       />
-    :
-      <MapContainer>
-        <MapWrapper>
-          <Map
-            selectedLat={coordinates.lat}
-            selectedLng={coordinates.lng}
-            locationList={props.locationList}
-            markers={markers}
-            isReArrange={props.isReArrange}
-            setIsReArrange={props.setIsReArrange}
-            selectedPlanDay={props.selectedPlanDay}
+      {props.isReady ? (
+        props.isUploaded ? (
+          <ClipImageUploadComponent 
+            imageFiles={props.imageFiles}
+            setImageFiles={props.setImageFiles}
+            handleRemoveFile={props.handleRemoveFile}
+            handleFileChange={props.handleFileChange}
           />
-        </MapWrapper>
-      </MapContainer>
-    }
-  </>
+        ) : (
+          <UploadReadyContainer
+            imageFiles={props.imageFiles}
+          />
+        )
+      ) : (
+        <MapContainer>
+          <MapWrapper>
+            <Map
+              selectedLat={coordinates.lat}
+              selectedLng={coordinates.lng}
+              locationList={props.locationList}
+              markers={markers}
+              isReArrange={props.isReArrange}
+              setIsReArrange={props.setIsReArrange}
+              selectedPlanDay={props.selectedPlanDay}
+            />
+          </MapWrapper>
+        </MapContainer>
+      )}
+    </>
+  );
 }
 
 const MapContainer = styled.div`
