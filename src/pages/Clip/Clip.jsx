@@ -2,37 +2,50 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Header from '../../layout/Header';
 import { useNavigate } from 'react-router-dom';
-import { fetchPosts } from '../../api/allposts';
-import { getIconWho } from '../../components/iconUtils';
+import { GetAxiosInstance } from '../../axios/AxiosMethod';
 
-const Posts = () => {
+const Clip = () => {
     const navigate = useNavigate();
-    const [posts, setPosts] = useState([]);
+    const [clips, setClips] = useState([]);
+
+    const changeClips = (newClips) => {
+        setClips(prevState => newClips)
+    }
+
+    const getThumbNail = async (clipId) => {
+        const response = await GetAxiosInstance(`https://localhost:8443/file/image/clip/thumbnail/${clipId}`, {
+            // TODO :: Clip Image Get EndPoint 수정
+            headers: { 'Content-Type': 'application/json' },
+        });
+        return response.data
+    }
+
+    const getClips = async () => {
+        const response = await GetAxiosInstance(`https://localhost:8443/clip`, {
+            // TODO :: Clip Image Get EndPoint 수정
+            headers: { 'Content-Type': 'application/json' },
+        });
+        let clips = response.data;
+        for(var i = 0; i < clips.length; i++) {
+            let clipFileUrl = await getThumbNail(clips[i].clipId)
+            clips[i].clipFileUrl = clipFileUrl
+        }
+
+        changeClips(clips)
+    };
+
+    const handleCardClick = (clipId) => {
+        navigate(`/clip/${clipId}`);
+    };
 
     useEffect(() => {
-        const getPosts = async () => {
-            try {
-                const fetchedPosts = await fetchPosts();
+        getClips();
+    }, [])
 
-                const postsWithDetails = await Promise.all(fetchedPosts.map(async (post) => {
-
-                    return {
-                        ...post
-                    };
-                }));
-
-                setPosts(postsWithDetails);
-            } catch (error) {
-                console.error("Error loading posts: ", error);
-            }
-        };
-
-        getPosts();
-    }, []);
-
-    const handleCardClick = (postId) => {
-        navigate(`/post/${postId}`);
-    };
+    useEffect(() => {
+        console.log(clips)
+    }, [clips.length])
+    
 
     return (
         <div>
@@ -42,34 +55,29 @@ const Posts = () => {
                     <input type="text" placeholder="떠나고 싶은 장소를 찾아보세요!" />
                     <button>검색</button>
                 </SearchBarContainer>
-                <PostGrid>
-                    {posts.map((post, index) => (
-                        <PostCard key={index} onClick={() => handleCardClick(post.postId)}>
-                            <img src={post.thumbnailImageUrl} alt={`Post ${index + 1}`} />
+                <ClipGrid>
+                    {clips.map((clip, index) => (
+                        <ClipCard key={index} onClick={() => handleCardClick(clip.clipId)}>
+                            <img src={clip.clipFileUrl} alt={`clip ${index + 1}`} />
                             <TextOverlay>
                                 <div className="top-row">
-                                    <p>{post.tripStartDate} ~ {post.tripEndDate}</p>
+                                    <p>업로드 시간 : {clip.uploadDatetime.split('T')[0]}</p>
                                 </div>
                                 <div className="bottom-row">
                                     <div className="profile-info">
-                                        <img src={post.profileImageUrl} alt="Profile" />
-                                        <p>{post.userName}님의 <br/>
-                                        {post.postTitle}</p>
-                                    </div>
-                                    <div className="icons">
-                                        <img src={getIconWho(post.tripParty)} alt="누구와" />
+                                        <p>{clip.clipTitle}</p>
                                     </div>
                                 </div>
                             </TextOverlay>
-                        </PostCard>
+                        </ClipCard>
                     ))}
-                </PostGrid>
+                </ClipGrid>
             </Container>
         </div>
     );
 }
 
-export default Posts;
+export default Clip;
 
 const Container = styled.div`
     display: flex;
@@ -107,7 +115,7 @@ const SearchBarContainer = styled.div`
     }
 `;
 
-const PostGrid = styled.div`
+const ClipGrid = styled.div`
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
     gap: 20px;
@@ -154,6 +162,11 @@ const TextOverlay = styled.div`
                 height: 40px;
                 margin-right: 12px;
             }
+
+            p {
+                font-size: x-large;
+                font-weight: bolder;
+            }
         }
 
         .icons {
@@ -178,7 +191,7 @@ const TextOverlay = styled.div`
     }
 `;
 
-const PostCard = styled.button`
+const ClipCard = styled.button`
     position: relative;
     overflow: hidden;
     border-radius: 10px;

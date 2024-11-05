@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { fetchUserDetail } from '../api/userDetail';
-import logo from '/src/assets/images/logo.png';
+import MainLogo from '../../src/assets/images/logo.png';
+
 const Header = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
@@ -39,7 +40,7 @@ const Header = () => {
       <HeaderWrapper>
         <Logo>
           <Link to="/main">
-            <img src={logo} alt="Logo" />
+            <img src={MainLogo} alt="Logo" />
           </Link>
         </Logo>
 
@@ -50,7 +51,10 @@ const Header = () => {
                 <Link to="/plan">준비하기</Link>
               </li>
               <li>
-                <Link to="/post">둘러보기</Link>
+                <Link to="/post">포스트 둘러보기</Link>
+              </li>
+              <li>
+                <Link to="/clip">클립 둘러보기</Link>
               </li>
               <li>
                 <Link to="/post">지난여행</Link>

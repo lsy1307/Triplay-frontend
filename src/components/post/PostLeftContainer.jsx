@@ -4,16 +4,19 @@ import TripTitle from './leftContainer/TripTitle';
 import MapContainer from './leftContainer/MapContainer';
 import TripInfo from './leftContainer/TripInfo';
 import { checkIfFollowing, followUser, unfollowUser } from '../../api/follow';
+import CommentSection from '../comment/CommentSection';
 
 const LeftContainer = ({ post, isLoaded }) => {
     const [isFollowing, setIsFollowing] = useState(false);
-    const startDate = post.dates[0];
-    const endDate = post.dates[post.dates.length - 1];
+    const [comments, setComments] = useState([]);
+    const startDate = post.tripStartDate;
+    const endDate = post.tripEndDate;
 
     useEffect(() => {
         const fetchIsFollowing = async () => {
             try {
-                const isFollowing = await checkIfFollowing(post.userId, post.currentUserId);
+                const isFollowing = await checkIfFollowing(post.userId);
+                console.log(isFollowing);
                 setIsFollowing(isFollowing);
             } catch (error) {
                 console.error(error.message);
@@ -26,10 +29,10 @@ const LeftContainer = ({ post, isLoaded }) => {
     const toggleFollowing = async () => {
         try {
             if (isFollowing) {
-                await unfollowUser(post.userId, post.currentUserId);
+                await unfollowUser(post.userId);
                 setIsFollowing(false);
             } else {
-                await followUser(post.userId, post.currentUserId);
+                await followUser(post.userId);
                 setIsFollowing(true);
             }
         } catch (error) {
@@ -37,10 +40,14 @@ const LeftContainer = ({ post, isLoaded }) => {
         }
     };
 
+    const addComment = (comment) => {
+        setComments([...comments, comment]); // Add the new comment to the list
+    };
+
     return (
         <LeftPanel>
             <TripTitle post={post} />
-            <MapContainer isLoaded={isLoaded} places={post.places} />
+            <MapContainer isLoaded={isLoaded} places={post.tripDetails.places} />
             <TripInfo
                 post={post}
                 startDate={startDate}
@@ -48,6 +55,8 @@ const LeftContainer = ({ post, isLoaded }) => {
                 isFollowing={isFollowing}
                 toggleFollowing={toggleFollowing}
             />
+            {/* Add the comment section below TripInfo */}
+            <CommentSection comments={comments} addComment={addComment} />
         </LeftPanel>
     );
 };
