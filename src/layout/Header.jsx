@@ -80,15 +80,6 @@ const Header = () => {
               </li>
             </ul>
           </Menu>
-          {userInfo && ( // userInfo가 있을 때만 ProfileContainer를 렌더링
-            <ProfileContainer>
-              <img src={userInfo.profilePicUrl} alt="Profile" />
-              <span>{userInfo.userName}</span>
-              <ModifyButton onClick={handleModifyClick}>
-                내 정보 수정
-              </ModifyButton>
-            </ProfileContainer>
-          )}
         </MenuAndProfile>
       </HeaderWrapper>
       {userInfo && (
