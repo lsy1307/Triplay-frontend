@@ -2,6 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import Header from '../layout/Header';
 import { useNavigate } from 'react-router-dom';
+import planImg1 from '../assets/images/planTripStartPage/plantrip1.png';
+import planImg2 from '../assets/images/planTripStartPage/plantrip2.png';
+import planImg3 from '../assets/images/planTripStartPage/plantrip3.png';
+import planImg4 from '../assets/images/planTripStartPage/plantrip4.png';
+import planImg5 from '../assets/images/planTripStartPage/plantrip5.png';
 
 const Main = () => {
   const navigate = useNavigate();
@@ -17,10 +22,7 @@ const Main = () => {
         <UpperContainer>
           <UpperLeftContainer>
             <UpperLeftContainerImageWrapper>
-              <PlanTripImg
-                src="src/assets/images/planTripStartPage/plantrip1.png"
-                alt=""
-              />
+              <PlanTripImg src={planImg1} alt="" />
             </UpperLeftContainerImageWrapper>
           </UpperLeftContainer>
           <UpperRightContainer>
@@ -61,22 +63,10 @@ const Main = () => {
           </DownLeftContainer>
           <DownRightContainer>
             <DownRightImagesWrapper>
-              <PlanTripImg
-                src="src/assets/images/planTripStartPage/plantrip1.png"
-                alt=""
-              />
-              <PlanTripImg
-                src="src/assets/images/planTripStartPage/plantrip3.png"
-                alt=""
-              />
-              <PlanTripImg
-                src="src/assets/images/planTripStartPage/plantrip4.png"
-                alt=""
-              />
-              <PlanTripImg
-                src="src/assets/images/planTripStartPage/plantrip5.png"
-                alt=""
-              />
+              <PlanTripImg src={planImg2} alt="" />
+              <PlanTripImg src={planImg3} alt="" />
+              <PlanTripImg src={planImg4} alt="" />
+              <PlanTripImg src={planImg5} alt="" />
             </DownRightImagesWrapper>
           </DownRightContainer>
         </DownContainer>
