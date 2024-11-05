@@ -104,7 +104,6 @@ const UserInfoSection = () => {
                   accept="image/*"
                   onChange={handleImageChange}
                 />
-                {newImage && <p>선택된 파일: {newImage.name}</p>}
               </FileInputWrapper>
               <ButtonContainer>
                 <button type="button" onClick={handleDelete}>
