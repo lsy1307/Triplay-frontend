@@ -27,3 +27,20 @@ export const getIconTheme = (theme) => {
             return null;
     }
 };
+
+export const getPreference = (preferenceKey) => {
+    switch (preferenceKey) {
+        case '1':
+            return "../src/assets/images/icons/preference/activity.png";
+        case '2':
+            return "../src/assets/images/icons/preference/sns.png";
+        case '3':
+            return "../src/assets/images/icons/preference/gourmet.png";
+        case '4':
+            return "../src/assets/images/icons/preference/shopping.png";
+        case '5':
+            return "../src/assets/images/icons/preference/art.png";
+        default:
+            return null;
+    }
+};
