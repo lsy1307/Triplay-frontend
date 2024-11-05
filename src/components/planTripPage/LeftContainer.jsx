@@ -5,15 +5,10 @@ import Map from '../map/MyMap';
 import TripLocationContentContainer from './leftContainer/TripLocationContentContainer';
 
 const LeftContainer = (props) => {
-  // 여행지 검색하고 엔터 눌렀을 때, 지도 띄우기 여부
   const [isMapOn, setIsMapOn] = useState(false);
-
-  // 검색한 지역의 좌표값 저장
   const [coordinates, setCoordinates] = useState({ lat: -1, lng: -1 });
-
   const [markers, setMarkers] = useState([]);
 
-  /* 여행 제목 입력 */
   const onChangeTripTitleInputHandler = (e) => {
     props.setTripTitle(e.target.value);
   };
@@ -22,8 +17,7 @@ const LeftContainer = (props) => {
     const newMarkers = props.locationList.filter(
       (location) => location.planDay === props.selectedPlanDay,
     );
-    if (
-      newMarkers.length <= 0 && coordinates.lat === -1 && coordinates.lng === -1) {
+    if (newMarkers.length <= 0 && coordinates.lat === -1 && coordinates.lng === -1) {
       setIsMapOn(false);
     } else {
       setMarkers(newMarkers);
@@ -57,7 +51,7 @@ const LeftContainer = (props) => {
           <TripLocationContentContainer
             setIsMapOn={setIsMapOn}
             setCoordinates={setCoordinates}
-          ></TripLocationContentContainer>
+          />
         )}
       </TripLocationContentsContainer>
     </Container>
@@ -67,25 +61,31 @@ const LeftContainer = (props) => {
 export default LeftContainer;
 
 const Container = styled.div`
-  width: 50%;
-  height: 80%;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid black;
+  padding: 20px;
+  box-sizing: border-box;
 `;
 
 const TripTitleInput = styled.input`
-  width: 100%;
-  height: 10%;
-  font-size: 2.5rem;
-  margin-left: 40px;
-  border: none;
+  width: 70%;
+  height: 60px;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
   outline: none;
-  display: flex;
-  align-items: center;
+  text-align: center; /* 가운데 정렬 */
+
   &::placeholder {
-    font-size: 2.5rem; /* placeholder 글자 크기 조절 */
-    font-weight: 1000;
+    font-size: 1.5rem;
+    color: #888;
+    text-align: center; /* placeholder도 가운데 정렬 */
   }
 `;
 
@@ -93,6 +93,7 @@ const TripLocationContentsContainer = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 const MapContainer = styled.div`
@@ -104,8 +105,8 @@ const MapContainer = styled.div`
 `;
 
 const MapWrapper = styled.div`
-  width: 90%;
-  height: 90%;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

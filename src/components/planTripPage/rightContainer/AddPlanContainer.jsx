@@ -112,7 +112,7 @@ const AddPlanContainer = (props) => {
                                             <PlanBoxesWrapper
                                                 {...provided.droppableProps}
                                                 ref={provided.innerRef}
-                                                style={{maxHeight: "500px", overflowY: "auto" }}
+                                                style={{ maxHeight: "500px", overflowY: "auto" }}
                                             >
                                                 {props.locationList
                                                     .filter(location => location.planDay === planDay.day)
@@ -210,12 +210,12 @@ const Container = styled.div`
   height: 92%;
   display: flex;
   flex-direction: column;
-  margin-left: 2rem;
+  margin-left: 0.5 rem;
 `;
 
 const PlanContentsContainer = styled.div`
     width: 100%;
-    max-height: 50%;
+    max-height: 80%;
     margin-bottom: 1rem;
 `;
 
@@ -223,6 +223,7 @@ const PlanDropDownBoxContainer = styled.div`
     width: 100%;
     height: 100%;
     overflow-y: auto;
+    padding-right: 0.5rem;
 `;
 
 const PlanDropDownBoxWrapper = styled.div`
@@ -235,9 +236,10 @@ const PlanDropDownBoxHeader = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 3rem;
-    padding: 0 1rem;
-    font-weight: 1000;
+    font-size: 1.8rem;
+    padding: 0.8rem 1rem;
+    font-weight: 600;
+    cursor: pointer;
 `;
 
 const ToggleIcon = styled(FontAwesomeIcon)`
@@ -246,10 +248,19 @@ const ToggleIcon = styled(FontAwesomeIcon)`
 `;
 
 const LocationSearchButton = styled.button`
-    font-size: 1.5rem;
-    margin-right: 2rem;
-    margin-left: auto;
-    border-radius: 2rem;
+    font-size: 1.2rem;
+    padding: 0.4rem 1.2rem;
+    margin-right: -22rem;
+    border-radius: 1rem;
+    background-color: #000;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+        background-color: #388E3C;
+    }
 `;
 
 const PlanDropDownBox = styled.div`
@@ -265,7 +276,7 @@ const PlanBoxesWrapper = styled.div`
 
 const PlanBox = styled.div`
     width: 95%;
-    height:15rem;
+    height: 14rem;
     background-color: white;
     border-radius: 1rem;
     margin: 1rem auto;
@@ -273,45 +284,45 @@ const PlanBox = styled.div`
     justify-content: center;
     align-items: center;
     position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const PlanBoxContentsWrapper = styled.div`
     width: 100%;
     height: 100%;
     display: flex;
-    flex-direction:column;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
 `;
 
 const PlanBoxUpperContentsContainer = styled.div`
-    width:100%;
-    height:15%;
-    display:flex;
-    justify-content:end;
-    align-items:center;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 `;
 
 const TripleDot = styled(FontAwesomeIcon)`
-    margin:0.8rem;
-    margin-right:1.5rem;
-    font-size:2rem;
+    font-size: 1.5rem;
+    color: #888;
     cursor: pointer;
 `;
 
 const DropdownMenu = styled.div`
     position: absolute;
-    top: 2rem;
+    top: 2.5rem;
     right: 1.5rem;
     background-color: white;
     border-radius: 0.5rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 1000;
+    min-width: 8rem;
 `;
 
 const DropdownItem = styled.div`
-    padding: 1rem 1.5rem;
-    font-size: 1.5rem;
+    padding: 1.2rem;
+    font-size: 1.4rem;
+    color: #333;
     cursor: pointer;
     &:hover {
         background-color: #f4f4f4;
@@ -319,42 +330,38 @@ const DropdownItem = styled.div`
 `;
 
 const PlanBoxDownContentsContainer = styled.div`
-    width:100%;
-    height:85%;
-    display:flex;
+    display: flex;
+    align-items: center;
 `;
 
 const TripleBarWrapper = styled.div`
-    width: 10%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin-right: 1rem;
 `;
 
 const TripleBar = styled(FontAwesomeIcon)`
-    font-size: 3rem;
+    font-size: 1.2rem;
+    color: #888;
 `;
 
 const TextContentsContainer = styled.div`
-    width: 60%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    flex-grow: 1;
 `;
 
 const LocationNameWrapper = styled.div`
-    font-size: 3rem;
-    font-weight: 1000;
-    text-align:center;
+    font-size: 1.6rem;
+    font-weight: 600;
 `;
 
-const AddressWrapper = styled.div``;
+const AddressWrapper = styled.div`
+    font-size: 1.2rem;
+    color: #555;
+`;
 
 const ImageWrapper = styled.div`
-    width: 30%;
-    height: 80%;
+    width: 25%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -363,28 +370,37 @@ const ImageWrapper = styled.div`
 const PlaceImg = styled.img`
     width: 80%;
     height: 80%;
+    border-radius: 8px;
 `;
 
 const AddPlanBtnWrapper = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
+  margin-top: 1rem;
 `;
 
 const AddPlanBtn = styled.button`
-  width: 100%;
-  background-color: white;
-  color: black;
+  width: 30%;
+  background-color: #000;
+  color: white;
+  font-size: 1.2rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: none;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 1rem;
-  font-size: 2.5rem;
-  font-weight: 700;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+      background-color: #388E3C;
+  }
 `;
 
 const CompletePlanBtnWrapper = styled.div`
-    
-`
+    margin-top: 1rem;
+    text-align: center;
+`;
