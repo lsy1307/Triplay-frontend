@@ -1,112 +1,112 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const RegistPartyContentsContainer = (props) => {
+  const parties = ["혼자", "친구와", "연인과", "아이와", "부모님과"];
+  const [selectedPartyNum, setSelectedPartyNum] = useState(null);
 
-    // 일행 등록 부분 -> 나중에 서버에서 이거는 객체로 partyNo, name, enum({solo, friend ...})
-    const parties = ["혼자", "친구와", "연인과", "아이와", "부모님과"];
-
-    const [selectedPartyNum, setSelectedPartyNume] = useState(null);
-
-    return (
-        <Container>
-              <RegistPartyContentsWrapper>
-                <RegistPartyTitleWrapper>
-                  <FontAwesomeIcon icon={faUser} style={{ fontSize: "3em" }} />
-                  {selectedPartyNum !== null ? (
-                    <RegistPartyTitleLabel>
-                      <RegistPartyCard isselected="true">
-                        {parties[selectedPartyNum]}
-                      </RegistPartyCard>
-                      여행
-                    </RegistPartyTitleLabel>
-                  ) : (
-                    <RegistPartyTitleLabel>
-                      일행을 등록해주세요
-                    </RegistPartyTitleLabel>
-                  )}
-                </RegistPartyTitleWrapper>
-                <RegistPartyContentWrapper>
-                  {parties.map((partyName, index) => {
-                    return (
-                      <RegistPartyCard
-                        key={index}
-                        isselected={`${selectedPartyNum === index}`}
-                        onClick={() => {
-                          setSelectedPartyNume(index);
-                          props.setPartyName(parties[index])
-                        }}
-                      >
-                        {partyName}
-                      </RegistPartyCard>
-                    );
-                  })}
-                </RegistPartyContentWrapper>
-              </RegistPartyContentsWrapper>
-            </Container>
-    );
+  return (
+    <Container>
+      <RegistPartyContentsWrapper>
+        <RegistPartyTitleWrapper>
+          <UserIcon icon={faUser} />
+          {selectedPartyNum !== null ? (
+            <RegistPartyTitleLabel>
+              <SelectedParty>{parties[selectedPartyNum]}</SelectedParty> 여행
+            </RegistPartyTitleLabel>
+          ) : (
+            <RegistPartyTitleLabel>일행을 등록해주세요</RegistPartyTitleLabel>
+          )}
+        </RegistPartyTitleWrapper>
+        <RegistPartyContentWrapper>
+          {parties.map((partyName, index) => (
+            <RegistPartyCard
+              key={index}
+              isselected={`${selectedPartyNum === index}`}
+              onClick={() => {
+                setSelectedPartyNum(index);
+                props.setPartyName(parties[index]);
+              }}
+            >
+              {partyName}
+            </RegistPartyCard>
+          ))}
+        </RegistPartyContentWrapper>
+      </RegistPartyContentsWrapper>
+    </Container>
+  );
 };
 
 export default RegistPartyContentsContainer;
 
-
 const Container = styled.div`
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   margin-bottom: 1.5rem;
 `;
 
 const RegistPartyTitleWrapper = styled.div`
   width: 100%;
   display: flex;
-  justify-content: left;
   align-items: center;
-  margin-bottom: 0.7rem;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  margin-left: 1.1rem;
+`;
+
+const UserIcon = styled(FontAwesomeIcon)`
+  font-size: 1.8rem;
+  color: #333;
 `;
 
 const RegistPartyContentsWrapper = styled.div`
   width: 90%;
-  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: left;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 const RegistPartyContentWrapper = styled.div`
-  width: 100%;
   display: flex;
-  justify-content: left;
-  align-items: start;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
 `;
 
 const RegistPartyCard = styled.div`
   height: 2.5rem;
-  padding: 10px;
+  padding: 0 1.2rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ isselected }) =>
-    isselected === "true" ? "#d3d3d3" : "white"}; /* 선택된 상태 스타일링 */
+  background-color: ${({ isselected }) => (isselected === "true" ? "#a4d4ae" : "#fff")}; /* 선택된 상태 연두색 배경 */
+  font-size: 1.2rem;
+  color: #333;
+  border: 1px solid ${({ isselected }) => (isselected === "true" ? "#88c999" : "#ccc")};
+  border-radius: 12px;
+  transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+  box-shadow: ${({ isselected }) => (isselected === "true" ? "0px 4px 8px rgba(0, 150, 0, 0.15)" : "none")};
 
   &:hover {
-    background-color: #f0f0f0; /* 마우스 오버 시 스타일링 */
+    background-color: #e0f7fa;
+    transform: translateY(-1px);
   }
-
-  border: 1px solid black;
-  border-radius: 15px;
-  margin: 0.3em;
 `;
 
 const RegistPartyTitleLabel = styled.label`
-  width: 100%;
-  font-size: 2rem;
-  margin-left: 0.5em;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #333;
   display: flex;
   align-items: center;
+`;
+
+const SelectedParty = styled.span`
+  font-weight: 700;
+  margin-right: 0.3rem;
+  color: #4caf50;
 `;
