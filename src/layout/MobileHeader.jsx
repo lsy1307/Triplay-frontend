@@ -3,7 +3,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 const MobileHeader = () => {
-
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
@@ -14,22 +13,23 @@ const MobileHeader = () => {
     <TotalContainer>
       <HeaderWrapper>
         <Logo>
-          <Link to="/main">
+          <Link to="/trip">
             <img src="/src/assets/images/logo.png" alt="Logo" />
           </Link>
         </Logo>
         <Menu>
           <ul>
             <li>
-              {localStorage.getItem("token") == null && <LoginButton onClick={handleLoginClick}>로그인</LoginButton>}
+              {localStorage.getItem('token') == null && (
+                <LoginButton onClick={handleLoginClick}>로그인</LoginButton>
+              )}
             </li>
           </ul>
         </Menu>
       </HeaderWrapper>
     </TotalContainer>
   );
-}
-
+};
 
 export default MobileHeader;
 
