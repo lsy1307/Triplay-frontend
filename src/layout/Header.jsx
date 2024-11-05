@@ -14,7 +14,8 @@ const Header = () => {
 
   useEffect(() => {
     const getUserData = async () => {
-      if (!userInfo) { // Fetch only if userInfo is not already cached
+      if (!userInfo) {
+        // Fetch only if userInfo is not already cached
         try {
           const data = await fetchUserDetail();
           setUserInfo(data);
@@ -186,4 +187,11 @@ const LoginButton = styled.button`
   &:hover {
     background-color: #0056b3;
   }
+`;
+
+const MenuAndProfile = styled.div`
+  display: flex;
+  flex-direction: column; /* 세로로 배치 */
+  align-items: flex-end; /* 오른쪽 정렬 */
+  gap: 10px;
 `;
