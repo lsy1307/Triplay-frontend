@@ -36,43 +36,37 @@ import { setIsMobile } from './redux/auth/AuthActions.js';
 import MobileClipMake from './pages/Plan/MobileClipMake.jsx';
 import MobilePostMake from './pages/Plan/MobilePostMake.jsx';
 import AdminRoute from './components/admin/AdminRoute.jsx';
+import MobileMyPage from './pages/Mobile/MobileMyPage.jsx';
+import MobileOutlet from './layout/MobileOutlet.jsx';
 import Clip from './pages/Clip/Clip.jsx';
 import ClipDetail from './pages/Clip/ClipDetail.jsx';
 
 function App() {
   const isMobile = useSelector((state) => state.auth.isMobile);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
     const mobileCheck = /Mobi|Android/i.test(navigator.userAgent);
     dispatch(setIsMobile(mobileCheck));
-    if (mobileCheck && !window.location.hostname.startsWith('m.')) {
-      const port = window.location.port ? `:${window.location.port}` : '';
-      const queryParams = window.location.search;
-      const newUrl = `https://m.${window.location.hostname}${port}${location.pathname}${queryParams}`;
-      window.location.href = newUrl;
-    }
   }, [location, dispatch]);
-  useEffect(() => {
-    // navigate('/login'); // 주석 처리하지 않으면 '관리자 로그인' 엔드포인트(`/admin/login`)에 접속할 수 없어요...
-    console.log('왜 안됨?');
-    console.log("뭘 왜 안돼야 십수연아");
-  }, []);
   return (
     <Routes>
       {isMobile ? (
         <>
-          <Route path="/login" element={<MobileLogin />} />
-          <Route path="/callback" element={<CallBack />} />
-          <Route path="/trip" element={<MobileTrip />} />
-          <Route path="/trip/:tripId" element={<MobileTripDetail />} />
-          <Route path="/post" element={<MobilePost />} />
-          <Route path="/post/:postId" element={<MobilePostDetail />} />
-          <Route path="/clip" element={<MobileClip />} />
-          <Route path="/clip/:clipId" element={<MobileClipDetail />} />
-          <Route path="/trip/:tripId/post" element={<MobilePostMake />} />
-          <Route path="/clip/:clipId/config" element={<MobileClipMake />} />
+          <Route path="login" element={<MobileLogin />} />
+          <Route path="/" element={<MobileOutlet />}>
+            <Route index element={<Navigate to="/trip" />} />
+            <Route path="callback" element={<CallBack />} />
+            <Route path="trip" element={<MobileTrip />} />
+            <Route path="trip/:tripId" element={<MobileTripDetail />} />
+            <Route path="post" element={<MobilePost />} />
+            <Route path="post/:postId" element={<MobilePostDetail />} />
+            <Route path="clip" element={<MobileClip />} />
+            <Route path="clip/:clipId" element={<MobileClipDetail />} />
+            <Route path="trip/:tripId/post" element={<MobilePostMake />} />
+            <Route path="trip/:tripId/clip" element={<MobileClipMake />} />
+            <Route path="mypage" element={<MobileMyPage />} />
+          </Route>
         </>
       ) : (
         <Route path="/">
@@ -84,8 +78,8 @@ function App() {
           <Route path="plan/:planId" element={<PlanDetail />} />
           <Route path="post" element={<Post />} />
           <Route path="post/:postId" element={<PostDetail />} />
-          <Route path="clip" element={<Clip/>} />
-          <Route path="clip/:clipId" element={<ClipDetail/>} />
+          <Route path="clip" element={<Clip />} />
+          <Route path="clip/:clipId" element={<ClipDetail />} />
           <Route path="mypage" element={<MyPage />} />
           <Route path="mypage/modify" element={<MyPageModify />} />
           <Route path="admin/login" element={<AdminLogin />} />
