@@ -4,6 +4,7 @@ import DayCardComponent from './rightContainer/DayCardComponent';
 import { format } from 'date-fns';
 
 const RightContainer = ({ post }) => {
+    console.log(post)
     const days = generateDaysObject(post.tripStartDate, post.tripEndDate, post.tripDetails.places);
 
     return (

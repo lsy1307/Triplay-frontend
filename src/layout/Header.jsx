@@ -51,7 +51,10 @@ const Header = () => {
                 <Link to="/plan">준비하기</Link>
               </li>
               <li>
-                <Link to="/post">둘러보기</Link>
+                <Link to="/post">포스트 둘러보기</Link>
+              </li>
+              <li>
+                <Link to="/clip">클립 둘러보기</Link>
               </li>
               <li>
                 <Link to="/post">지난여행</Link>

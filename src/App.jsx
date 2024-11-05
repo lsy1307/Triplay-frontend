@@ -36,6 +36,8 @@ import { setIsMobile } from './redux/auth/AuthActions.js';
 import MobileClipMake from './pages/Plan/MobileClipMake.jsx';
 import MobilePostMake from './pages/Plan/MobilePostMake.jsx';
 import AdminRoute from './components/admin/AdminRoute.jsx';
+import Clip from './pages/Clip/Clip.jsx';
+import ClipDetail from './pages/Clip/ClipDetail.jsx';
 
 function App() {
   const isMobile = useSelector((state) => state.auth.isMobile);
@@ -82,6 +84,8 @@ function App() {
           <Route path="plan/:planId" element={<PlanDetail />} />
           <Route path="post" element={<Post />} />
           <Route path="post/:postId" element={<PostDetail />} />
+          <Route path="clip" element={<Clip/>} />
+          <Route path="clip/:clipId" element={<ClipDetail/>} />
           <Route path="mypage" element={<MyPage />} />
           <Route path="mypage/modify" element={<MyPageModify />} />
           <Route path="admin/login" element={<AdminLogin />} />
