@@ -7,6 +7,7 @@ import Header from '../../layout/Header.jsx';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-datepicker/dist/react-datepicker.css';
+import { postTrip } from '../../api/tripDetail.js';
 
 const Plan = () => {
   const [locationList, setLocationList] = useState([]);
@@ -14,7 +15,7 @@ const Plan = () => {
   const [isReArrange, setIsReArrange] = useState(false);
   const [tripTitle, setTripTitle] = useState('');
   const [dateRange, setDateRange] = useState([null, null]);
-  const [partyName, setPartyName] = useState("");
+  const [partyName, setPartyName] = useState('');
 
   const addToLocationList = (data) => {
     setLocationList([...locationList, data]);
@@ -24,16 +25,17 @@ const Plan = () => {
     setLocationList(data);
   };
 
-  const onClickCompleteBtnHandler = () => {
+  const onClickCompleteBtnHandler = async () => {
     const data = {
       tripTitle,
       tripParty: partyName,
       tripStartDate: dateRange[0],
       tripEndDate: dateRange[1],
-      places: locationList
+      places: locationList,
     };
 
-    console.log(data);
+    const res = await postTrip(data);
+    console.log(res);
   };
 
   return (
