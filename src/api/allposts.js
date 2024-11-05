@@ -9,3 +9,4 @@ export const fetchPosts = async () => {
     throw error;
   }
 };
+//action 테스트
