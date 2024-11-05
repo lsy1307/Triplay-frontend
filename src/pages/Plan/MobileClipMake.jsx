@@ -28,7 +28,7 @@ const MobileClipMake = () => {
     setIsReady(prev => !prev);
   }
 
-  const getPostImages = async () => {
+  const getClipImages = async () => {
     const response = await GetAxiosInstance(`https://localhost:8443/file/image/clip/${clipId}`, {
       // TODO :: Clip Image Get EndPoint 수정
       headers: { 'Content-Type': 'application/json' },
@@ -37,7 +37,7 @@ const MobileClipMake = () => {
   };
 
   useEffect(() => {
-    getPostImages()
+    getClipImages()
   }, []);
 
   useEffect(() => {

@@ -51,26 +51,44 @@ const Header = () => {
             <img src={MainLogo} alt="Logo" />
           </Link>
         </Logo>
-        <Menu>
-          <ul>
-            <li>
-              <Link to="/plan">준비하기</Link>
-            </li>
-            <li>
-              <Link to="/post">둘러보기</Link>
-            </li>
-            <li>
-              <Link to="/mypage">지난여행</Link>
-            </li>
-            <li>
-              {userInfo ? (
-                <LoginButton onClick={handleLogoutClick}>로그아웃</LoginButton>
-              ) : (
-                <LoginButton onClick={handleLoginClick}>로그인</LoginButton>
-              )}
-            </li>
-          </ul>
-        </Menu>
+        <MenuAndProfile>
+          <Menu>
+            <ul>
+              <li>
+                <Link to="/plan">준비하기</Link>
+              </li>
+              <li>
+                <Link to="/post">포스트 둘러보기</Link>
+              </li>
+              <li>
+                <Link to="/clip">클립 둘러보기</Link>
+              </li>
+              <li>
+                <Link to="/post">지난여행</Link>
+              </li>
+              <li>
+                {userInfo ? (
+                  <>
+                    <LoginButton onClick={handleLogoutClick}>
+                      로그아웃
+                    </LoginButton>
+                  </>
+                ) : (
+                  <LoginButton onClick={handleLoginClick}>로그인</LoginButton>
+                )}
+              </li>
+            </ul>
+          </Menu>
+          {userInfo && ( // userInfo가 있을 때만 ProfileContainer를 렌더링
+            <ProfileContainer>
+              <img src={userInfo.profilePicUrl} alt="Profile" />
+              <span>{userInfo.userName}</span>
+              <ModifyButton onClick={handleModifyClick}>
+                내 정보 수정
+              </ModifyButton>
+            </ProfileContainer>
+          )}
+        </MenuAndProfile>
       </HeaderWrapper>
       {userInfo && (
         <ProfileContainer>

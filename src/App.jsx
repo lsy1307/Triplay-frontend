@@ -36,6 +36,8 @@ import { setIsMobile } from './redux/auth/AuthActions.js';
 import MobileClipMake from './pages/Plan/MobileClipMake.jsx';
 import MobilePostMake from './pages/Plan/MobilePostMake.jsx';
 import AdminRoute from './components/admin/AdminRoute.jsx';
+import Clip from './pages/Clip/Clip.jsx';
+import ClipDetail from './pages/Clip/ClipDetail.jsx';
 
 function App() {
   const isMobile = useSelector((state) => state.auth.isMobile);
@@ -55,6 +57,7 @@ function App() {
   useEffect(() => {
     // navigate('/login'); // 주석 처리하지 않으면 '관리자 로그인' 엔드포인트(`/admin/login`)에 접속할 수 없어요...
     console.log('왜 안됨?');
+    console.log("뭘 왜 안돼야 십수연아");
   }, []);
   return (
     <Routes>
@@ -81,6 +84,8 @@ function App() {
           <Route path="plan/:planId" element={<PlanDetail />} />
           <Route path="post" element={<Post />} />
           <Route path="post/:postId" element={<PostDetail />} />
+          <Route path="clip" element={<Clip/>} />
+          <Route path="clip/:clipId" element={<ClipDetail/>} />
           <Route path="mypage" element={<MyPage />} />
           <Route path="mypage/modify" element={<MyPageModify />} />
           <Route path="admin/login" element={<AdminLogin />} />

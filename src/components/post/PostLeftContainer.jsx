@@ -15,7 +15,8 @@ const LeftContainer = ({ post, isLoaded }) => {
     useEffect(() => {
         const fetchIsFollowing = async () => {
             try {
-                const isFollowing = await checkIfFollowing(post.userId, post.currentUserId);
+                const isFollowing = await checkIfFollowing(post.userId);
+                console.log(isFollowing);
                 setIsFollowing(isFollowing);
             } catch (error) {
                 console.error(error.message);
@@ -28,10 +29,10 @@ const LeftContainer = ({ post, isLoaded }) => {
     const toggleFollowing = async () => {
         try {
             if (isFollowing) {
-                await unfollowUser(post.userId, post.currentUserId);
+                await unfollowUser(post.userId);
                 setIsFollowing(false);
             } else {
-                await followUser(post.userId, post.currentUserId);
+                await followUser(post.userId);
                 setIsFollowing(true);
             }
         } catch (error) {
