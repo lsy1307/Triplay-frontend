@@ -164,12 +164,20 @@ const AdminManageNotice = () => {
   const fetchNotices = async () => {
     try {
       const response = await api.get(`/notices?page=${currentPage}&size=${ITEMS_PER_PAGE}&sortBy=${sortOrder}`);
-      setNotices(response.data.content || []);
-      setTotalPages(response.data.totalPages || 0);
+      // const response = await api.get(`/notices?page=${currentPage}&size=${ITEMS_PER_PAGE}`);
+      console.log('API Response:', response.data);
+      if (response.data && response.data.content) {
+        setNotices(response.data.content || []);
+        setTotalPages(response.data.totalPages || 0);
+      } else {
+        console.error('Unexpected response structure:', response.data);
+        setError('서버에서 예상치 못한 응답을 받았습니다.');
+      }
     } catch (error) {
       console.error('공지사항을 불러오는데 실패했습니다:', error);
       setNotices([]);
       setTotalPages(0);
+      console.error('공지사항을 불러오는데 실패했습니다. 다시 시도해 주세요.');
     }
   };
 

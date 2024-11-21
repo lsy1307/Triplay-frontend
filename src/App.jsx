@@ -27,11 +27,14 @@ import MyPage from './pages/User/MyPage';
 import MyPageModify from './pages/User/MyPageModify';
 import AdminLogin from './pages/Admin/AdminLogin';
 import Admin from './pages/Admin/Admin';
+import AdminLogManage from './pages/Admin/AdminLogManage';
+import AdminGrafanaManage from './pages/Admin/AdminGrafanaManage';
 import AdminManage from './pages/Admin/AdminManage';
 import AdminManageClip from './pages/Admin/AdminManageClip';
 import AdminManagePost from './pages/Admin/AdminManagePost';
 import AdminManageNotice from './pages/Admin/AdminManageNotice';
 import AdminManageTrip from './pages/Admin/AdminManageTrip';
+import AdminManageUser from './pages/Admin/AdminManageUser';
 import { setIsMobile } from './redux/auth/AuthActions.js';
 import MobileClipMake from './pages/Plan/MobileClipMake.jsx';
 import MobilePostMake from './pages/Plan/MobilePostMake.jsx';
@@ -92,6 +95,22 @@ function App() {
             }
           />
           <Route
+            path="admin/logs"
+            element={
+              <AdminRoute>
+                <AdminLogManage />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="admin/grafana"
+            element={
+              <AdminRoute>
+                <AdminGrafanaManage />
+              </AdminRoute>
+            }
+          />
+          <Route
             path="admin/manage"
             element={
               <AdminRoute>
@@ -120,6 +139,14 @@ function App() {
             element={
               <AdminRoute>
                 <AdminManageNotice />
+              </AdminRoute>
+            }
+            />
+          <Route
+            path="admin/manage/user"
+            element={
+              <AdminRoute>
+                <AdminManageUser />
               </AdminRoute>
             }
           />

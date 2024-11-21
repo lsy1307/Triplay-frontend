@@ -73,7 +73,7 @@ const AdminManageUser = () => {
   const fetchUsers = async () => {
     try {
       const response = await api.get(`/user?page=${currentPage}&size=${ITEMS_PER_PAGE}&sortBy=${sortOrder}`);
-      // console.log('API Response:', response.data);
+      console.log('API Response:', response.data);
       if (response.data && response.data.content) {
         setUsers(response.data.content.map(user => ({
           ...user,

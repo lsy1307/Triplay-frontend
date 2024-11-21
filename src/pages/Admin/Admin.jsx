@@ -111,6 +111,12 @@ const Admin = () => {
       <ContentContainer>
         <TitleContainer>
           <Title>관리자 대시보드</Title>
+        </TitleContainer>
+        <TitleContainer>
+          <StyledLink to='/admin/logs'>
+            로그 페이지&nbsp;&nbsp;
+            <FontAwesomeIcon icon={faArrowRight} size='lg' />
+          </StyledLink>
           <StyledLink to='/admin/manage'>
             관리자 페이지&nbsp;&nbsp;
             <FontAwesomeIcon icon={faArrowRight} size='lg' />

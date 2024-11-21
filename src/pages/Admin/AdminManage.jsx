@@ -17,11 +17,11 @@ const AdminManage = () => {
     { icon: faBell, text: "공지사항 관리", link: "/admin/manage/notice" },
   ];
 
-  const tabsPage2 = [
-    { icon: faMap, text: "여행 일정 관리", link: "/admin/manage/trip" },
-    // { icon: faGamepad, text: "게임 관리", link: "/admin/manage/game" },
-    // { icon: faEarthAsia, text: "취미 관리", link: "/admin/manage/hobby" },
-  ];
+  // const tabsPage2 = [
+  //   // { icon: faMap, text: "여행 일정 관리", link: "/admin/manage/trip" },
+  //   // { icon: faGamepad, text: "게임 관리", link: "/admin/manage/game" },
+  //   // { icon: faEarthAsia, text: "취미 관리", link: "/admin/manage/hobby" },
+  // ];
   
   const currentTabs = activePage === 1 ? tabsPage1 : tabsPage2;
 
@@ -58,9 +58,11 @@ const AdminManage = () => {
               <PaginationIcon icon={faAnglesLeft} onClick={() => setActivePage(1)} />
               <PaginationIcon icon={faAngleLeft} onClick={() => setActivePage(prev => Math.max(prev - 1, 1))} />
               <PageNumber $isActive={activePage === 1} onClick={() => setActivePage(1)}>1</PageNumber>
-              <PageNumber $isActive={activePage === 2} onClick={() => setActivePage(2)}>2</PageNumber>
-              <PaginationIcon icon={faAngleRight} onClick={() => setActivePage(prev => Math.min(prev + 1, 2))} />
-              <PaginationIcon icon={faAnglesRight} onClick={() => setActivePage(2)} />
+              {/* <PageNumber $isActive={activePage === 2} onClick={() => setActivePage(2)}>2</PageNumber> */}
+              <PaginationIcon icon={faAngleRight} />
+              <PaginationIcon icon={faAnglesRight} />
+              {/* <PaginationIcon icon={faAngleRight} onClick={() => setActivePage(prev => Math.min(prev + 1, 2))} />
+              <PaginationIcon icon={faAnglesRight} onClick={() => setActivePage(2)} /> */}
             </Pagination>
           </LeftSection>
           <RightSection>
