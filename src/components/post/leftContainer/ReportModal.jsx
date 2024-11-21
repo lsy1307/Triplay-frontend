@@ -65,7 +65,7 @@ const ModalContent = styled.div`
 const CloseButton = styled.button`
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: black;
     color: white;
     border: none;
     border-radius: 5px;

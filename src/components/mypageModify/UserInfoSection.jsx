@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { fetchUserDetail } from '../../api/userDetail';
+import { fetchUserDetail } from '../../api/user';
 import { uploadProfileImage } from '../../api/uploadProfile';
 import { deleteProfileImage } from '../../api/deleteProfile';
+import defaultProfileImage from '../../assets/images/default-profile-image.png'
 import editProfileIcon from '../../assets/images/mypageModify/userInfoSection/EditProfileIcon.png';
 
 const UserInfoSection = () => {
   const [userInfo, setUserInfo] = useState({
     userName: '',
     email: '',
-    profilePicUrl: '',
+    profileUrl: '',
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,6 +20,9 @@ const UserInfoSection = () => {
     const getUserInfo = async () => {
       try {
         const userDetails = await fetchUserDetail();
+        console.log(userInfo.userName); // 사용자 이름
+    console.log(userInfo.email);   // 이메일
+    console.log(userInfo.profileUrl); // 프로필 이미지 URL
         setUserInfo(userDetails);
       } catch (error) {
         console.error('Error fetching user details:', error);
@@ -40,7 +44,7 @@ const UserInfoSection = () => {
     if (newImage) {
       try {
         await uploadProfileImage(newImage);
-        setUserInfo((prev) => ({ ...prev, profilePicUrl: URL.createObjectURL(newImage) }));
+        setUserInfo((prev) => ({ ...prev, profileUrl: URL.createObjectURL(newImage) }));
         console.log('Image uploaded successfully');
       } catch (error) {
         console.error('Error uploading image:', error);
@@ -64,7 +68,7 @@ const UserInfoSection = () => {
       <InfoContainer>
         <ProfileContainer>
           <ProfileImage>
-            <img src={userInfo.profilePicUrl || editProfileIcon} alt="Profile" />
+            <img src={userInfo.profileUrl || defaultProfileImage} alt="Profile" />
           </ProfileImage>
           <EditIcon src={editProfileIcon} alt="Edit Profile" onClick={openModal} />
         </ProfileContainer>

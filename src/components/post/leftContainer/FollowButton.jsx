@@ -13,14 +13,15 @@ export default FollowButton;
 
 const Button = styled.button`
     padding: 5px 10px;
-    background-color: #007bff;
     color: white;
+    background-color: black;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
+    margin-left: 10px;
 
     &:hover {
-        background-color: #0056b3;
+        background-color: #ddd;
     }
 `;

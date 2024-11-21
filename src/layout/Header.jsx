@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { fetchUserDetail } from '../api/userDetail';
+import { fetchUserDetail } from '../api/user';
 import MainLogo from '../../src/assets/images/logo.png';
 
 const Header = () => {
@@ -65,7 +65,7 @@ const Header = () => {
                 <Link to="/clip">클립 둘러보기</Link>
               </li>
               <li>
-                <Link to="/post">지난여행</Link>
+                <Link to="/mypage">지난여행</Link>
               </li>
               <li>
                 {userInfo ? (
@@ -84,7 +84,7 @@ const Header = () => {
       </HeaderWrapper>
       {userInfo && (
         <ProfileContainer>
-          <img src={userInfo.profilePicUrl} alt="Profile" />
+          <img src={userInfo.profileUrl} alt="Profile" />
           <span>{userInfo.userName}</span>
           <ModifyButton onClick={handleModifyClick}>내 정보 수정</ModifyButton>
         </ProfileContainer>

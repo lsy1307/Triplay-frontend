@@ -1,46 +1,39 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import ReportModal from './ReportModal';
 
-const PlaceCardComponent = ({ place, files }) => {
-    const [showReportModal, setShowReportModal] = useState(false);
-
-    const openReportModal = () => {
-        setShowReportModal(true);
-    };
-
-    const closeReportModal = () => {
-        setShowReportModal(false);
-    };
-
-    const placeImages = files
-        .filter(file => file.postPlaceId === place.id)
-        .sort((a, b) => a.postImageOrder - b.postImageOrder);
+const PlaceCardComponent = ({ place }) => {
+    
+    // `files` 배열에서 이미지 데이터 가져오기
+    const placeImages = place.files || []; // files가 없을 경우 빈 배열로 대체
 
     return (
         <PlaceCard>
             <PlaceHeader>
-                <h4>{place.locationName}</h4>
-                <p>{place.address || '주소를 찾을 수 없습니다.'}</p>
-                <OptionsButton onClick={openReportModal}>•••</OptionsButton>
+                <PlaceInfo>
+                    <h4>{place.locationName}</h4>
+                    <p>{place.address || '주소를 찾을 수 없습니다.'}</p>
+                </PlaceInfo>
             </PlaceHeader>
             <Images>
-                {placeImages.map((file, idx) => (
-                    <img src={file.fileUrl} alt={`Place ${idx}`} key={idx} />
-                ))}
+                {placeImages.length > 0 ? (
+                    placeImages.map((file) => (
+                        <img src={file.fileUrl} alt={place.locationName} key={file.fileId} />
+                    ))
+                ) : (null)}
             </Images>
-
-            {showReportModal && <ReportModal onClose={closeReportModal} />}
         </PlaceCard>
     );
 };
 
 export default PlaceCardComponent;
 
+// Styled Components
 const PlaceCard = styled.div`
     margin-bottom: 10px;
-    border: solid 0.5px;
-    padding: 20px;
+    padding: 15px;
+    border: 1px solid #F8FAF7;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const PlaceHeader = styled.div`
@@ -49,14 +42,21 @@ const PlaceHeader = styled.div`
     align-items: center;
 `;
 
-const OptionsButton = styled.button`
-    background-color: transparent;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
+const PlaceInfo = styled.div`
+    h4 {
+        margin: 0;
+        font-size: 1.2rem;
+    }
+
+    p {
+        margin: 0;
+        font-size: 1rem;
+        color: #666;
+    }
 `;
 
 const Images = styled.div`
+    margin-top: 10px;
     display: flex;
     gap: 10px;
 
@@ -64,6 +64,6 @@ const Images = styled.div`
         width: 150px;
         height: 150px;
         object-fit: cover;
-        border-radius: 5px;
+        border-radius: 8px;
     }
 `;

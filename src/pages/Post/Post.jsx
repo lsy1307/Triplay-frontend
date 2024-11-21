@@ -14,12 +14,11 @@ const Posts = () => {
             try {
                 const fetchedPosts = await fetchPosts();
 
-                const postsWithDetails = await Promise.all(fetchedPosts.map(async (post) => {
-
+                const postsWithDetails = fetchedPosts.map((post) => {
                     return {
-                        ...post
+                        ...post,
                     };
-                }));
+                });
 
                 setPosts(postsWithDetails);
             } catch (error) {
@@ -45,7 +44,7 @@ const Posts = () => {
                 <PostGrid>
                     {posts.map((post, index) => (
                         <PostCard key={index} onClick={() => handleCardClick(post.postId)}>
-                            <img src={post.thumbnailImageUrl} alt={`Post ${index + 1}`} />
+                            <img src={post.thumbNailUrl || 'default-thumbnail.jpg'} alt={`Post ${index + 1}`} />
                             <TextOverlay>
                                 <div className="top-row">
                                     <p>{post.tripStartDate} ~ {post.tripEndDate}</p>

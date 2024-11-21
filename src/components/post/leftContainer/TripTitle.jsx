@@ -6,7 +6,7 @@ const TripTitle = ({ post }) => {
     return (
         <TitleContainer>
             <h1>{post.postTitle}</h1>
-            <BookmarkButton />
+            {/* <BookmarkButton /> */}
         </TitleContainer>
     );
 };

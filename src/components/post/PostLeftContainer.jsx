@@ -3,69 +3,115 @@ import styled from 'styled-components';
 import TripTitle from './leftContainer/TripTitle';
 import MapContainer from './leftContainer/MapContainer';
 import TripInfo from './leftContainer/TripInfo';
-import { checkIfFollowing, followUser, unfollowUser } from '../../api/follow';
+import ReportModal from './leftContainer/ReportModal';
 import CommentSection from '../comment/CommentSection';
+import { fetchComments, addComment, updateComment, deleteComment } from '../../api/comment';
+import useCurrentUser from '../../hooks/get-current-user';
 
 const LeftContainer = ({ post, isLoaded }) => {
-    const [isFollowing, setIsFollowing] = useState(false);
     const [comments, setComments] = useState([]);
-    const startDate = post.tripStartDate;
-    const endDate = post.tripEndDate;
+    const { userId: currentUserId } = useCurrentUser(); // 사용자 ID 가져오기
+
+    const [showReportModal, setShowReportModal] = useState(false);
+
+    const openReportModal = () => setShowReportModal(true);
+    const closeReportModal = () => setShowReportModal(false);
+
 
     useEffect(() => {
-        const fetchIsFollowing = async () => {
+        const loadComments = async () => {
             try {
-                const isFollowing = await checkIfFollowing(post.userId);
-                console.log(isFollowing);
-                setIsFollowing(isFollowing);
+                const fetchedComments = await fetchComments(post.postId);
+                setComments(fetchedComments);
             } catch (error) {
-                console.error(error.message);
+                console.error('댓글 로드 실패:', error);
             }
         };
+        loadComments();
+    }, [post.postId]);
 
-        fetchIsFollowing();
-    }, [post.userId, post.currentUserId]);
-
-    const toggleFollowing = async () => {
+    const handleAddComment = async (newCommentContent) => {
         try {
-            if (isFollowing) {
-                await unfollowUser(post.userId);
-                setIsFollowing(false);
-            } else {
-                await followUser(post.userId);
-                setIsFollowing(true);
-            }
+            const newComment = await addComment({
+                postId: post.postId,
+                postCommentContent: newCommentContent,
+            });
+            setComments((prevComments) => [...prevComments, newComment]);
         } catch (error) {
-            console.error(error.message);
+            console.error('댓글 추가 실패:', error);
         }
     };
 
-    const addComment = (comment) => {
-        setComments([...comments, comment]); // Add the new comment to the list
+    const handleUpdateComment = async (postCommentId, updatedContent) => {
+        try {
+            await updateComment(postCommentId, { postCommentContent: updatedContent });
+            setComments((prevComments) =>
+                prevComments.map((comment) =>
+                    comment.postCommentId === postCommentId
+                        ? { ...comment, postCommentContent: updatedContent }
+                        : comment
+                )
+            );
+        } catch (error) {
+            console.error('댓글 수정 실패:', error);
+        }
+    };
+
+    const handleDeleteComment = async (postCommentId) => {
+        try {
+            await deleteComment(postCommentId);
+            setComments((prevComments) =>
+                prevComments.filter((comment) => comment.postCommentId !== postCommentId)
+            );
+        } catch (error) {
+            console.error('댓글 삭제 실패:', error);
+        }
     };
 
     return (
         <LeftPanel>
-            <TripTitle post={post} />
-            <MapContainer isLoaded={isLoaded} places={post.tripDetails.places} />
-            <TripInfo
-                post={post}
-                startDate={startDate}
-                endDate={endDate}
-                isFollowing={isFollowing}
-                toggleFollowing={toggleFollowing}
+            <Header>
+                <TripTitle post={post} />
+                <OptionsButton onClick={openReportModal}>•••</OptionsButton>
+            </Header>
+            <MapContainer isLoaded={isLoaded} places={post.places} />
+            <TripInfo post={post} />
+            <CommentSection
+                comments={comments}
+                currentUserId={currentUserId} // 전달
+                addComment={handleAddComment}
+                updateComment={handleUpdateComment}
+                deleteComment={handleDeleteComment}
             />
-            {/* Add the comment section below TripInfo */}
-            <CommentSection comments={comments} addComment={addComment} />
+            {showReportModal && <ReportModal onClose={closeReportModal} />}
         </LeftPanel>
     );
+
 };
 
 export default LeftContainer;
+
+const Header = styled.div`
+    display: flex;
+    justify-content: space-between; /* Align items to the left and right */
+    align-items: center; /* Vertically center align */
+    margin-bottom: 20px; /* Add some space below the header */
+`;
 
 const LeftPanel = styled.div`
     flex: 1;
     padding: 20px;
     box-sizing: border-box;
     overflow-y: auto;
+`;
+
+const OptionsButton = styled.button`
+    background: transparent;
+    border: none;
+    font-size: 1.5rem; /* Slightly larger font size for visual hierarchy */
+    cursor: pointer;
+
+    &:hover {
+        color: #007bff; /* Optional hover effect */
+    }
 `;

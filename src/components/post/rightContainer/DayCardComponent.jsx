@@ -33,7 +33,8 @@ export default DayCardComponent;
 
 const DayCard = styled.div`
     margin-bottom: 20px;
-    border: solid 0.5px;
+    border: #eee solid 0.5px;
+    border-radius: 8px;
     padding: 20px;
 `;
 
@@ -44,6 +45,8 @@ const DayHeader = styled.div`
 
     h2 {
         font-size: 28px;
+        font-weight: 600;
+        margin-left: 20px;
     }
 `;
 

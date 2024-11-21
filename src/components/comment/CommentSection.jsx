@@ -1,90 +1,175 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import defaultProfileImage from '../../assets/images/default-profile-image.png';
 
-const CommentSection = ({ comments, addComment }) => {
+const CommentSection = ({ comments, addComment, updateComment, deleteComment, currentUserId }) => {
     const [newComment, setNewComment] = useState('');
 
-    const handleAddComment = () => {
+    const handleAdd = () => {
         if (newComment.trim()) {
             addComment(newComment);
-            setNewComment(''); // Clear the input after adding
+            setNewComment('');
         }
     };
 
     return (
-        <CommentContainer>
-            <CommentInputWrapper>
+        <Container>
+            <h3>댓글</h3>
+            <CommentsList>
+                {comments.map((comment) => (
+                    <Comment key={comment.postCommentId}>
+                        <Header>
+                            <LeftHeader>
+                                <ProfileImage
+                                    src={comment.profileImageUrl || defaultProfileImage}
+                                    alt="Profile"
+                                />
+                                <UserName>{comment.userName}</UserName>
+                            </LeftHeader>
+                            <RightHeader>
+                                {comment.userId === currentUserId ? (
+                                    <>
+                                        <ActionButton
+                                            onClick={() =>
+                                                updateComment(
+                                                    comment.postCommentId,
+                                                    prompt('수정할 댓글:', comment.postCommentContent)
+                                                )
+                                            }
+                                        >
+                                            수정
+                                        </ActionButton>
+                                        <ActionButton onClick={() => deleteComment(comment.postCommentId)}>
+                                            삭제
+                                        </ActionButton>
+                                    </>
+                                ) : (
+                                    <ActionButton onClick={() => alert('신고가 접수되었습니다.')}>
+                                        신고
+                                    </ActionButton>
+                                )}
+                            </RightHeader>
+                        </Header>
+                        <Body>
+                            <CommentText>{comment.postCommentContent}</CommentText>
+                        </Body>
+                        <Footer>
+                            <Datetime>{new Date(comment.writtenDatetime).toLocaleString()}</Datetime>
+                        </Footer>
+                    </Comment>
+                ))}
+            </CommentsList>
+            <AddCommentWrapper>
                 <CommentInput
                     type="text"
+                    placeholder="댓글을 입력하세요"
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
-                    placeholder="댓글을 입력해주세요..."
                 />
-                <AddCommentButton onClick={handleAddComment}>댓글 추가</AddCommentButton>
-            </CommentInputWrapper>
-
-            <CommentsList>
-                {comments.length > 0 ? (
-                    comments.map((comment, idx) => (
-                        <Comment key={idx}>
-                            <p>{comment}</p>
-                        </Comment>
-                    ))
-                ) : (
-                    <p>첫 번째 댓글을 남겨보세요!</p>
-                )}
-            </CommentsList>
-        </CommentContainer>
+                <AddCommentButton onClick={handleAdd}>댓글 추가</AddCommentButton>
+            </AddCommentWrapper>
+        </Container>
     );
 };
 
 export default CommentSection;
 
-const CommentContainer = styled.div`
-    margin-top: 20px;
+// Styled Components
+const Container = styled.div`
+    margin: 25px;
 `;
 
-const CommentInputWrapper = styled.div`
+const CommentsList = styled.div`
+    margin-bottom: 20px;
+`;
+
+const Comment = styled.div`
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd; /* Adds a border line for separation */
+`;
+
+const Header = styled.div`
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 10px;
+`;
+
+const LeftHeader = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+const RightHeader = styled.div`
+    display: flex;
+    gap: 10px;
+`;
+
+const ProfileImage = styled.img`
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+`;
+
+const UserName = styled.span`
+    font-weight: bold;
+    font-size: 1rem;
+`;
+
+const Body = styled.div`
+    margin: 10px 0;
+`;
+
+const CommentText = styled.p`
+    font-size: 0.95rem;
+`;
+
+const Footer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    color: #888;
+    font-size: 0.85rem;
+`;
+
+const Datetime = styled.span`
+    font-size: 0.85rem;
+    color: #666;
+`;
+
+const ActionButton = styled.button`
+    background: none;
+    border: none;
+    color: #ddd;
+    cursor: pointer;
+    font-size: 0.9rem;
+
+    &:hover {
+        text-decoration: underline;
+    }
+`;
+
+const AddCommentWrapper = styled.div`
+    display: flex;
+    gap: 10px;
 `;
 
 const CommentInput = styled.input`
     flex: 1;
     padding: 10px;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    margin-right: 10px;
+    border: 0.5px solid #eee;
+    border-radius: 4px;
 `;
 
 const AddCommentButton = styled.button`
-    padding: 10px;
-    background-color: #000;
-    color: #fff;
+    padding: 10px 20px;
+    background-color:#B5E69F;
+    color: black;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
 
     &:hover {
-        background-color: #333;
-    }
-`;
-
-const CommentsList = styled.div`
-    max-height: 200px;
-    overflow-y: auto;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-`;
-
-const Comment = styled.div`
-    padding: 8px 0;
-    border-bottom: 1px solid #ddd;
-
-    &:last-child {
-        border-bottom: none;
+        background-color: #28a428; /* Darker lime green */
     }
 `;

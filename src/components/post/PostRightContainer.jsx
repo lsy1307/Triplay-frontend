@@ -4,8 +4,7 @@ import DayCardComponent from './rightContainer/DayCardComponent';
 import { format } from 'date-fns';
 
 const RightContainer = ({ post }) => {
-    console.log(post)
-    const days = generateDaysObject(post.tripStartDate, post.tripEndDate, post.tripDetails.places);
+    const days = generateDaysObject(post.tripStartDate, post.tripEndDate, post.places);
 
     return (
         <RightPanel>
@@ -15,7 +14,6 @@ const RightContainer = ({ post }) => {
                     day={date}
                     dayIndex={index + 1}
                     places={days[date]}
-                    files={post.files}
                 />
             ))}
         </RightPanel>
@@ -38,7 +36,6 @@ const generateDaysObject = (startDate, endDate, places) => {
     places.forEach((place) => {
         const visitDate = new Date(startDate);
         visitDate.setDate(visitDate.getDate() + (place.planDay - 1));
-        console.log(visitDate);
         const formattedVisitDate = format(visitDate, 'yyyy-MM-dd');
 
         if (days[formattedVisitDate]) {

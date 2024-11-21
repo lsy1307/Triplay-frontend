@@ -4,7 +4,6 @@ import LeftContainer from '../../components/post/PostLeftContainer';
 import RightContainer from '../../components/post/PostRightContainer';
 import { useJsApiLoader } from '@react-google-maps/api';
 import { fetchPostDetail } from '../../api/postDetail';
-import { fetchTripDetails } from '../../api/tripDetail';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 
@@ -22,11 +21,9 @@ const PostDetail = () => {
         const getPost = async () => {
             try {
                 const post = await fetchPostDetail(postId);
-                const tripDetails = await fetchTripDetails(post.tripId);
 
                 const postWithDetail = {
                     ...post,
-                    tripDetails,
                 };
                 
                 setPost(postWithDetail);
