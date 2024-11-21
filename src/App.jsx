@@ -43,6 +43,7 @@ import MobileMyPage from './pages/Mobile/MobileMyPage.jsx';
 import MobileOutlet from './layout/MobileOutlet.jsx';
 import Clip from './pages/Clip/Clip.jsx';
 import ClipDetail from './pages/Clip/ClipDetail.jsx';
+import MobileMyPageUserInfo from './pages/Mobile/MobileMyPageUserInfo.jsx';
 
 function App() {
   const isMobile = useSelector((state) => state.auth.isMobile);
@@ -69,6 +70,7 @@ function App() {
             <Route path="trip/:tripId/post" element={<MobilePostMake />} />
             <Route path="trip/:tripId/clip" element={<MobileClipMake />} />
             <Route path="mypage" element={<MobileMyPage />} />
+            <Route path="mypage/user" element={<MobileMyPageUserInfo />} />
           </Route>
         </>
       ) : (

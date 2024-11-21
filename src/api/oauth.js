@@ -1,4 +1,8 @@
-import { DeleteAxiosInstance, PostAxiosInstance } from '../axios/AxiosMethod';
+import {
+  DeleteAxiosInstance,
+  GetAxiosInstance,
+  PostAxiosInstance,
+} from '../axios/AxiosMethod';
 import axios from 'axios';
 
 const baseURL = import.meta.env.VITE_BASE_URL;
@@ -30,6 +34,15 @@ export const getRefresh = async (refresh) => {
         Authorization: `Bearer ${refresh}`,
       },
     });
+    return res;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export const getUserData = async () => {
+  try {
+    const res = await GetAxiosInstance('/user/mypage');
     return res;
   } catch (e) {
     console.error(e);

@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import MobileHeader from './MobileHeader';
 import styled from 'styled-components';
+import FloatingButtonComponent from '../components/common/floatingButton/FloatingButtton';
 
 const MobileOutlet = () => {
   return (
@@ -11,6 +12,7 @@ const MobileOutlet = () => {
         <Content>
           <Outlet />
         </Content>
+        <FloatingButtonComponent />
       </Content>
     </>
   );
