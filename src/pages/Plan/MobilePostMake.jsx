@@ -95,7 +95,6 @@ const MobilePostMake = () => {
   }, [locationList]);
 
   return <>
-    <MobileHeader />
     <TotalContainer>
       <UpperContainer
         selectedPlanDay={selectedPlanDay}

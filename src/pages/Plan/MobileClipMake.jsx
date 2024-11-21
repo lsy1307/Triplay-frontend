@@ -2,7 +2,6 @@ import { GetAxiosInstance } from '../../axios/AxiosMethod.js';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import MobileHeader from '../../layout/MobileHeader.jsx';
 import LoadingComponent from '../../components/clipMakePage/upperContainer/LoadingComponent.jsx';
 import ClipPreviewComponent from '../../components/clipMakePage/upperContainer/ClipPreviewComponent.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -48,7 +47,6 @@ const MobileClipMake = () => {
 
   return  <>
     <TotalContainer>
-      <MobileHeader />
       <InnerContainer>
         {
           isLoading ?

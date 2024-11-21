@@ -17,6 +17,7 @@ const Clip = () => {
             // TODO :: Clip Image Get EndPoint 수정
             headers: { 'Content-Type': 'application/json' },
         });
+        console.log(response.data)
         return response.data
     }
 
