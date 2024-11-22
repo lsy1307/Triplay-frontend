@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { getTrips, getPosts, getClips } from '../../api/myPage';
 import Header from '../../layout/Header';
+import TripCard from '../../components/mypage/TripCard';
 
 const MyPage = () => {
   const [items, setItems] = useState([]);
@@ -18,10 +19,9 @@ const MyPage = () => {
         } else if (activeTab === 'clip') {
           fetchedItems = await getClips();
         }
-        setItems(Array.isArray(fetchedItems) ? fetchedItems : []); // items가 배열인지 확인 후 설정
+        setItems(Array.isArray(fetchedItems) ? fetchedItems : []);
       } catch (error) {
-        console.error('Error fetching items:', error);
-        setItems([]); // 에러 발생 시 빈 배열로 설정
+        setItems([]);
       }
     };
     fetchItems();
@@ -55,9 +55,11 @@ const MyPage = () => {
         <ItemContainer>
           {items.length > 0 ? (
             <Grid>
-              {items.map((item, index) => (
-                <Item key={index}>{item.title || item.name || "No Title"}</Item>
-              ))}
+              {activeTab === 'trip'
+                ? items.map((trip, index) => <TripCard key={index} trip={trip} />)
+                : items.map((item, index) => (
+                    <Item key={index}>{item.title || item.name || 'No Title'}</Item>
+                  ))}
             </Grid>
           ) : (
             <NoItemsMessage>{renderNoItemsMessage()}</NoItemsMessage>

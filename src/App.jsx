@@ -21,6 +21,7 @@ import Main from './pages/Main';
 import CallBack from '../src/auth/CallBack';
 import Plan from './pages/Plan/Plan';
 import PlanDetail from './pages/Plan/PlanDetail';
+import PlanEdit from './pages/Plan/PlanEdit.jsx';
 import Post from './pages/Post/Post';
 import PostDetail from './pages/Post/PostDetail';
 import MyPage from './pages/User/MyPage';
@@ -80,7 +81,8 @@ function App() {
           <Route path="callback" element={<CallBack />} />
           <Route path="main" element={<Main />} />
           <Route path="plan" element={<Plan />} />
-          <Route path="plan/:planId" element={<PlanDetail />} />
+          <Route path="plan/:tripId" element={<PlanDetail />} />
+          <Route path="plan/edit/:tripId" element={<PlanEdit />} />
           <Route path="post" element={<Post />} />
           <Route path="post/:postId" element={<PostDetail />} />
           <Route path="clip" element={<Clip />} />
