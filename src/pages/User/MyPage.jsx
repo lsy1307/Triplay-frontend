@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { getTrips, getPosts, getClips } from '../../api/myPage';
 import Header from '../../layout/Header';
 import TripCard from '../../components/mypage/TripCard';
+import PostCard from '../../components/mypage/PostCard'; // PostCard 컴포넌트 추가
 
 const MyPage = () => {
   const [items, setItems] = useState([]);
@@ -29,11 +30,11 @@ const MyPage = () => {
 
   const renderNoItemsMessage = () => {
     if (activeTab === 'trip') {
-      return "아직 준비된 여행이 없어요! 같이 준비하러 가볼까요?";
+      return '아직 준비된 여행이 없어요! 같이 준비하러 가볼까요?';
     } else if (activeTab === 'post') {
-      return "아직 작성된 게시물이 없어요!";
+      return '아직 작성된 게시물이 없어요!';
     } else if (activeTab === 'clip') {
-      return "저장된 클립이 없어요!";
+      return '저장된 클립이 없어요!';
     }
   };
 
@@ -54,12 +55,15 @@ const MyPage = () => {
         </TabContainer>
         <ItemContainer>
           {items.length > 0 ? (
-            <Grid>
-              {activeTab === 'trip'
-                ? items.map((trip, index) => <TripCard key={index} trip={trip} />)
-                : items.map((item, index) => (
-                    <Item key={index}>{item.title || item.name || 'No Title'}</Item>
-                  ))}
+            <Grid $activeTab={activeTab}>
+              {activeTab === 'trip' &&
+                items.map((trip, index) => <TripCard key={index} trip={trip} />)}
+              {activeTab === 'post' &&
+                items.map((post, index) => <PostCard key={index} post={post} />)} {/* PostCard로 Post 표시 */}
+              {activeTab === 'clip' &&
+                items.map((clip, index) => (
+                  <Item key={index}>{clip.title || clip.name || 'No Title'}</Item>
+                ))}
             </Grid>
           ) : (
             <NoItemsMessage>{renderNoItemsMessage()}</NoItemsMessage>
@@ -79,14 +83,14 @@ const Container = styled.div`
 
 const TabContainer = styled.div`
   display: flex;
-  width: 80%; /* 화면의 80% 너비 */
-  margin: 0 auto; /* 가운데 정렬 */
+  width: 80%;
+  margin: 0 auto;
 `;
 
 const TabButton = styled.button`
   padding: 10px 20px;
   cursor: pointer;
-  flex-grow: 1; /* 모든 탭 버튼이 균등한 너비를 가짐 */
+  flex-grow: 1;
   background-color: ${({ $active }) => ($active ? '#4C4C4C' : '#B2B2B2')};
   color: white;
   border: none;
@@ -109,14 +113,15 @@ const TabButton = styled.button`
 
 const ItemContainer = styled.div`
   margin-top: 20px;
-  width: 80%; /* 화면의 80% 너비 */
-  margin: 20px auto; /* 가운데 정렬 */
+  width: 80%;
+  margin: 20px auto;
 `;
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* 그리드 컬럼 설정 */
-  gap: 20px; /* 그리드 간격 */
+  grid-template-columns: ${({ $activeTab }) =>
+    $activeTab === 'trip' ? 'repeat(auto-fill, minmax(300px, 1fr))' : 'repeat(auto-fill, minmax(500px, 1fr))'};
+  gap: 20px;
 `;
 
 const Item = styled.div`

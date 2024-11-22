@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const RegistPartyContentsContainer = (props) => {
-  const parties = ["혼자", "친구와", "연인과", "아이와", "부모님과"];
+  const parties = ["혼자", "친구와", "연인과", "아이와", "가족과"];
   const [selectedPartyNum, setSelectedPartyNum] = useState(null);
 
   return (

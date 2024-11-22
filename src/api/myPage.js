@@ -10,17 +10,19 @@ export const getTrips = async () => {
 };
 
 export const getPosts = async () => {
-  return await GetAxiosInstance('/post/user', {
+  const response = GetAxiosInstance('/post/user', {
     headers: {
       'Content-Type': 'application/json',
     },
   });
+  return (await response).data
 };
 
 export const getClips = async () => {
-  return await GetAxiosInstance('/clip/user', {
+  const response = GetAxiosInstance('/clip/user', {
     headers: {
       'Content-Type': 'application/json',
     },
   });
+  return (await response).data
 };
