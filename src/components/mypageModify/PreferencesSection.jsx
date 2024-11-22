@@ -50,7 +50,7 @@ const PreferencesSection = () => {
 
     try {
       await registerUserPreferences(selectedIds);
-      alert('Preferences saved successfully!');
+      alert('취향 정보가 수정되었습니다!');
     } catch (error) {
       console.error('Error saving preferences:', error);
     }

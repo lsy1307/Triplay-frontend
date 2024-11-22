@@ -80,12 +80,12 @@ const Container = styled.div`
 const SearchBarContainer = styled.div`
     display: flex;
     align-items: center;
-    margin: 20px 0;
+    margin: 20px auto 40px;
 
     input {
         width: 300px;
         padding: 10px;
-        border: 2px solid #ccc;
+        border: 2px solid #eee;
         border-radius: 5px;
         font-size: 16px;
     }
