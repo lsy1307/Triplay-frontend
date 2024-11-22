@@ -115,7 +115,7 @@ const ItemContainer = styled.div`
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* 그리드 컬럼 설정 */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* 그리드 컬럼 설정 */
   gap: 20px; /* 그리드 간격 */
 `;
 

@@ -1,28 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import CalendarInputWrapper from './rightContainer/CalendarInputWrapper';
 import RegistPartyContentsContainer from './rightContainer/RegistPartyContentsContainer';
 import AddPlanContainer from './rightContainer/AddPlanContainer';
 
-const RightContainer = (props) => {
+const RightContainer = ({
+  dateRange,
+  setDateRange,
+  partyName,
+  setPartyName,
+  locationList,
+  addToLocationList,
+  changeLocationList,
+  onSave,
+  setIsReArrange,
+}) => {
+  // 일정 선택 상태 관리
+  const [selectedPlanDay, setSelectedPlanDay] = useState(0);
+
   return (
     <Container>
       <ContentsContainer>
+        {/* 캘린더와 완료 버튼 */}
         <CalenderAndCompleteBtnWrapper>
-          <CalendarInputWrapper setDateRange={props.setDateRange} dateRange={props.dateRange} />
+          <CalendarInputWrapper setDateRange={setDateRange} dateRange={dateRange} />
           <CompleteButtonWrapper>
-            <CompleteButton onClick={props.onClickCompleteBtnHandler}>완료하기</CompleteButton>
+            <CompleteButton onClick={onSave}>완료하기</CompleteButton>
           </CompleteButtonWrapper>
         </CalenderAndCompleteBtnWrapper>
-        <RegistPartyContentsContainer setPartyName={props.setPartyName} />
+
+        {/* 일행 등록 */}
+        <RegistPartyContentsContainer partyName={partyName} setPartyName={setPartyName} />
+
+        {/* 일정 관리 */}
         <AddPlanContainer
-          addToLocationList={props.addToLocationList}
-          locationList={props.locationList}
-          changeLocationList={props.changeLocationList}
-          setSelectedPlanDay={props.setSelectedPlanDay}
-          selectedPlanDay={props.selectedPlanDay}
-          setIsReArrange={props.setIsReArrange}
+          addToLocationList={addToLocationList}
+          locationList={locationList}
+          changeLocationList={changeLocationList}
+          setSelectedPlanDay={setSelectedPlanDay}
+          selectedPlanDay={selectedPlanDay}
+          setIsReArrange={setIsReArrange}
         />
       </ContentsContainer>
     </Container>
@@ -31,6 +49,7 @@ const RightContainer = (props) => {
 
 export default RightContainer;
 
+// Styled Components
 const Container = styled.div`
   width: 100%;
   height: 100%;

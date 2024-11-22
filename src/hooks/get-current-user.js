@@ -11,6 +11,7 @@ const useCurrentUser = () => {
             try {
                 const currentUserId = await fetchCurrentUser(); // API 호출
                 setUserId(currentUserId); // userId 저장
+                console.log(currentUserId);
             } catch (err) {
                 setError(err);
             } finally {

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-
 import Map from '../map/MyMap';
 import TripLocationContentContainer from './leftContainer/TripLocationContentContainer';
 
@@ -14,8 +13,9 @@ const LeftContainer = (props) => {
   };
 
   useEffect(() => {
-    const newMarkers = props.locationList.filter(
-      (location) => location.planDay === props.selectedPlanDay,
+    // Ensure locationList is an array before filtering
+    const newMarkers = (props.locationList || []).filter(
+      (location) => location.planDay === props.selectedPlanDay
     );
     if (newMarkers.length <= 0 && coordinates.lat === -1 && coordinates.lng === -1) {
       setIsMapOn(false);
@@ -80,12 +80,12 @@ const TripTitleInput = styled.input`
   border-radius: 8px;
   box-sizing: border-box;
   outline: none;
-  text-align: center; /* 가운데 정렬 */
+  text-align: center;
 
   &::placeholder {
     font-size: 1.5rem;
     color: #888;
-    text-align: center; /* placeholder도 가운데 정렬 */
+    text-align: center;
   }
 `;
 
