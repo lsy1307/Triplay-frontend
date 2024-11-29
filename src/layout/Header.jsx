@@ -3,23 +3,44 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { fetchUserDetail } from '../api/user';
 import MainLogo from '../../src/assets/images/logo.png';
+import { jwtDecode } from 'jwt-decode';
 
 const Header = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(() => {
-    // Load userInfo from local storage if available
     const storedUserInfo = localStorage.getItem('userInfo');
     return storedUserInfo ? JSON.parse(storedUserInfo) : null;
   });
 
+  const [isTokenValid, setIsTokenValid] = useState(false);
+
+  useEffect(() => {
+    const checkTokenValidity = () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const decodedToken = jwtDecode(token);
+          const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+          setIsTokenValid(decodedToken.exp > currentTime); // Check if token is still valid
+        } catch (error) {
+          console.error('Invalid token:', error);
+          setIsTokenValid(false); // Token is invalid or corrupted
+        }
+      } else {
+        setIsTokenValid(false); // No token
+      }
+    };
+
+    checkTokenValidity();
+  }, []);
+
   useEffect(() => {
     const getUserData = async () => {
-      if (!userInfo) {
-        // Fetch only if userInfo is not already cached
+      if (isTokenValid && !userInfo) {
         try {
           const data = await fetchUserDetail();
           setUserInfo(data);
-          localStorage.setItem('userInfo', JSON.stringify(data)); // Cache userInfo in local storage
+          localStorage.setItem('userInfo', JSON.stringify(data));
         } catch (error) {
           console.error('Failed to fetch user info:', error);
         }
@@ -27,75 +48,73 @@ const Header = () => {
     };
 
     getUserData();
-  }, [userInfo]);
+  }, [isTokenValid, userInfo]);
 
-  const handleLoginClick = () => {
-    navigate('/login');
-  };
-
+  const handleLoginClick = () => navigate('/login');
   const handleLogoutClick = () => {
-    localStorage.removeItem('token'); // Remove token on logout
-    localStorage.removeItem('userInfo'); // Clear cached userInfo
-    setUserInfo(null); // Reset userInfo state
+    localStorage.removeItem('token');
+    localStorage.removeItem('userInfo');
+    setUserInfo(null);
+    setIsTokenValid(false);
     navigate('/login');
   };
-
-  const handleModifyClick = () => {
-    navigate('/mypage/modify'); // Navigate to user info modification page
-  };
+  const handleModifyClick = () => navigate('/mypage/modify');
 
   return (
-    <TotalContainer>
+    <HeaderContainer>
       <HeaderWrapper>
         <Logo>
           <Link to="/main">
             <img src={MainLogo} alt="Logo" />
           </Link>
         </Logo>
-        <MenuAndProfile>
-          <Menu>
-            <ul>
-              <li>
-                <Link to="/plan">준비하기</Link>
-              </li>
-              <li>
-                <Link to="/post">포스트 둘러보기</Link>
-              </li>
-              <li>
-                <Link to="/clip">클립 둘러보기</Link>
-              </li>
-              <li>
-                <Link to="/mypage">지난여행</Link>
-              </li>
-              <li>
-                {userInfo ? (
-                  <>
-                    <LoginButton onClick={handleLogoutClick}>
-                      로그아웃
-                    </LoginButton>
-                  </>
-                ) : (
-                  <LoginButton onClick={handleLoginClick}>로그인</LoginButton>
-                )}
-              </li>
-            </ul>
-          </Menu>
-        </MenuAndProfile>
+        <Menu>
+          <ul>
+            <li>
+              <Link to="/plan">준비하기</Link>
+            </li>
+            <li>
+              <Link to="/post">포스트 둘러보기</Link>
+            </li>
+            <li>
+              <Link to="/clip">클립 둘러보기</Link>
+            </li>
+            <li>
+              <Link to="/mypage">지난여행</Link>
+            </li>
+            <li>
+              {isTokenValid ? (
+                <LoginButton onClick={handleLogoutClick}>로그아웃</LoginButton>
+              ) : (
+                <LoginButton onClick={handleLoginClick}>로그인</LoginButton>
+              )}
+            </li>
+          </ul>
+        </Menu>
       </HeaderWrapper>
-      {userInfo && (
+      {isTokenValid && userInfo && (
         <ProfileContainer>
           <img src={userInfo.profileUrl} alt="Profile" />
           <span>{userInfo.userName}</span>
           <ModifyButton onClick={handleModifyClick}>내 정보 수정</ModifyButton>
         </ProfileContainer>
       )}
-    </TotalContainer>
+    </HeaderContainer>
   );
 };
 
 export default Header;
 
-const TotalContainer = styled.div`
+// Styled Components
+const HeaderContainer = styled.div`
+  @font-face {
+    font-family: 'S-CoreDream-3Light';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  font-family: 'S-CoreDream-3Light', Arial, sans-serif;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -178,11 +197,4 @@ const LoginButton = styled.button`
   &:hover {
     background-color: #0056b3;
   }
-`;
-
-const MenuAndProfile = styled.div`
-  display: flex;
-  flex-direction: column; /* 세로로 배치 */
-  align-items: flex-end; /* 오른쪽 정렬 */
-  gap: 10px;
 `;
